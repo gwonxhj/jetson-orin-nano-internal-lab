@@ -1,0 +1,10 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Local profiling/test byproducts
+default.profraw
+
+# Local virtual environments
+.venv/
+venv/

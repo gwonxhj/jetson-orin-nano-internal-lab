@@ -1,0 +1,165 @@
+{
+  "metadata": {
+    "conda_env": "yolo_env",
+    "generated_at": "2026-05-13T12:38:03+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "977bcc1"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "## main...origin/main\n?? artifacts/system/tegrastats_inference_resnet18_20260513_123756.log\n?? benchmarks/inference/__pycache__/\n?? benchmarks/inference/pytorch_image_smoke.py\n?? scripts/run_inference_smoke.sh\n?? tests/__pycache__/\n?? tests/test_inference_smoke_json.py"
+    },
+    "hostname": "nano01",
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "python_executable": "/home/risenano01/miniconda3/envs/yolo_env/bin/python3",
+    "python_version": "3.10.12",
+    "schema_version": "inference-smoke-v1",
+    "tegrastats_note": "/home/risenano01/jetson-orin-nano-internal-lab/artifacts/system/tegrastats_inference_resnet18_20260513_123756.log"
+  },
+  "result": {
+    "backend": "cuda",
+    "framework": "pytorch",
+    "input": {
+      "dtype": "float32",
+      "postprocessing_included": "top5_only",
+      "preprocessing_included": false,
+      "seed": 42,
+      "shape": [
+        1,
+        3,
+        224,
+        224
+      ],
+      "source": "synthetic_random_tensor"
+    },
+    "latency": {
+      "count": 50,
+      "max_ms": 16.158,
+      "mean_ms": 11.6585,
+      "min_ms": 9.7131,
+      "p50_ms": 11.5909,
+      "p95_ms": 15.8536,
+      "p99_ms": 16.1578,
+      "samples_ms": [
+        15.5953,
+        16.158,
+        16.1576,
+        16.065,
+        10.3392,
+        10.4258,
+        10.3241,
+        10.2405,
+        10.1999,
+        10.2669,
+        12.6021,
+        12.6332,
+        12.5993,
+        12.5774,
+        12.6684,
+        12.3534,
+        9.85,
+        9.7131,
+        9.9643,
+        9.82,
+        9.7497,
+        9.8074,
+        10.7371,
+        11.3644,
+        11.4258,
+        11.4514,
+        11.53,
+        11.6515,
+        11.6653,
+        11.7052,
+        11.6629,
+        11.5693,
+        11.6129,
+        11.6207,
+        11.6241,
+        11.6276,
+        11.6991,
+        11.5873,
+        11.6454,
+        11.6396,
+        11.6264,
+        11.6371,
+        11.6117,
+        11.5945,
+        11.4296,
+        11.4114,
+        11.4723,
+        11.4195,
+        11.4463,
+        11.3465
+      ]
+    },
+    "model": {
+      "architecture": "resnet18",
+      "parameter_count": 11689512,
+      "state_dict_sha256": "fb5581c023afb259497b342b2bec2c5a0066377101a7d38fe697fd019f0063d4",
+      "weights": "random_seeded_weights_no_pretrained_accuracy_claim"
+    },
+    "output": {
+      "shape": [
+        1,
+        1000
+      ],
+      "top5_indices": [
+        275,
+        562,
+        630,
+        439,
+        366
+      ],
+      "top5_values": [
+        1.42081,
+        1.402925,
+        1.386302,
+        1.350889,
+        1.256872
+      ]
+    },
+    "precision": "fp32",
+    "runtime": {
+      "cuda": {
+        "available": true,
+        "capability": [
+          8,
+          7
+        ],
+        "device_index": 0,
+        "device_name": "Orin",
+        "total_memory_bytes": 7990042624
+      },
+      "repeat": 50,
+      "torch_version": "2.8.0",
+      "torchvision_version": "0.23.0",
+      "warmup": 10
+    },
+    "task": "image_classification_smoke"
+  }
+}
