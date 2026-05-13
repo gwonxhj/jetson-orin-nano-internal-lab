@@ -9,6 +9,7 @@ Unavailable and failed states are valid evidence outcomes.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -53,6 +54,33 @@ def run_command(command: list[str], timeout: int = 10) -> dict[str, Any]:
         }
     except Exception as exc:
         return {"command": command, "error": sanitize_text(repr(exc))}
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def load_tensorrt_model_meta(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        result = payload["result"]
+        model = result.get("model", {})
+        artifacts = result.get("artifacts", {})
+        return {
+            "architecture": model.get("architecture", "resnet18"),
+            "weights": model.get("weights", "random_seeded_weights_no_pretrained_accuracy_claim"),
+            "seed": model.get("seed", 42),
+            "state_dict_sha256": model.get("state_dict_sha256", ""),
+            "onnx_sha256_from_tensorrt": artifacts.get("onnx_sha256", ""),
+        }
+    except Exception:
+        return {}
 
 
 def safe_git_status() -> dict[str, Any]:
@@ -124,7 +152,7 @@ def build_report(payload: dict[str, Any]) -> str:
         f"| Result JSON | `{meta['result_json']}` |", "",
         "## Isolation Policy", "", "| Field | Value |", "|---|---|",
         f"| Existing env modified | {meta['isolation']['existing_env_modified']} |",
-        f"| Install command executed | {meta['isolation']['install_command_executed']} |",
+        f"| Install command executed by this runner | {meta['isolation']['install_command_executed']} |",
         f"| Intended install target | `{meta['isolation']['intended_install_target']}` |",
         f"| Preload strategy | `{meta['isolation']['preload_strategy']}` |", "",
         "## Activation Result", "", "| Field | Value |", "|---|---|",
@@ -148,6 +176,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--onnx", type=Path, default=Path("models/resnet18_random_seed42_opset17.onnx"))
+    parser.add_argument("--tensorrt-json", type=Path, default=Path("results/tensorrt/resnet18_fp16_trtexec_20260513_125323.json"))
     parser.add_argument("--provider", default="CUDAExecutionProvider")
     parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--height", type=int, default=224)
@@ -206,6 +235,8 @@ def main() -> int:
     else:
         activation_attempt["failure_reason"] = f"{args.provider} is not in available_providers"
 
+    model_meta = load_tensorrt_model_meta(args.tensorrt_json)
+    onnx_sha = sha256_file(args.onnx)
     try:
         result_rel = str(args.output.resolve().relative_to(Path.cwd().resolve()))
     except Exception:
@@ -239,7 +270,14 @@ def main() -> int:
             "framework": "onnxruntime",
             "backend": args.provider,
             "precision": "fp32",
-            "model": {"architecture": "resnet18", "onnx_path": str(args.onnx)},
+            "model": {
+                "architecture": model_meta.get("architecture", "resnet18"),
+                "weights": model_meta.get("weights", "random_seeded_weights_no_pretrained_accuracy_claim"),
+                "state_dict_sha256": model_meta.get("state_dict_sha256", ""),
+                "onnx_path": str(args.onnx),
+                "onnx_sha256": onnx_sha,
+                "onnx_sha256_matches_tensorrt_source": bool(model_meta.get("onnx_sha256_from_tensorrt")) and model_meta.get("onnx_sha256_from_tensorrt") == onnx_sha,
+            },
             "input": {"source": "synthetic_random_numpy_array", "shape": [args.batch_size, 3, args.height, args.width], "dtype": "float32", "seed": args.seed},
             "runtime": {"warmup": args.warmup, "repeat": args.repeat, "timing": "wall_clock_session_run_if_provider_activates"},
             "activation_attempt": activation_attempt,

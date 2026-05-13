@@ -7,22 +7,22 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-05-14T01:50:52+09:00 |
+| Date | 2026-05-14T02:39:35+09:00 |
 | Hostname | `jetson-orin-nano` |
-| Conda env | `yolo_env` |
-| Python | `python3 (yolo_env)` / 3.10.12 |
-| ONNX Runtime | 1.23.2 |
-| PyTorch | 2.8.0 |
-| Torch CUDA available | True |
-| Available ORT providers | `['AzureExecutionProvider', 'CPUExecutionProvider']` |
-| Result JSON | `results/inference/onnxruntime_cuda_ep_attempt_20260514_015048.json` |
+| Conda env | `ort_cuda_env` |
+| Python | `python` / 3.10.20 |
+| ONNX Runtime | 1.23.0 |
+| PyTorch | unavailable |
+| Torch CUDA available | False |
+| Available ORT providers | `['TensorrtExecutionProvider', 'CUDAExecutionProvider', 'CPUExecutionProvider']` |
+| Result JSON | `results/inference/onnxruntime_cuda_ep_attempt_20260514_023545.json` |
 
 ## Isolation Policy
 
 | Field | Value |
 |---|---|
 | Existing env modified | False |
-| Install command executed | False |
+| Install command executed by this runner | False |
 | Intended install target | `separate conda/venv or Docker image` |
 | Preload strategy | `import torch before onnxruntime` |
 
@@ -31,12 +31,12 @@
 | Field | Value |
 |---|---|
 | Requested provider | `CUDAExecutionProvider` |
-| Requested provider available | False |
-| Activation status | `unavailable` |
-| Session providers | `[]` |
-| Failure reason | `CUDAExecutionProvider is not in available_providers` |
-| Mean ms | not measured |
-| P95 ms | not measured |
+| Requested provider available | True |
+| Activation status | `succeeded` |
+| Session providers | `['CUDAExecutionProvider', 'CPUExecutionProvider']` |
+| Failure reason | `` |
+| Mean ms | 6.7277 |
+| P95 ms | 7.3183 |
 
 ## Interpretation
 
