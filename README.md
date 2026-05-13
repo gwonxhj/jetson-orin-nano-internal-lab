@@ -4,6 +4,12 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 
 이 repo의 포트폴리오 메시지는 단순 latency 숫자가 아니라, **환경 조건 → 실행 스크립트 → raw log → JSON result → Markdown report → InferEdge handoff**까지 이어지는 추적 가능한 evidence입니다.
 
+## Representative Evidence
+
+- [TensorRT FP16 optimization report](docs/reports/tensorrt_optimization_report.md) — ResNet18 ONNX export, `trtexec` build/run command, model hash, input shape, precision, warmup/repeat 조건을 기록합니다.
+- [Runtime comparison report](docs/reports/runtime_comparison.md) — PyTorch CUDA FP32와 TensorRT FP16 결과를 direct regression이 아닌 system/runtime comparison evidence로 정리합니다.
+- [InferEdge-compatible export report](docs/reports/inferedge_export.md) — runtime comparison 결과를 `metadata.json` / `result.json` handoff evidence로 변환한 내용을 설명합니다.
+
 ## Scope
 
 포함:
