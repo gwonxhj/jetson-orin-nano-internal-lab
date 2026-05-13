@@ -176,6 +176,7 @@ InferEdge-compatible 핵심 필드:
 |---|---|---|---|
 | Day 1 env | `scripts/collect_env.sh` | `artifacts/system/jetson_env_raw.log` | `docs/reports/day1_environment_check.md` |
 | System baseline | `scripts/run_system_baseline.sh` | `results/system/system_baseline_20260513_122758.json` | `docs/reports/system_baseline.md` |
+| System resource map | `scripts/run_tegrastats.sh` | `artifacts/system/tegrastats_idle.log`, `artifacts/system/tegrastats_load_smoke.log` | `docs/system/jetson_resource_map.md` |
 | PyTorch smoke | `scripts/run_inference_smoke.sh` | `results/inference/pytorch_resnet18_20260513_125245.json` | `docs/reports/pytorch_inference_smoke.md` |
 | TensorRT FP16 | `scripts/run_tensorrt_bench.sh` | `results/tensorrt/resnet18_fp16_trtexec_20260513_125323.json` | `docs/reports/tensorrt_optimization_report.md` |
 | Runtime compare | `scripts/run_runtime_compare.sh` | `results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_tensorrt_fp16_20260513_131115.json` | `docs/reports/runtime_comparison.md` |
