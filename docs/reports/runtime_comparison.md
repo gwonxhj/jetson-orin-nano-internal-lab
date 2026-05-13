@@ -1,20 +1,21 @@
 # Runtime Comparison Report
 
-> ResNet18 PyTorch CUDA FP32, ONNX Runtime CPU FP32, ONNX Runtime CUDA FP32, TensorRT FP16 smoke 결과를 비교합니다.
+> ResNet18 PyTorch CUDA FP32, ONNX Runtime CPU FP32, ONNX Runtime CUDA FP32, ONNX Runtime TensorRT FP32, TensorRT FP16 smoke 결과를 비교합니다.
 > backend/provider/precision이 다르면 direct regression이 아니라 runtime comparison evidence입니다.
 
 ## Run Information
 
 | Field | Value |
 |---|---|
-| Date | 2026-05-14T02:39:37+09:00 |
+| Date | 2026-05-14T02:55:04+09:00 |
 | Hostname | `jetson-orin-nano` |
 | Power mode | NV Power Mode: 25W; 1 |
-| Git commit | 3335021 |
+| Git commit | bbf7675 |
 | pytorch source | `results/inference/pytorch_resnet18_20260513_125245.json` |
 | tensorrt source | `results/tensorrt/resnet18_fp16_trtexec_20260513_125323.json` |
 | onnxruntime source | `results/inference/onnxruntime_resnet18_cpu_20260514_013723.json` |
 | onnxruntime_cuda source | `results/inference/onnxruntime_cuda_ep_attempt_20260514_023545.json` |
+| onnxruntime_tensorrt source | `results/inference/onnxruntime_tensorrt_ep_attempt_20260514_025120.json` |
 
 ## Comparability
 
@@ -33,6 +34,7 @@
 | PyTorch CUDA | cuda | fp32 | [1, 3, 224, 224] | 11.6289 | 16.3123 | 16.7595 | n/a |
 | ONNX Runtime CPU | CPUExecutionProvider | fp32 | [1, 3, 224, 224] | 42.2252 | 44.6845 | 46.1999 | n/a |
 | ONNX Runtime CUDA | CUDAExecutionProvider | fp32 | [1, 3, 224, 224] | 6.7277 | 7.3183 | 7.9688 | n/a |
+| ONNX Runtime TensorRT | TensorrtExecutionProvider | fp32 | [1, 3, 224, 224] | 4.0276 | 5.4686 | 5.4961 | n/a |
 | TensorRT trtexec | trtexec | fp16 | [1, 3, 224, 224] | 0.926784 | 0.932251 | 0.936035 | 1134.83 |
 
 ## Ratios
@@ -51,6 +53,14 @@
 | p95_latency_onnxruntime_cpu_over_onnxruntime_cuda | 6.1059x |
 | mean_latency_onnxruntime_cuda_over_tensorrt | 7.2592x |
 | p95_latency_onnxruntime_cuda_over_tensorrt | 7.8501x |
+| mean_latency_pytorch_over_onnxruntime_tensorrt | 2.8873x |
+| p95_latency_pytorch_over_onnxruntime_tensorrt | 2.9829x |
+| mean_latency_onnxruntime_cpu_over_onnxruntime_tensorrt | 10.484x |
+| p95_latency_onnxruntime_cpu_over_onnxruntime_tensorrt | 8.1711x |
+| mean_latency_onnxruntime_cuda_over_onnxruntime_tensorrt | 1.6704x |
+| p95_latency_onnxruntime_cuda_over_onnxruntime_tensorrt | 1.3382x |
+| mean_latency_onnxruntime_tensorrt_over_tensorrt | 4.3458x |
+| p95_latency_onnxruntime_tensorrt_over_tensorrt | 5.866x |
 
 ## Notes
 
@@ -64,5 +74,8 @@
 - ONNX Runtime CUDAExecutionProvider is included from the isolated ort_cuda_env environment.
 - ONNX Runtime CUDA uses FP32 ONNX Runtime execution, while TensorRT remains FP16 trtexec execution.
 - The isolated ORT CUDA env install used onnxruntime-gpu 1.23.0 and numpy<2 for ABI compatibility.
+- ONNX Runtime TensorrtExecutionProvider is included from the isolated ort_cuda_env environment.
+- ONNX Runtime TensorRT EP uses ONNX Runtime provider integration, while native TensorRT remains trtexec FP16 engine execution.
+- ORT TensorRT session construction may build or select TensorRT artifacts before timed session.run repeats; this benchmark times session.run after session creation.
 - TensorRT engine and ONNX hashes are preserved in the comparison JSON.
 - Synthetic input is used, so this is runtime evidence, not model quality evidence.

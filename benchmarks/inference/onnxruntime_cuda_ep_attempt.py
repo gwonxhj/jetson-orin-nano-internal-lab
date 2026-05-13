@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Record an isolated ONNX Runtime CUDA Execution Provider activation attempt.
+"""Record an isolated ONNX Runtime Execution Provider activation attempt.
 
-The goal is to capture whether CUDAExecutionProvider can be activated for the
+The goal is to capture whether a requested Execution Provider can be activated for the
 existing ResNet18 ONNX artifact without mutating the current Python environment.
 Unavailable and failed states are valid evidence outcomes.
 """
@@ -129,16 +129,42 @@ def timed_repeats(fn: Callable[[], Any], repeat: int, warmup: int) -> tuple[dict
     return summarize(samples), last_value
 
 
+def provider_display_name(provider: str) -> str:
+    return {
+        "CUDAExecutionProvider": "CUDA",
+        "TensorrtExecutionProvider": "TensorRT",
+        "CPUExecutionProvider": "CPU",
+    }.get(provider, provider.replace("ExecutionProvider", ""))
+
+
+def provider_schema_version(provider: str) -> str:
+    return {
+        "CUDAExecutionProvider": "onnxruntime-cuda-ep-attempt-v1",
+        "TensorrtExecutionProvider": "onnxruntime-tensorrt-ep-attempt-v1",
+        "CPUExecutionProvider": "onnxruntime-cpu-ep-attempt-v1",
+    }.get(provider, "onnxruntime-ep-attempt-v1")
+
+
+def provider_task(provider: str) -> str:
+    return {
+        "CUDAExecutionProvider": "onnxruntime_cuda_execution_provider_activation_attempt",
+        "TensorrtExecutionProvider": "onnxruntime_tensorrt_execution_provider_activation_attempt",
+        "CPUExecutionProvider": "onnxruntime_cpu_execution_provider_activation_attempt",
+    }.get(provider, "onnxruntime_execution_provider_activation_attempt")
+
+
 def build_report(payload: dict[str, Any]) -> str:
     meta = payload["metadata"]
     result = payload["result"]
     attempt = result["activation_attempt"]
+    provider = attempt["requested_provider"]
+    provider_name = provider_display_name(provider)
     latency = result.get("latency", {})
     latency_mean = latency.get("mean_ms", "not measured")
     latency_p95 = latency.get("p95_ms", "not measured")
     return "\n".join([
-        "# ONNX Runtime CUDA EP Activation Attempt", "",
-        "> 격리 원칙을 유지하면서 ONNX Runtime CUDAExecutionProvider 활성화 가능 여부를 기록한 evidence입니다.",
+        f"# ONNX Runtime {provider_name} EP Activation Attempt", "",
+        f"> 격리 원칙을 유지하면서 ONNX Runtime {provider} 활성화 가능 여부를 기록한 evidence입니다.",
         "> 성공, 실패, unavailable 상태를 모두 정상적인 실험 결과로 남깁니다.", "",
         "## Run Information", "", "| Field | Value |", "|---|---|",
         f"| Date | {meta['generated_at']} |",
@@ -165,8 +191,8 @@ def build_report(payload: dict[str, Any]) -> str:
         f"| P95 ms | {latency_p95} |", "",
         "## Interpretation", "",
         "- This script does not install packages or modify the current environment.",
-        "- If CUDAExecutionProvider is unavailable, the next step is an isolated conda/venv or Docker install attempt rather than changing `yolo_env` in place.",
-        "- If activation succeeds, the measured latency can become the ONNX Runtime CUDA candidate for the runtime comparison matrix.",
+        f"- If {provider} is unavailable, the next step is an isolated conda/venv or Docker install attempt rather than changing `yolo_env` in place.",
+        f"- If activation succeeds, the measured latency can become the ONNX Runtime {provider_name} candidate for the runtime comparison matrix.",
         "- This evidence remains runtime/provider validation, not deployment readiness or accuracy evidence.", "",
     ])
 
@@ -244,7 +270,7 @@ def main() -> int:
 
     payload = {
         "metadata": {
-            "schema_version": "onnxruntime-cuda-ep-attempt-v1",
+            "schema_version": provider_schema_version(args.provider),
             "generated_at": now_iso(),
             "hostname": "jetson-orin-nano",
             "platform": platform.platform(),
@@ -266,7 +292,7 @@ def main() -> int:
             "result_json": result_rel,
         },
         "result": {
-            "task": "onnxruntime_cuda_execution_provider_activation_attempt",
+            "task": provider_task(args.provider),
             "framework": "onnxruntime",
             "backend": args.provider,
             "precision": "fp32",

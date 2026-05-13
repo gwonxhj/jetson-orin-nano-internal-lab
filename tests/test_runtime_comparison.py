@@ -30,8 +30,8 @@ def main() -> int:
 
     assert payload["metadata"]["schema_version"] == "runtime-compare-v1"
     result = payload["result"]
-    assert result["comparison_name"] == "resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_onnxruntime_cuda_fp32_vs_tensorrt_fp16"
-    assert [runtime["name"] for runtime in result["runtimes"]] == ["pytorch_cuda", "onnxruntime_cpu", "onnxruntime_cuda", "tensorrt_trtexec"]
+    assert result["comparison_name"] == "resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_onnxruntime_cuda_fp32_vs_onnxruntime_tensorrt_fp32_vs_tensorrt_fp16"
+    assert [runtime["name"] for runtime in result["runtimes"]] == ["pytorch_cuda", "onnxruntime_cpu", "onnxruntime_cuda", "onnxruntime_tensorrt", "tensorrt_trtexec"]
     assert result["comparability"]["same_model_hash"] is True
     assert result["comparability"]["same_input_shape"] is True
     assert result["comparability"]["same_precision"] is False
@@ -39,8 +39,10 @@ def main() -> int:
     assert result["ratios"]["mean_latency_pytorch_over_tensorrt"] > 1.0
     assert result["ratios"]["mean_latency_onnxruntime_over_tensorrt"] > 1.0
     assert result["ratios"]["mean_latency_onnxruntime_cuda_over_tensorrt"] > 1.0
+    assert result["ratios"]["mean_latency_onnxruntime_tensorrt_over_tensorrt"] > 1.0
     assert "ONNX Runtime CPU" in markdown
     assert "ONNX Runtime CUDA" in markdown
+    assert "ONNX Runtime TensorRT" in markdown
     assert "Runtime Comparison Report" in markdown
     return 0
 

@@ -43,14 +43,14 @@ def latest_optional_file(pattern: str) -> Path | None:
     return matches[-1] if matches else None
 
 
-def latest_succeeded_ort_cuda_file(pattern: str) -> Path | None:
+def latest_succeeded_ort_ep_file(pattern: str, provider: str) -> Path | None:
     for path in reversed(sorted(Path().glob(pattern))):
         try:
             payload = load_json(path)
         except Exception:
             continue
         attempt = payload.get("result", {}).get("activation_attempt", {})
-        if attempt.get("status") == "succeeded" and attempt.get("requested_provider") == "CUDAExecutionProvider":
+        if attempt.get("status") == "succeeded" and attempt.get("requested_provider") == provider:
             return path
     return None
 
@@ -99,13 +99,13 @@ def onnxruntime_runtime(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def onnxruntime_cuda_runtime(path: Path, payload: dict[str, Any]) -> dict[str, Any]:
+def onnxruntime_ep_runtime(path: Path, payload: dict[str, Any], name: str) -> dict[str, Any]:
     result = payload["result"]
     latency = result["latency"]
     attempt = result["activation_attempt"]
     meta = payload["metadata"]
     return {
-        "name": "onnxruntime_cuda",
+        "name": name,
         "framework": result["framework"],
         "backend": attempt.get("requested_provider", result["backend"]),
         "precision": result["precision"],
@@ -150,7 +150,13 @@ def ratio(a: dict[str, Any], b: dict[str, Any], field: str = "mean") -> float:
     return round(a["latency_ms"][field] / b["latency_ms"][field], 4)
 
 
-def build_payload(pytorch_path: Path, tensorrt_path: Path, onnxruntime_path: Path | None = None, onnxruntime_cuda_path: Path | None = None) -> dict[str, Any]:
+def build_payload(
+    pytorch_path: Path,
+    tensorrt_path: Path,
+    onnxruntime_path: Path | None = None,
+    onnxruntime_cuda_path: Path | None = None,
+    onnxruntime_tensorrt_path: Path | None = None,
+) -> dict[str, Any]:
     pytorch_payload = load_json(pytorch_path)
     tensorrt_payload = load_json(tensorrt_path)
     runtimes = [pytorch_runtime(pytorch_path, pytorch_payload)]
@@ -162,8 +168,14 @@ def build_payload(pytorch_path: Path, tensorrt_path: Path, onnxruntime_path: Pat
     if onnxruntime_cuda_path is not None:
         ort_cuda_payload = load_json(onnxruntime_cuda_path)
         if ort_cuda_payload.get("result", {}).get("activation_attempt", {}).get("status") == "succeeded":
-            ort_cuda_runtime = onnxruntime_cuda_runtime(onnxruntime_cuda_path, ort_cuda_payload)
+            ort_cuda_runtime = onnxruntime_ep_runtime(onnxruntime_cuda_path, ort_cuda_payload, "onnxruntime_cuda")
             runtimes.append(ort_cuda_runtime)
+    ort_tensorrt_runtime = None
+    if onnxruntime_tensorrt_path is not None:
+        ort_tensorrt_payload = load_json(onnxruntime_tensorrt_path)
+        if ort_tensorrt_payload.get("result", {}).get("activation_attempt", {}).get("status") == "succeeded":
+            ort_tensorrt_runtime = onnxruntime_ep_runtime(onnxruntime_tensorrt_path, ort_tensorrt_payload, "onnxruntime_tensorrt")
+            runtimes.append(ort_tensorrt_runtime)
     trt_runtime = tensorrt_runtime(tensorrt_path, tensorrt_payload)
     runtimes.append(trt_runtime)
 
@@ -179,6 +191,8 @@ def build_payload(pytorch_path: Path, tensorrt_path: Path, onnxruntime_path: Pat
         optional_payloads.append(load_json(onnxruntime_path))
     if onnxruntime_cuda_path is not None and ort_cuda_runtime is not None:
         optional_payloads.append(load_json(onnxruntime_cuda_path))
+    if onnxruntime_tensorrt_path is not None and ort_tensorrt_runtime is not None:
+        optional_payloads.append(load_json(onnxruntime_tensorrt_path))
     for payload in [pytorch_payload, tensorrt_payload] + optional_payloads:
         result = payload["result"]
         if result.get("input", {}).get("preprocessing_included") not in (False, None):
@@ -207,6 +221,17 @@ def build_payload(pytorch_path: Path, tensorrt_path: Path, onnxruntime_path: Pat
             "mean_latency_onnxruntime_cuda_over_tensorrt": ratio(ort_cuda_runtime, trt_runtime),
             "p95_latency_onnxruntime_cuda_over_tensorrt": ratio(ort_cuda_runtime, trt_runtime, "p95"),
         })
+    if ort_tensorrt_runtime is not None:
+        ratios.update({
+            "mean_latency_pytorch_over_onnxruntime_tensorrt": ratio(runtimes[0], ort_tensorrt_runtime),
+            "p95_latency_pytorch_over_onnxruntime_tensorrt": ratio(runtimes[0], ort_tensorrt_runtime, "p95"),
+            "mean_latency_onnxruntime_cpu_over_onnxruntime_tensorrt": ratio(ort_runtime, ort_tensorrt_runtime) if ort_runtime is not None else None,
+            "p95_latency_onnxruntime_cpu_over_onnxruntime_tensorrt": ratio(ort_runtime, ort_tensorrt_runtime, "p95") if ort_runtime is not None else None,
+            "mean_latency_onnxruntime_cuda_over_onnxruntime_tensorrt": ratio(ort_cuda_runtime, ort_tensorrt_runtime) if ort_cuda_runtime is not None else None,
+            "p95_latency_onnxruntime_cuda_over_onnxruntime_tensorrt": ratio(ort_cuda_runtime, ort_tensorrt_runtime, "p95") if ort_cuda_runtime is not None else None,
+            "mean_latency_onnxruntime_tensorrt_over_tensorrt": ratio(ort_tensorrt_runtime, trt_runtime),
+            "p95_latency_onnxruntime_tensorrt_over_tensorrt": ratio(ort_tensorrt_runtime, trt_runtime, "p95"),
+        })
 
     comparison_name = "resnet18_pytorch_cuda_fp32_vs_tensorrt_fp16"
     notes = [
@@ -232,6 +257,14 @@ def build_payload(pytorch_path: Path, tensorrt_path: Path, onnxruntime_path: Pat
             "ONNX Runtime CUDAExecutionProvider is included from the isolated ort_cuda_env environment.",
             "ONNX Runtime CUDA uses FP32 ONNX Runtime execution, while TensorRT remains FP16 trtexec execution.",
             "The isolated ORT CUDA env install used onnxruntime-gpu 1.23.0 and numpy<2 for ABI compatibility.",
+        ])
+    if ort_tensorrt_runtime is not None and onnxruntime_tensorrt_path is not None:
+        comparison_name = "resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_onnxruntime_cuda_fp32_vs_onnxruntime_tensorrt_fp32_vs_tensorrt_fp16"
+        source_files["onnxruntime_tensorrt"] = str(onnxruntime_tensorrt_path)
+        notes.extend([
+            "ONNX Runtime TensorrtExecutionProvider is included from the isolated ort_cuda_env environment.",
+            "ONNX Runtime TensorRT EP uses ONNX Runtime provider integration, while native TensorRT remains trtexec FP16 engine execution.",
+            "ORT TensorRT session construction may build or select TensorRT artifacts before timed session.run repeats; this benchmark times session.run after session creation.",
         ])
 
     return {
@@ -266,7 +299,13 @@ def build_payload(pytorch_path: Path, tensorrt_path: Path, onnxruntime_path: Pat
 
 
 def runtime_label(runtime: dict[str, Any]) -> str:
-    return {"pytorch_cuda": "PyTorch CUDA", "onnxruntime_cpu": "ONNX Runtime CPU", "onnxruntime_cuda": "ONNX Runtime CUDA", "tensorrt_trtexec": "TensorRT trtexec"}.get(runtime["name"], runtime["name"])
+    return {
+        "pytorch_cuda": "PyTorch CUDA",
+        "onnxruntime_cpu": "ONNX Runtime CPU",
+        "onnxruntime_cuda": "ONNX Runtime CUDA",
+        "onnxruntime_tensorrt": "ONNX Runtime TensorRT",
+        "tensorrt_trtexec": "TensorRT trtexec",
+    }.get(runtime["name"], runtime["name"])
 
 
 def write_markdown(payload: dict[str, Any], output: Path) -> None:
@@ -276,7 +315,7 @@ def write_markdown(payload: dict[str, Any], output: Path) -> None:
     lines = [
         "# Runtime Comparison Report",
         "",
-        "> ResNet18 PyTorch CUDA FP32, ONNX Runtime CPU FP32, ONNX Runtime CUDA FP32, TensorRT FP16 smoke 결과를 비교합니다.",
+        "> ResNet18 PyTorch CUDA FP32, ONNX Runtime CPU FP32, ONNX Runtime CUDA FP32, ONNX Runtime TensorRT FP32, TensorRT FP16 smoke 결과를 비교합니다.",
         "> backend/provider/precision이 다르면 direct regression이 아니라 runtime comparison evidence입니다.",
         "",
         "## Run Information",
@@ -331,6 +370,7 @@ def main() -> int:
     parser.add_argument("--pytorch", type=Path, default=None)
     parser.add_argument("--onnxruntime", type=Path, default=None)
     parser.add_argument("--onnxruntime-cuda", type=Path, default=None)
+    parser.add_argument("--onnxruntime-tensorrt", type=Path, default=None)
     parser.add_argument("--tensorrt", type=Path, default=None)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--markdown", type=Path, required=True)
@@ -338,9 +378,10 @@ def main() -> int:
 
     pytorch_path = args.pytorch or latest_file("results/inference/pytorch_resnet18_*.json")
     onnxruntime_path = args.onnxruntime or latest_optional_file("results/inference/onnxruntime_resnet18_*.json")
-    onnxruntime_cuda_path = args.onnxruntime_cuda or latest_succeeded_ort_cuda_file("results/inference/onnxruntime_cuda_ep_attempt_*.json")
+    onnxruntime_cuda_path = args.onnxruntime_cuda or latest_succeeded_ort_ep_file("results/inference/onnxruntime_cuda_ep_attempt_*.json", "CUDAExecutionProvider")
+    onnxruntime_tensorrt_path = args.onnxruntime_tensorrt or latest_succeeded_ort_ep_file("results/inference/onnxruntime_tensorrt_ep_attempt_*.json", "TensorrtExecutionProvider")
     tensorrt_path = args.tensorrt or latest_file("results/tensorrt/resnet18_fp16_trtexec_*.json")
-    payload = build_payload(pytorch_path, tensorrt_path, onnxruntime_path, onnxruntime_cuda_path)
+    payload = build_payload(pytorch_path, tensorrt_path, onnxruntime_path, onnxruntime_cuda_path, onnxruntime_tensorrt_path)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.markdown.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
