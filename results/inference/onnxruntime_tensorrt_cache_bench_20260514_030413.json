@@ -1,0 +1,278 @@
+{
+  "metadata": {
+    "conda_env": "ort_cuda_env",
+    "generated_at": "2026-05-14T03:04:46+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "df441c0"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "onnxruntime": {
+      "available_providers": [
+        "TensorrtExecutionProvider",
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "version": "1.23.0"
+    },
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "python_executable": "python",
+    "python_version": "3.10.20",
+    "result_json": "results/inference/onnxruntime_tensorrt_cache_bench_20260514_030413.json",
+    "schema_version": "onnxruntime-tensorrt-cache-bench-v1"
+  },
+  "result": {
+    "backend": "TensorrtExecutionProvider",
+    "cache": {
+      "cache_path": "artifacts/tensorrt/ort_trt_engine_cache/resnet18_fp32",
+      "cache_prefix": "resnet18_fp32",
+      "files": [
+        {
+          "path": "artifacts/tensorrt/ort_trt_engine_cache/resnet18_fp32/resnet18_fp32_12793127510422195378_0_sm87.engine",
+          "sha256": "a2bb860019cf5d0d77ef63588d35b3d2e9a1a85ad34c4ecf5830958aedc40d28",
+          "size_bytes": 47157964
+        }
+      ],
+      "files_after_cold_build": [
+        {
+          "path": "artifacts/tensorrt/ort_trt_engine_cache/resnet18_fp32/resnet18_fp32_12793127510422195378_0_sm87.engine",
+          "sha256": "a2bb860019cf5d0d77ef63588d35b3d2e9a1a85ad34c4ecf5830958aedc40d28",
+          "size_bytes": 47157964
+        }
+      ]
+    },
+    "framework": "onnxruntime",
+    "input": {
+      "dtype": "float32",
+      "seed": 42,
+      "shape": [
+        1,
+        3,
+        224,
+        224
+      ],
+      "source": "synthetic_random_numpy_array"
+    },
+    "model": {
+      "architecture": "resnet18",
+      "onnx_path": "models/resnet18_random_seed42_opset17.onnx",
+      "onnx_sha256": "be389e1e7b40df969a7a63789549f022fc0245c64fcc09539ea09e8b2c75229e",
+      "onnx_sha256_matches_tensorrt_source": true,
+      "state_dict_sha256": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+      "weights": "random_seeded_weights_no_pretrained_accuracy_claim"
+    },
+    "phases": {
+      "cold_build": {
+        "first_run_ms": 8.2652,
+        "input_name": "input",
+        "latency": {
+          "count": 50,
+          "max_ms": 5.57,
+          "mean_ms": 4.1027,
+          "min_ms": 2.7925,
+          "p50_ms": 3.4202,
+          "p95_ms": 5.5288,
+          "p99_ms": 5.56,
+          "samples_ms": [
+            4.3144,
+            2.8027,
+            2.8389,
+            2.8317,
+            2.834,
+            2.8266,
+            2.8221,
+            2.8516,
+            2.8209,
+            2.8122,
+            2.8177,
+            2.8344,
+            2.8191,
+            2.8068,
+            2.8759,
+            2.8047,
+            2.8627,
+            2.8659,
+            2.843,
+            2.8325,
+            2.8627,
+            2.8834,
+            3.149,
+            5.4781,
+            5.5456,
+            5.48,
+            5.4763,
+            5.57,
+            5.4676,
+            5.4707,
+            5.4652,
+            5.4799,
+            5.4515,
+            5.4796,
+            5.4734,
+            5.5495,
+            5.4613,
+            5.5082,
+            5.4667,
+            5.455,
+            5.4536,
+            5.4683,
+            5.4538,
+            5.4456,
+            5.4527,
+            5.4463,
+            3.6913,
+            2.7925,
+            2.8122,
+            2.8275
+          ]
+        },
+        "output_name": "output",
+        "output_summary": {
+          "first_run_top_index": 275,
+          "top_indices": [
+            275,
+            630,
+            562,
+            439,
+            366
+          ],
+          "top_values": [
+            1.426021,
+            1.398407,
+            1.393776,
+            1.359375,
+            1.270275
+          ]
+        },
+        "phase": "cold_build",
+        "session_create_ms": 24489.9395,
+        "session_providers": [
+          "TensorrtExecutionProvider",
+          "CUDAExecutionProvider",
+          "CPUExecutionProvider"
+        ]
+      },
+      "warm_cache": {
+        "first_run_ms": 6.7976,
+        "input_name": "input",
+        "latency": {
+          "count": 50,
+          "max_ms": 5.5335,
+          "mean_ms": 4.0811,
+          "min_ms": 2.6812,
+          "p50_ms": 3.3193,
+          "p95_ms": 5.4887,
+          "p99_ms": 5.5243,
+          "samples_ms": [
+            2.8372,
+            2.9744,
+            2.7158,
+            2.6887,
+            2.7043,
+            2.7371,
+            2.6812,
+            2.722,
+            2.7682,
+            2.9528,
+            2.7727,
+            2.7763,
+            2.8022,
+            2.7649,
+            2.7976,
+            2.7887,
+            2.8054,
+            2.8006,
+            2.7917,
+            2.7999,
+            3.114,
+            4.8479,
+            5.4348,
+            5.5147,
+            5.4653,
+            5.4463,
+            5.4455,
+            5.465,
+            5.4514,
+            5.4211,
+            5.456,
+            5.4739,
+            5.4755,
+            5.4146,
+            5.4797,
+            5.4296,
+            5.4961,
+            5.4495,
+            5.4293,
+            5.4429,
+            5.476,
+            5.4636,
+            5.5335,
+            5.4722,
+            5.4643,
+            3.5245,
+            2.827,
+            2.8024,
+            2.8451,
+            2.8101
+          ]
+        },
+        "output_name": "output",
+        "output_summary": {
+          "first_run_top_index": 275,
+          "top_indices": [
+            275,
+            630,
+            562,
+            439,
+            366
+          ],
+          "top_values": [
+            1.426021,
+            1.398407,
+            1.393776,
+            1.359375,
+            1.270275
+          ]
+        },
+        "phase": "warm_cache",
+        "session_create_ms": 2175.843,
+        "session_providers": [
+          "TensorrtExecutionProvider",
+          "CUDAExecutionProvider",
+          "CPUExecutionProvider"
+        ]
+      }
+    },
+    "precision": "fp32",
+    "provider_options": {
+      "trt_engine_cache_enable": true,
+      "trt_engine_cache_path": "artifacts/tensorrt/ort_trt_engine_cache/resnet18_fp32",
+      "trt_engine_cache_prefix": "resnet18_fp32",
+      "trt_fp16_enable": false
+    },
+    "runtime": {
+      "repeat": 50,
+      "timing": "session_create_first_run_and_repeated_session_run",
+      "warmup": 10
+    },
+    "task": "onnxruntime_tensorrt_engine_cache_bench"
+  }
+}

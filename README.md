@@ -22,6 +22,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - ONNX Runtime CPU provider inference smoke와 CUDA provider availability 확인
 - ONNX Runtime CUDA Execution Provider 격리 활성화 시도 기록
 - ONNX Runtime TensorRT Execution Provider 격리 활성화 시도 기록
+- ONNX Runtime TensorRT EP provider option과 engine cache cold/warm 비교
 - JetPack 6 / CUDA 12.6 / cuDNN 9용 ONNX Runtime GPU wheel 후보 검증
 - ResNet18 ONNX export와 TensorRT FP16 `trtexec` engine smoke
 - PyTorch CUDA FP32 vs ONNX Runtime CPU FP32 vs ONNX Runtime CUDA FP32 vs ONNX Runtime TensorRT FP32 vs TensorRT FP16 runtime comparison
@@ -194,7 +195,37 @@ bash scripts/run_onnxruntime_tensorrt_ep_attempt.sh
 |---|---|---|---:|---:|---|
 | ONNX Runtime | TensorrtExecutionProvider | FP32 | 4.0276 | 5.4686 | succeeded |
 
-### 8. ONNX Runtime CUDA Env Candidate Probe
+### 8. ONNX Runtime TensorRT EP Engine Cache
+
+ORT TensorRT EP provider option을 명시하고 engine cache를 켠 상태에서 cold build와 warm cache session creation을 분리해 기록합니다.
+
+```bash
+bash scripts/run_onnxruntime_tensorrt_cache_bench.sh
+```
+
+주요 산출물:
+
+- `results/inference/onnxruntime_tensorrt_cache_bench_20260514_030413.json`
+- `docs/reports/onnxruntime_tensorrt_cache_bench.md`
+- `artifacts/tensorrt/ort_trt_engine_cache/resnet18_fp32/resnet18_fp32_12793127510422195378_0_sm87.engine`
+
+현재 cache benchmark 결과:
+
+| Phase | Session create ms | First run ms | Mean ms | P95 ms |
+|---|---:|---:|---:|---:|
+| Cold build | 24489.9395 | 8.2652 | 4.1027 | 5.5288 |
+| Warm cache | 2175.843 | 6.7976 | 4.0811 | 5.4887 |
+
+Provider options:
+
+| Option | Value |
+|---|---|
+| `trt_engine_cache_enable` | `True` |
+| `trt_engine_cache_path` | `artifacts/tensorrt/ort_trt_engine_cache/resnet18_fp32` |
+| `trt_engine_cache_prefix` | `resnet18_fp32` |
+| `trt_fp16_enable` | `False` |
+
+### 9. ONNX Runtime CUDA Env Candidate Probe
 
 JetPack 6 / CUDA 12.6 / cuDNN 9 조합에서 사용할 수 있는 Jetson용 ONNX Runtime GPU wheel 후보를 검증합니다. 이 단계는 URL/태그/환경 compatibility evidence만 만들며, 기존 Python 환경에 패키지를 설치하지 않습니다.
 
@@ -223,7 +254,7 @@ bash scripts/create_ort_cuda_env.sh --execute
 | Default env | conda env `ort_cuda_env` |
 | Preferred source | Jetson AI Lab `jp6/cu126` candidate before third-party mirrors |
 
-### 9. Runtime Compare
+### 10. Runtime Compare
 
 PyTorch CUDA FP32, ONNX Runtime CPU FP32, ONNX Runtime CUDA FP32, ONNX Runtime TensorRT FP32, TensorRT FP16 결과를 별도 runtime comparison evidence로 묶습니다. 같은 model hash와 input shape를 사용하지만 backend/provider/precision이 다르므로 direct regression이 아니라 runtime comparison입니다.
 
@@ -255,7 +286,7 @@ bash scripts/run_runtime_compare.sh
 - Mean latency ONNX Runtime CUDA/TensorRT ratio: `7.2592x`
 - Mean latency ONNX Runtime TensorRT/TensorRT ratio: `4.3458x`
 
-### 10. InferEdge Export
+### 11. InferEdge Export
 
 Runtime comparison evidence를 InferEdge-compatible `metadata.json` / `result.json` 쌍으로 변환합니다. `result.json`은 Lab-compatible Runtime top-level fields를 유지하고, comparison details는 `comparison`에 보존합니다.
 
@@ -287,6 +318,7 @@ InferEdge-compatible 핵심 필드:
 | ONNX Runtime smoke | `scripts/run_onnxruntime_smoke.sh` | `results/inference/onnxruntime_resnet18_cpu_20260514_013723.json` | `docs/reports/onnxruntime_inference_smoke.md` |
 | ONNX Runtime CUDA EP attempt | `scripts/run_onnxruntime_cuda_ep_attempt.sh` | `results/inference/onnxruntime_cuda_ep_attempt_20260514_023545.json` | `docs/reports/onnxruntime_cuda_ep_activation_attempt.md` |
 | ONNX Runtime TensorRT EP attempt | `scripts/run_onnxruntime_tensorrt_ep_attempt.sh` | `results/inference/onnxruntime_tensorrt_ep_attempt_20260514_025120.json` | `docs/reports/onnxruntime_tensorrt_ep_activation_attempt.md` |
+| ONNX Runtime TensorRT cache | `scripts/run_onnxruntime_tensorrt_cache_bench.sh` | `results/inference/onnxruntime_tensorrt_cache_bench_20260514_030413.json` | `docs/reports/onnxruntime_tensorrt_cache_bench.md` |
 | ONNX Runtime CUDA env candidate probe | `scripts/probe_ort_cuda_wheel_candidates.sh` | `results/inference/ort_cuda_wheel_candidates_20260514_020616.json` | `docs/reports/onnxruntime_cuda_env_candidate_probe.md` |
 | Runtime compare | `scripts/run_runtime_compare.sh` | `results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_onnxruntime_cuda_fp32_vs_onnxruntime_tensorrt_fp32_vs_tensorrt_fp16_20260514_025504.json` | `docs/reports/runtime_comparison.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
@@ -316,6 +348,7 @@ python3 -m py_compile \
   benchmarks/inference/pytorch_image_smoke.py \
   benchmarks/inference/onnxruntime_image_smoke.py \
   benchmarks/inference/onnxruntime_cuda_ep_attempt.py \
+  benchmarks/inference/onnxruntime_tensorrt_cache_bench.py \
   benchmarks/inference/ort_cuda_wheel_candidate_probe.py \
   benchmarks/tensorrt/resnet18_trtexec_smoke.py \
   benchmarks/runtime_compare/build_runtime_comparison.py \
@@ -324,6 +357,7 @@ python3 -m py_compile \
   tests/test_inference_smoke_json.py \
   tests/test_onnxruntime_smoke_json.py \
   tests/test_onnxruntime_cuda_ep_attempt_json.py \
+  tests/test_onnxruntime_tensorrt_cache_bench_json.py \
   tests/test_ort_cuda_wheel_candidate_probe_json.py \
   tests/test_tensorrt_metric_parser.py \
   tests/test_runtime_comparison.py \
@@ -335,6 +369,7 @@ python3 tests/test_cuda_compute_json.py
 python3 tests/test_inference_smoke_json.py
 python3 tests/test_onnxruntime_smoke_json.py
 python3 tests/test_onnxruntime_cuda_ep_attempt_json.py
+python3 tests/test_onnxruntime_tensorrt_cache_bench_json.py
 python3 tests/test_ort_cuda_wheel_candidate_probe_json.py
 python3 tests/test_tensorrt_metric_parser.py
 python3 tests/test_runtime_comparison.py
