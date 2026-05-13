@@ -198,7 +198,7 @@ def main() -> int:
                 "dtype": "float32",
                 "seed": args.seed,
                 "preprocessing_included": False,
-                "postprocessing_included": "top5_only",
+                "postprocessing_included": False,
             },
             "runtime": {
                 "torch_version": torch.__version__,
