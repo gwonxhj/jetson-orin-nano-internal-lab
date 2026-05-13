@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "conda_env": "yolo_env",
+    "generated_at": "2026-05-14T01:37:26+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "d22ffa1"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "onnxruntime": {
+      "provider_status": {
+        "available_providers": [
+          "AzureExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "cpu_available": true,
+        "cuda_available": false,
+        "cuda_note": "CUDAExecutionProvider unavailable in this yolo_env ONNX Runtime build",
+        "requested_available": true,
+        "requested_provider": "CPUExecutionProvider"
+      },
+      "version": "1.23.2"
+    },
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "python_executable": "python3 (yolo_env)",
+    "python_version": "3.10.12",
+    "result_json": "results/inference/onnxruntime_resnet18_cpu_20260514_013723.json",
+    "schema_version": "onnxruntime-smoke-v1",
+    "tegrastats_note": "artifacts/system/tegrastats_onnxruntime_resnet18_20260514_013723.log"
+  },
+  "result": {
+    "backend": "CPUExecutionProvider",
+    "framework": "onnxruntime",
+    "input": {
+      "dtype": "float32",
+      "input_name": "input",
+      "output_name": "output",
+      "postprocessing_included": "top5_only_after_timing",
+      "preprocessing_included": false,
+      "seed": 42,
+      "shape": [
+        1,
+        3,
+        224,
+        224
+      ],
+      "source": "synthetic_random_numpy_array"
+    },
+    "latency": {
+      "count": 50,
+      "max_ms": 46.2738,
+      "mean_ms": 42.2252,
+      "min_ms": 41.5168,
+      "p50_ms": 41.9639,
+      "p95_ms": 44.6845,
+      "p99_ms": 46.1999,
+      "samples_ms": [
+        41.8929,
+        42.0417,
+        41.7252,
+        41.8693,
+        44.7122,
+        41.7521,
+        41.9245,
+        41.7913,
+        42.1147,
+        41.819,
+        41.6266,
+        46.1229,
+        41.8705,
+        41.9633,
+        41.5168,
+        42.7258,
+        42.108,
+        41.9939,
+        42.0126,
+        41.7812,
+        42.1695,
+        41.6175,
+        41.7945,
+        42.3655,
+        41.5416,
+        42.1367,
+        41.9332,
+        42.4907,
+        44.6505,
+        41.7937,
+        42.0275,
+        41.691,
+        42.643,
+        41.9999,
+        42.4211,
+        46.2738,
+        41.6874,
+        42.0728,
+        41.9934,
+        42.2427,
+        41.7407,
+        41.809,
+        41.9645,
+        41.6149,
+        42.0379,
+        41.7165,
+        42.084,
+        41.8446,
+        41.5298,
+        42.0049
+      ]
+    },
+    "model": {
+      "architecture": "resnet18",
+      "onnx_path": "models/resnet18_random_seed42_opset17.onnx",
+      "onnx_sha256": "be389e1e7b40df969a7a63789549f022fc0245c64fcc09539ea09e8b2c75229e",
+      "onnx_sha256_matches_tensorrt_source": true,
+      "state_dict_sha256": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+      "weights": "random_seeded_weights_no_pretrained_accuracy_claim"
+    },
+    "output_summary": {
+      "top_indices": [
+        275,
+        630,
+        562,
+        439,
+        366
+      ],
+      "top_values": [
+        1.426056,
+        1.397982,
+        1.393751,
+        1.359318,
+        1.270174
+      ]
+    },
+    "precision": "fp32",
+    "provider": "CPUExecutionProvider",
+    "runtime": {
+      "repeat": 50,
+      "timing": "wall_clock_session_run",
+      "warmup": 10
+    },
+    "task": "image_classification_smoke"
+  }
+}

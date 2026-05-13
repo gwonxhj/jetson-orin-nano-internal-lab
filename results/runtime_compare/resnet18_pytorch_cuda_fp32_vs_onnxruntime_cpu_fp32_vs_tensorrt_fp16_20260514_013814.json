@@ -1,0 +1,174 @@
+{
+  "metadata": {
+    "generated_at": "2026-05-14T01:38:14+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "d22ffa1"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "python_executable": "python3",
+    "python_version": "3.10.12",
+    "schema_version": "runtime-compare-v1",
+    "source_files": {
+      "onnxruntime": "results/inference/onnxruntime_resnet18_cpu_20260514_013723.json",
+      "pytorch": "results/inference/pytorch_resnet18_20260513_125245.json",
+      "tensorrt": "results/tensorrt/resnet18_fp16_trtexec_20260513_125323.json"
+    }
+  },
+  "result": {
+    "comparability": {
+      "notes": [
+        "PyTorch uses CUDA FP32 eager execution while TensorRT uses FP16 trtexec engine execution.",
+        "The model hash and input shape match, but precision and runtime differ.",
+        "Synthetic input is used; preprocessing and accuracy are outside this comparison.",
+        "PyTorch top-5 output summary is computed after timed inference and is not included in latency.",
+        "ONNX Runtime CPUExecutionProvider is included as a third runtime using the same ONNX artifact.",
+        "ONNX Runtime CUDAExecutionProvider available: False.",
+        "ONNX Runtime CPU and PyTorch CUDA are different providers, so their latency is not a direct regression comparison."
+      ],
+      "same_input_shape": true,
+      "same_model_hash": true,
+      "same_precision": false,
+      "same_preprocessing_postprocessing_scope": true,
+      "verdict": "runtime_comparison_not_direct_regression"
+    },
+    "comparison_name": "resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_tensorrt_fp16",
+    "input_shape": [
+      1,
+      3,
+      224,
+      224
+    ],
+    "model": "resnet18",
+    "ratios": {
+      "mean_latency_onnxruntime_over_tensorrt": 45.561,
+      "mean_latency_pytorch_over_onnxruntime": 0.2754,
+      "mean_latency_pytorch_over_tensorrt": 12.5476,
+      "p95_latency_onnxruntime_over_tensorrt": 47.9318,
+      "p95_latency_pytorch_over_onnxruntime": 0.3651,
+      "p95_latency_pytorch_over_tensorrt": 17.4978
+    },
+    "runtimes": [
+      {
+        "backend": "cuda",
+        "framework": "pytorch",
+        "input_shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "latency_ms": {
+          "max": 17.1059,
+          "mean": 11.6289,
+          "min": 9.7152,
+          "p50": 11.4165,
+          "p95": 16.3123,
+          "p99": 16.7595
+        },
+        "model_hash": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+        "name": "pytorch_cuda",
+        "precision": "fp32",
+        "repeat_or_iterations": 50,
+        "source_json": "results/inference/pytorch_resnet18_20260513_125245.json",
+        "throughput_qps": null,
+        "warmup": 10
+      },
+      {
+        "backend": "CPUExecutionProvider",
+        "framework": "onnxruntime",
+        "input_shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "latency_ms": {
+          "max": 46.2738,
+          "mean": 42.2252,
+          "min": 41.5168,
+          "p50": 41.9639,
+          "p95": 44.6845,
+          "p99": 46.1999
+        },
+        "model_hash": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+        "name": "onnxruntime_cpu",
+        "onnx_path": "models/resnet18_random_seed42_opset17.onnx",
+        "onnx_sha256": "be389e1e7b40df969a7a63789549f022fc0245c64fcc09539ea09e8b2c75229e",
+        "precision": "fp32",
+        "provider_status": {
+          "available_providers": [
+            "AzureExecutionProvider",
+            "CPUExecutionProvider"
+          ],
+          "cpu_available": true,
+          "cuda_available": false,
+          "cuda_note": "CUDAExecutionProvider unavailable in this yolo_env ONNX Runtime build",
+          "requested_available": true,
+          "requested_provider": "CPUExecutionProvider"
+        },
+        "repeat_or_iterations": 50,
+        "source_json": "results/inference/onnxruntime_resnet18_cpu_20260514_013723.json",
+        "throughput_qps": null,
+        "warmup": 10
+      },
+      {
+        "backend": "trtexec",
+        "engine_path": "artifacts/engines/resnet18_fp16_20260513_125323.engine",
+        "engine_sha256": "96bfefadbeb9722591b545415acf09aa338aaadf357b5cadf8e567ec5aad8cea",
+        "framework": "tensorrt",
+        "input_shape": [
+          1,
+          3,
+          224,
+          224
+        ],
+        "latency_ms": {
+          "max": 0.962463,
+          "mean": 0.926784,
+          "min": 0.917969,
+          "p50": 0.926514,
+          "p95": 0.932251,
+          "p99": 0.936035
+        },
+        "model_hash": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+        "name": "tensorrt_trtexec",
+        "onnx_path": "models/resnet18_random_seed42_opset17.onnx",
+        "onnx_sha256": "be389e1e7b40df969a7a63789549f022fc0245c64fcc09539ea09e8b2c75229e",
+        "precision": "fp16",
+        "repeat_or_iterations": 100,
+        "source_json": "results/tensorrt/resnet18_fp16_trtexec_20260513_125323.json",
+        "throughput_qps": 1134.83,
+        "warmup": "500ms"
+      }
+    ]
+  }
+}
