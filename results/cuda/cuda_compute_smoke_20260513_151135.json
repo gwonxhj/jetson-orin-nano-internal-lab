@@ -1,0 +1,203 @@
+{
+  "metadata": {
+    "conda_env": "yolo_env",
+    "device": "Jetson Orin Nano",
+    "generated_at": "2026-05-13T15:11:39+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "9c3c264"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "parameters": {
+      "matmul_size": 1024,
+      "repeat": 5,
+      "transfer_mib": 32,
+      "vector_elements": 4194304,
+      "warmup": 1
+    },
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "python_executable": "python3 (yolo_env)",
+    "python_version": "3.10.12",
+    "schema_version": "cuda-compute-smoke-v1",
+    "tegrastats_note": "artifacts/system/tegrastats_cuda_compute_20260513_151135.log",
+    "torch": {
+      "available": true,
+      "cuda_available": true,
+      "cuda_capability": [
+        8,
+        7
+      ],
+      "cuda_device_count": 1,
+      "cuda_device_name": "Orin",
+      "cudnn_version": 90300,
+      "torch_cuda_version": "12.6",
+      "torch_version": "2.8.0"
+    }
+  },
+  "result": {
+    "benchmarks": [
+      {
+        "category": "compute",
+        "checksum": 251.338455,
+        "count": 5,
+        "device": "cpu",
+        "dtype": "float32",
+        "max_ms": 26.7959,
+        "mean_ms": 24.5775,
+        "measurement_method": "wall_clock",
+        "min_ms": 23.155,
+        "name": "torch_cpu_matmul",
+        "p50_ms": 23.339,
+        "p95_ms": 26.7218,
+        "p99_ms": 26.781,
+        "samples_ms": [
+          26.7959,
+          26.4255,
+          23.155,
+          23.1723,
+          23.339
+        ],
+        "shape": [
+          1024,
+          1024
+        ],
+        "status": "ok",
+        "unit": "milliseconds"
+      },
+      {
+        "category": "compute",
+        "checksum": 250.365173,
+        "count": 5,
+        "device": "cuda",
+        "dtype": "float32",
+        "max_ms": 6.4357,
+        "mean_ms": 5.9287,
+        "measurement_method": "wall_clock_with_cuda_synchronize",
+        "min_ms": 5.715,
+        "name": "torch_cuda_matmul",
+        "p50_ms": 5.7737,
+        "p95_ms": 6.3484,
+        "p99_ms": 6.4183,
+        "samples_ms": [
+          6.4357,
+          5.9994,
+          5.7198,
+          5.715,
+          5.7737
+        ],
+        "shape": [
+          1024,
+          1024
+        ],
+        "status": "ok",
+        "unit": "milliseconds"
+      },
+      {
+        "approx_input_mib": 32.0,
+        "category": "compute",
+        "checksum": 1.320569,
+        "count": 5,
+        "device": "cuda",
+        "dtype": "float32",
+        "elements": 4194304,
+        "max_ms": 1.8811,
+        "mean_ms": 1.8185,
+        "measurement_method": "wall_clock_with_cuda_synchronize",
+        "min_ms": 1.7924,
+        "name": "cuda_elementwise_add",
+        "p50_ms": 1.7986,
+        "p95_ms": 1.8699,
+        "p99_ms": 1.8789,
+        "samples_ms": [
+          1.8811,
+          1.825,
+          1.7986,
+          1.7924,
+          1.7952
+        ],
+        "status": "ok",
+        "unit": "milliseconds"
+      },
+      {
+        "approx_mib_per_second": 5126.4799,
+        "category": "transfer",
+        "checksum": 0.882269,
+        "count": 5,
+        "direction": "h2d",
+        "dtype": "float32",
+        "max_ms": 6.4243,
+        "mean_ms": 6.2421,
+        "measurement_method": "wall_clock_copy",
+        "min_ms": 6.1287,
+        "name": "cuda_h2d_transfer",
+        "p50_ms": 6.2122,
+        "p95_ms": 6.4006,
+        "p99_ms": 6.4195,
+        "samples_ms": [
+          6.4243,
+          6.3058,
+          6.2122,
+          6.1395,
+          6.1287
+        ],
+        "status": "ok",
+        "transfer_mib": 32,
+        "unit": "milliseconds"
+      },
+      {
+        "approx_mib_per_second": 2782.2942,
+        "category": "transfer",
+        "checksum": 0.882269,
+        "count": 5,
+        "direction": "d2h",
+        "dtype": "float32",
+        "max_ms": 11.636,
+        "mean_ms": 11.5013,
+        "measurement_method": "wall_clock_copy",
+        "min_ms": 11.4249,
+        "name": "cuda_d2h_transfer",
+        "p50_ms": 11.4822,
+        "p95_ms": 11.6109,
+        "p99_ms": 11.631,
+        "samples_ms": [
+          11.4822,
+          11.5103,
+          11.4531,
+          11.636,
+          11.4249
+        ],
+        "status": "ok",
+        "transfer_mib": 32,
+        "unit": "milliseconds"
+      }
+    ],
+    "summary": "Jetson Orin Nano CUDA/GPU compute and transfer smoke baseline"
+  }
+}

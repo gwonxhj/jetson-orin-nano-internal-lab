@@ -16,6 +16,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 
 - Jetson 내부 명령어 기반 환경 점검
 - system baseline smoke benchmark
+- CUDA/GPU compute smoke and host/device transfer baseline
 - PyTorch CUDA image inference smoke
 - ResNet18 ONNX export와 TensorRT FP16 `trtexec` engine smoke
 - PyTorch CUDA FP32 vs TensorRT FP16 runtime comparison
@@ -177,6 +178,7 @@ InferEdge-compatible 핵심 필드:
 | Day 1 env | `scripts/collect_env.sh` | `artifacts/system/jetson_env_raw.log` | `docs/reports/day1_environment_check.md` |
 | System baseline | `scripts/run_system_baseline.sh` | `results/system/system_baseline_20260513_122758.json` | `docs/reports/system_baseline.md` |
 | System resource map | `scripts/run_tegrastats.sh` | `artifacts/system/tegrastats_idle.log`, `artifacts/system/tegrastats_load_smoke.log` | `docs/system/jetson_resource_map.md` |
+| CUDA compute smoke | `scripts/run_cuda_compute_smoke.sh` | `results/cuda/cuda_compute_smoke_20260513_151135.json` | `docs/reports/cuda_compute_notes.md` |
 | PyTorch smoke | `scripts/run_inference_smoke.sh` | `results/inference/pytorch_resnet18_20260513_125245.json` | `docs/reports/pytorch_inference_smoke.md` |
 | TensorRT FP16 | `scripts/run_tensorrt_bench.sh` | `results/tensorrt/resnet18_fp16_trtexec_20260513_125323.json` | `docs/reports/tensorrt_optimization_report.md` |
 | Runtime compare | `scripts/run_runtime_compare.sh` | `results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_tensorrt_fp16_20260513_131115.json` | `docs/reports/runtime_comparison.md` |
@@ -203,10 +205,12 @@ Run the current test set on Jetson:
 python3 -m py_compile \
   src/common/inferedge_schema.py \
   benchmarks/system/system_smoke_bench.py \
+  benchmarks/cuda/cuda_compute_smoke.py \
   benchmarks/inference/pytorch_image_smoke.py \
   benchmarks/tensorrt/resnet18_trtexec_smoke.py \
   benchmarks/runtime_compare/build_runtime_comparison.py \
   tests/test_system_baseline_json.py \
+  tests/test_cuda_compute_json.py \
   tests/test_inference_smoke_json.py \
   tests/test_tensorrt_metric_parser.py \
   tests/test_runtime_comparison.py \
@@ -214,6 +218,7 @@ python3 -m py_compile \
 
 bash -n scripts/*.sh
 python3 tests/test_system_baseline_json.py
+python3 tests/test_cuda_compute_json.py
 python3 tests/test_inference_smoke_json.py
 python3 tests/test_tensorrt_metric_parser.py
 python3 tests/test_runtime_comparison.py
