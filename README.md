@@ -21,6 +21,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - PyTorch CUDA image inference smoke
 - ONNX Runtime CPU provider inference smoke와 CUDA provider availability 확인
 - ONNX Runtime CUDA Execution Provider 격리 활성화 시도 기록
+- JetPack 6 / CUDA 12.6 / cuDNN 9용 ONNX Runtime GPU wheel 후보 검증
 - ResNet18 ONNX export와 TensorRT FP16 `trtexec` engine smoke
 - PyTorch CUDA FP32 vs ONNX Runtime CPU FP32 vs TensorRT FP16 runtime comparison
 - InferEdge-compatible `metadata.json` / `result.json` export
@@ -172,7 +173,36 @@ bash scripts/run_onnxruntime_cuda_ep_attempt.sh
 | Current activation status | unavailable |
 | Next action if unavailable | isolated install attempt, not in-place `yolo_env` mutation |
 
-### 7. Runtime Compare
+### 7. ONNX Runtime CUDA Env Candidate Probe
+
+JetPack 6 / CUDA 12.6 / cuDNN 9 조합에서 사용할 수 있는 Jetson용 ONNX Runtime GPU wheel 후보를 검증합니다. 이 단계는 URL/태그/환경 compatibility evidence만 만들며, 기존 Python 환경에 패키지를 설치하지 않습니다.
+
+```bash
+bash scripts/probe_ort_cuda_wheel_candidates.sh
+```
+
+주요 산출물:
+
+- `results/inference/ort_cuda_wheel_candidates_20260514_020616.json`
+- `docs/reports/onnxruntime_cuda_env_candidate_probe.md`
+
+격리 env 생성은 명시적으로 실행할 때만 진행합니다.
+
+```bash
+bash scripts/create_ort_cuda_env.sh
+bash scripts/create_ort_cuda_env.sh --execute
+```
+
+현재 정책:
+
+| Field | Value |
+|---|---|
+| Existing env modified by probe | false |
+| Install command executed by probe | false |
+| Default env path | `$HOME/.venvs/ort_cuda_env` |
+| Preferred source | Jetson AI Lab `jp6/cu126` candidate before third-party mirrors |
+
+### 8. Runtime Compare
 
 PyTorch CUDA FP32, ONNX Runtime CPU FP32, TensorRT FP16 결과를 별도 runtime comparison evidence로 묶습니다. 같은 model hash와 input shape를 사용하지만 backend/provider/precision이 다르므로 direct regression이 아니라 runtime comparison입니다.
 
@@ -200,7 +230,7 @@ bash scripts/run_runtime_compare.sh
 - Mean latency PyTorch/TensorRT ratio: `12.5476x`
 - Mean latency ONNX Runtime/TensorRT ratio: `45.561x`
 
-### 8. InferEdge Export
+### 9. InferEdge Export
 
 Runtime comparison evidence를 InferEdge-compatible `metadata.json` / `result.json` 쌍으로 변환합니다. `result.json`은 Lab-compatible Runtime top-level fields를 유지하고, comparison details는 `comparison`에 보존합니다.
 
@@ -231,6 +261,7 @@ InferEdge-compatible 핵심 필드:
 | TensorRT FP16 | `scripts/run_tensorrt_bench.sh` | `results/tensorrt/resnet18_fp16_trtexec_20260513_125323.json` | `docs/reports/tensorrt_optimization_report.md` |
 | ONNX Runtime smoke | `scripts/run_onnxruntime_smoke.sh` | `results/inference/onnxruntime_resnet18_cpu_20260514_013723.json` | `docs/reports/onnxruntime_inference_smoke.md` |
 | ONNX Runtime CUDA EP attempt | `scripts/run_onnxruntime_cuda_ep_attempt.sh` | `results/inference/onnxruntime_cuda_ep_attempt_20260514_015048.json` | `docs/reports/onnxruntime_cuda_ep_activation_attempt.md` |
+| ONNX Runtime CUDA env candidate probe | `scripts/probe_ort_cuda_wheel_candidates.sh` | `results/inference/ort_cuda_wheel_candidates_20260514_020616.json` | `docs/reports/onnxruntime_cuda_env_candidate_probe.md` |
 | Runtime compare | `scripts/run_runtime_compare.sh` | `results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_tensorrt_fp16_20260514_013814.json` | `docs/reports/runtime_comparison.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
@@ -259,6 +290,7 @@ python3 -m py_compile \
   benchmarks/inference/pytorch_image_smoke.py \
   benchmarks/inference/onnxruntime_image_smoke.py \
   benchmarks/inference/onnxruntime_cuda_ep_attempt.py \
+  benchmarks/inference/ort_cuda_wheel_candidate_probe.py \
   benchmarks/tensorrt/resnet18_trtexec_smoke.py \
   benchmarks/runtime_compare/build_runtime_comparison.py \
   tests/test_system_baseline_json.py \
@@ -266,6 +298,7 @@ python3 -m py_compile \
   tests/test_inference_smoke_json.py \
   tests/test_onnxruntime_smoke_json.py \
   tests/test_onnxruntime_cuda_ep_attempt_json.py \
+  tests/test_ort_cuda_wheel_candidate_probe_json.py \
   tests/test_tensorrt_metric_parser.py \
   tests/test_runtime_comparison.py \
   tests/test_inferedge_export.py
@@ -276,6 +309,7 @@ python3 tests/test_cuda_compute_json.py
 python3 tests/test_inference_smoke_json.py
 python3 tests/test_onnxruntime_smoke_json.py
 python3 tests/test_onnxruntime_cuda_ep_attempt_json.py
+python3 tests/test_ort_cuda_wheel_candidate_probe_json.py
 python3 tests/test_tensorrt_metric_parser.py
 python3 tests/test_runtime_comparison.py
 python3 tests/test_inferedge_export.py
