@@ -1,4 +1,4 @@
-&&&& RUNNING TensorRT.trtexec [TensorRT v100300] # /usr/src/tensorrt/bin/trtexec --loadEngine=/home/risenano01/jetson-orin-nano-internal-lab/artifacts/engines/resnet18_fp16_20260513_125323.engine --warmUp=500 --iterations=100
+&&&& RUNNING TensorRT.trtexec [TensorRT v100300] # /usr/src/tensorrt/bin/trtexec --loadEngine=artifacts/engines/resnet18_fp16_20260513_125323.engine --warmUp=500 --iterations=100
 [05/13/2026-12:54:14] [I] === Model Options ===
 [05/13/2026-12:54:14] [I] Format: *
 [05/13/2026-12:54:14] [I] Model: 
@@ -429,4 +429,4 @@
 [05/13/2026-12:54:17] [I] Total GPU Compute Time: 2.99234 s
 [05/13/2026-12:54:17] [I] Explanations of the performance metrics are printed in the verbose logs.
 [05/13/2026-12:54:17] [I] 
-&&&& PASSED TensorRT.trtexec [TensorRT v100300] # /usr/src/tensorrt/bin/trtexec --loadEngine=/home/risenano01/jetson-orin-nano-internal-lab/artifacts/engines/resnet18_fp16_20260513_125323.engine --warmUp=500 --iterations=100
+&&&& PASSED TensorRT.trtexec [TensorRT v100300] # /usr/src/tensorrt/bin/trtexec --loadEngine=artifacts/engines/resnet18_fp16_20260513_125323.engine --warmUp=500 --iterations=100

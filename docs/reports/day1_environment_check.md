@@ -8,7 +8,7 @@
 |---|---|
 | Date | 2026-05-13T12:03:56+09:00 |
 | Device | Jetson Orin Nano |
-| Hostname | `nano01` |
+| Hostname | `jetson-orin-nano` |
 | Active env | `yolo_env` |
 | Command | `bash scripts/collect_env.sh` |
 | Raw log | `artifacts/system/jetson_env_raw.log` |

@@ -8,7 +8,7 @@
 | Field | Value |
 |---|---|
 | Date | 2026-05-13T13:11:15+09:00 |
-| Hostname | `nano01` |
+| Hostname | `jetson-orin-nano` |
 | Power mode | NV Power Mode: 25W; 1 |
 | Git commit | 87b6c6d |
 | PyTorch source | `results/inference/pytorch_resnet18_20260513_125245.json` |

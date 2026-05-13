@@ -22,9 +22,9 @@
       ],
       "exit_code": 0,
       "stderr": "",
-      "stdout": "## main...origin/main\n M scripts/run_system_baseline.sh\n?? artifacts/system/tegrastats_system_baseline_20260513_122758.log\n?? benchmarks/system/system_smoke_bench.py\n?? tests/test_system_baseline_json.py"
+      "stdout": "[sanitized for public portfolio: intermediate working tree details omitted]"
     },
-    "hostname": "nano01",
+    "hostname": "jetson-orin-nano",
     "parameters": {
       "cpu_iterations": 2000000,
       "disk_mib": 64,
@@ -42,10 +42,10 @@
       "stderr": "",
       "stdout": "NV Power Mode: 25W\n1"
     },
-    "python_executable": "/home/risenano01/miniconda3/envs/yolo_env/bin/python3",
+    "python_executable": "python3 (yolo_env)",
     "python_version": "3.10.12",
     "schema_version": "system-baseline-v1",
-    "tegrastats_note": "/home/risenano01/jetson-orin-nano-internal-lab/artifacts/system/tegrastats_system_baseline_20260513_122758.log"
+    "tegrastats_note": "artifacts/system/tegrastats_system_baseline_20260513_122758.log"
   },
   "result": {
     "benchmarks": [

@@ -9,9 +9,9 @@
 |---|---|
 | Date | 2026-05-13T12:03:56+09:00 |
 | Device | Jetson Orin Nano |
-| Hostname | `nano01` |
-| Operator | `risenano01` |
-| Repo path | `/home/risenano01/jetson-orin-nano-internal-lab` |
+| Hostname | `jetson-orin-nano` |
+| Operator | `local-jetson-user` |
+| Repo path | `.` |
 | Repo commit | unavailable, no commits yet |
 | Raw log | `artifacts/system/jetson_env_raw.log` |
 
@@ -39,9 +39,9 @@
 | Field | Value |
 |---|---|
 | Python | 3.10.12 |
-| pip | 26.0.1 from `/home/risenano01/miniconda3/envs/yolo_env` |
+| pip | 26.0.1 from `yolo_env` |
 | conda env | `yolo_env` |
-| Python executable | `/home/risenano01/miniconda3/envs/yolo_env/bin/python3` |
+| Python executable | `python3 (yolo_env)` |
 | Platform | Linux-5.15.148-tegra-aarch64-with-glibc2.35 |
 
 ## ML Runtime

@@ -1,7 +1,7 @@
-&&&& RUNNING TensorRT.trtexec [TensorRT v100300] # /usr/src/tensorrt/bin/trtexec --onnx=/home/risenano01/jetson-orin-nano-internal-lab/models/resnet18_random_seed42_opset17.onnx --saveEngine=/home/risenano01/jetson-orin-nano-internal-lab/artifacts/engines/resnet18_fp16_20260513_125323.engine --fp16
+&&&& RUNNING TensorRT.trtexec [TensorRT v100300] # /usr/src/tensorrt/bin/trtexec --onnx=models/resnet18_random_seed42_opset17.onnx --saveEngine=artifacts/engines/resnet18_fp16_20260513_125323.engine --fp16
 [05/13/2026-12:53:29] [I] === Model Options ===
 [05/13/2026-12:53:29] [I] Format: ONNX
-[05/13/2026-12:53:29] [I] Model: /home/risenano01/jetson-orin-nano-internal-lab/models/resnet18_random_seed42_opset17.onnx
+[05/13/2026-12:53:29] [I] Model: models/resnet18_random_seed42_opset17.onnx
 [05/13/2026-12:53:29] [I] Output:
 [05/13/2026-12:53:29] [I] === Build Options ===
 [05/13/2026-12:53:29] [I] Memory Pools: workspace: default, dlaSRAM: default, dlaLocalDRAM: default, dlaGlobalDRAM: default, tacticSharedMem: default
@@ -25,7 +25,7 @@
 [05/13/2026-12:53:29] [I] DirectIO mode: Disabled
 [05/13/2026-12:53:29] [I] Restricted mode: Disabled
 [05/13/2026-12:53:29] [I] Skip inference: Disabled
-[05/13/2026-12:53:29] [I] Save engine: /home/risenano01/jetson-orin-nano-internal-lab/artifacts/engines/resnet18_fp16_20260513_125323.engine
+[05/13/2026-12:53:29] [I] Save engine: artifacts/engines/resnet18_fp16_20260513_125323.engine
 [05/13/2026-12:53:29] [I] Load engine: 
 [05/13/2026-12:53:29] [I] Profiling verbosity: 0
 [05/13/2026-12:53:29] [I] Tactic sources: Using default tactic sources
@@ -107,7 +107,7 @@
 [05/13/2026-12:53:32] [I] [TRT] [MemUsageChange] Init builder kernel library: CPU +928, GPU +752, now: CPU 1002, GPU 3184 (MiB)
 [05/13/2026-12:53:32] [I] Start parsing network model.
 [05/13/2026-12:53:32] [I] [TRT] ----------------------------------------------------------------
-[05/13/2026-12:53:32] [I] [TRT] Input filename:   /home/risenano01/jetson-orin-nano-internal-lab/models/resnet18_random_seed42_opset17.onnx
+[05/13/2026-12:53:32] [I] [TRT] Input filename:   models/resnet18_random_seed42_opset17.onnx
 [05/13/2026-12:53:32] [I] [TRT] ONNX IR version:  0.0.8
 [05/13/2026-12:53:32] [I] [TRT] Opset version:    17
 [05/13/2026-12:53:32] [I] [TRT] Producer name:    pytorch
@@ -494,4 +494,4 @@
 [05/13/2026-12:54:14] [W]   If not already in use, locking GPU clock frequency or adding --useSpinWait may improve the stability.
 [05/13/2026-12:54:14] [I] Explanations of the performance metrics are printed in the verbose logs.
 [05/13/2026-12:54:14] [I] 
-&&&& PASSED TensorRT.trtexec [TensorRT v100300] # /usr/src/tensorrt/bin/trtexec --onnx=/home/risenano01/jetson-orin-nano-internal-lab/models/resnet18_random_seed42_opset17.onnx --saveEngine=/home/risenano01/jetson-orin-nano-internal-lab/artifacts/engines/resnet18_fp16_20260513_125323.engine --fp16
+&&&& PASSED TensorRT.trtexec [TensorRT v100300] # /usr/src/tensorrt/bin/trtexec --onnx=models/resnet18_random_seed42_opset17.onnx --saveEngine=artifacts/engines/resnet18_fp16_20260513_125323.engine --fp16

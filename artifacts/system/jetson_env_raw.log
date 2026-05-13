@@ -1,6 +1,6 @@
 # Jetson environment raw log
 generated_at=2026-05-13T12:03:56+09:00
-root_dir=/home/risenano01/jetson-orin-nano-internal-lab
+root_dir=.
 
 ===== Git commit =====
 $ git rev-parse --short HEAD
@@ -31,7 +31,7 @@ TARGET_USERSPACE_LIB_DIR_PATH=usr/lib/aarch64-linux-gnu/nvidia
 
 ===== Kernel =====
 $ uname -a
-Linux nano01 5.15.148-tegra #1 SMP PREEMPT Thu Sep 18 15:08:33 PDT 2025 aarch64 aarch64 aarch64 GNU/Linux
+Linux jetson-orin-nano 5.15.148-tegra #1 SMP PREEMPT Thu Sep 18 15:08:33 PDT 2025 aarch64 aarch64 aarch64 GNU/Linux
 
 ===== Distribution =====
 $ lsb_release -a
@@ -88,12 +88,12 @@ Python 3.10.12
 
 ===== pip =====
 $ python3 -m pip --version
-pip 26.0.1 from /home/risenano01/miniconda3/envs/yolo_env/lib/python3.10/site-packages/pip (python 3.10)
+pip 26.0.1 from yolo_env/lib/python3.10/site-packages/pip (python 3.10)
 
 ===== Python ML runtime probe =====
 $ python3 - <<PY
 [0;93m2026-05-13 12:04:01.460894395 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
-python executable /home/risenano01/miniconda3/envs/yolo_env/bin/python3
+python executable python3 (yolo_env)
 conda env yolo_env
 virtualenv 
 platform Linux-5.15.148-tegra-aarch64-with-glibc2.35
@@ -639,7 +639,7 @@ NV Power Mode: 25W
 
 ===== Power mode =====
 $ sudo -n nvpmodel -q
-sudo: a password is required
+[sudo prompt omitted: nvpmodel requires elevated access]
 [unavailable or failed: exit 1]
 
 ===== tegrastats smoke =====

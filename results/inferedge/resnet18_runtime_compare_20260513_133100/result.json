@@ -35,7 +35,7 @@
     },
     "candidate_runtime": {
       "backend": "trtexec",
-      "engine_path": "/home/risenano01/jetson-orin-nano-internal-lab/artifacts/engines/resnet18_fp16_20260513_125323.engine",
+      "engine_path": "artifacts/engines/resnet18_fp16_20260513_125323.engine",
       "engine_sha256": "96bfefadbeb9722591b545415acf09aa338aaadf357b5cadf8e567ec5aad8cea",
       "framework": "tensorrt",
       "input_shape": [
@@ -54,7 +54,7 @@
       },
       "model_hash": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
       "name": "tensorrt_trtexec",
-      "onnx_path": "/home/risenano01/jetson-orin-nano-internal-lab/models/resnet18_random_seed42_opset17.onnx",
+      "onnx_path": "models/resnet18_random_seed42_opset17.onnx",
       "onnx_sha256": "be389e1e7b40df969a7a63789549f022fc0245c64fcc09539ea09e8b2c75229e",
       "precision": "fp16",
       "repeat_or_iterations": 100,
@@ -84,7 +84,7 @@
     "verdict": "runtime_comparison_not_direct_regression"
   },
   "device": {
-    "hostname": "nano01",
+    "hostname": "jetson-orin-nano",
     "name": "jetson"
   },
   "device_name": "jetson",

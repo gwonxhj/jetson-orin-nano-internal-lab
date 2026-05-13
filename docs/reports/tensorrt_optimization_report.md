@@ -8,12 +8,12 @@
 | Field | Value |
 |---|---|
 | Date | 2026-05-13T12:54:18+09:00 |
-| Hostname | `nano01` |
+| Hostname | `jetson-orin-nano` |
 | Conda env | `yolo_env` |
 | Result JSON | `results/tensorrt/resnet18_fp16_trtexec_20260513_125323.json` |
-| Build log | `/home/risenano01/jetson-orin-nano-internal-lab/artifacts/tensorrt/resnet18_fp16_build_20260513_125323.log` |
-| Run log | `/home/risenano01/jetson-orin-nano-internal-lab/artifacts/tensorrt/resnet18_fp16_run_20260513_125323.log` |
-| Tegrastats log | `/home/risenano01/jetson-orin-nano-internal-lab/artifacts/system/tegrastats_tensorrt_resnet18_20260513_125323.log` |
+| Build log | `artifacts/tensorrt/resnet18_fp16_build_20260513_125323.log` |
+| Run log | `artifacts/tensorrt/resnet18_fp16_run_20260513_125323.log` |
+| Tegrastats log | `artifacts/system/tegrastats_tensorrt_resnet18_20260513_125323.log` |
 | Power mode | NV Power Mode: 25W; 1 |
 | Git commit | 34d04fc |
 
@@ -21,14 +21,14 @@
 
 | Artifact | Path | SHA256 | Size bytes |
 |---|---|---|---:|
-| ONNX | `/home/risenano01/jetson-orin-nano-internal-lab/models/resnet18_random_seed42_opset17.onnx` | `be389e1e7b40df969a7a63789549f022fc0245c64fcc09539ea09e8b2c75229e` | 46733664 |
-| TensorRT engine | `/home/risenano01/jetson-orin-nano-internal-lab/artifacts/engines/resnet18_fp16_20260513_125323.engine` | `96bfefadbeb9722591b545415acf09aa338aaadf357b5cadf8e567ec5aad8cea` | 23774884 |
+| ONNX | `models/resnet18_random_seed42_opset17.onnx` | `be389e1e7b40df969a7a63789549f022fc0245c64fcc09539ea09e8b2c75229e` | 46733664 |
+| TensorRT engine | `artifacts/engines/resnet18_fp16_20260513_125323.engine` | `96bfefadbeb9722591b545415acf09aa338aaadf357b5cadf8e567ec5aad8cea` | 23774884 |
 
 ## Commands
 
 ```bash
-/usr/src/tensorrt/bin/trtexec --onnx=/home/risenano01/jetson-orin-nano-internal-lab/models/resnet18_random_seed42_opset17.onnx --saveEngine=/home/risenano01/jetson-orin-nano-internal-lab/artifacts/engines/resnet18_fp16_20260513_125323.engine --fp16
-/usr/src/tensorrt/bin/trtexec --loadEngine=/home/risenano01/jetson-orin-nano-internal-lab/artifacts/engines/resnet18_fp16_20260513_125323.engine --warmUp=500 --iterations=100
+/usr/src/tensorrt/bin/trtexec --onnx=models/resnet18_random_seed42_opset17.onnx --saveEngine=artifacts/engines/resnet18_fp16_20260513_125323.engine --fp16
+/usr/src/tensorrt/bin/trtexec --loadEngine=artifacts/engines/resnet18_fp16_20260513_125323.engine --warmUp=500 --iterations=100
 ```
 
 ## Model / Protocol

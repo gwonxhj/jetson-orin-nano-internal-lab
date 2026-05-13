@@ -6,8 +6,8 @@
 
 | File | Purpose |
 |---|---|
-| `/home/risenano01/jetson-orin-nano-internal-lab/results/inferedge/resnet18_runtime_compare_20260513_133100/metadata.json` | Forge/Lab handoff metadata envelope |
-| `/home/risenano01/jetson-orin-nano-internal-lab/results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | Lab-compatible Runtime result envelope with comparison evidence |
+| `results/inferedge/resnet18_runtime_compare_20260513_133100/metadata.json` | Forge/Lab handoff metadata envelope |
+| `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | Lab-compatible Runtime result envelope with comparison evidence |
 
 ## Compatibility
 

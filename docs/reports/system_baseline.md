@@ -8,11 +8,11 @@
 | Field | Value |
 |---|---|
 | Date | 2026-05-13T12:28:06+09:00 |
-| Hostname | `nano01` |
+| Hostname | `jetson-orin-nano` |
 | Conda env | `yolo_env` |
 | Python | 3.10.12 |
 | Result JSON | `results/system/system_baseline_20260513_122758.json` |
-| Tegrastats log | `/home/risenano01/jetson-orin-nano-internal-lab/artifacts/system/tegrastats_system_baseline_20260513_122758.log` |
+| Tegrastats log | `artifacts/system/tegrastats_system_baseline_20260513_122758.log` |
 | Power mode | NV Power Mode: 25W; 1 |
 | Git commit | ed18b65 |
 

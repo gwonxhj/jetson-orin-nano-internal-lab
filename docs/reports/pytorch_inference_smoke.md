@@ -8,10 +8,10 @@
 | Field | Value |
 |---|---|
 | Date | 2026-05-13T12:52:53+09:00 |
-| Hostname | `nano01` |
+| Hostname | `jetson-orin-nano` |
 | Conda env | `yolo_env` |
 | Result JSON | `results/inference/pytorch_resnet18_20260513_125245.json` |
-| Tegrastats log | `/home/risenano01/jetson-orin-nano-internal-lab/artifacts/system/tegrastats_inference_resnet18_20260513_125245.log` |
+| Tegrastats log | `artifacts/system/tegrastats_inference_resnet18_20260513_125245.log` |
 | Power mode | NV Power Mode: 25W; 1 |
 | Git commit | 34d04fc |
 
