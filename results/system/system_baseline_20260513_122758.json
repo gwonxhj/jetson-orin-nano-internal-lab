@@ -1,0 +1,173 @@
+{
+  "metadata": {
+    "conda_env": "yolo_env",
+    "generated_at": "2026-05-13T12:28:06+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "ed18b65"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "## main...origin/main\n M scripts/run_system_baseline.sh\n?? artifacts/system/tegrastats_system_baseline_20260513_122758.log\n?? benchmarks/system/system_smoke_bench.py\n?? tests/test_system_baseline_json.py"
+    },
+    "hostname": "nano01",
+    "parameters": {
+      "cpu_iterations": 2000000,
+      "disk_mib": 64,
+      "matmul_size": 512,
+      "repeat": 5,
+      "warmup": 1
+    },
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "python_executable": "/home/risenano01/miniconda3/envs/yolo_env/bin/python3",
+    "python_version": "3.10.12",
+    "schema_version": "system-baseline-v1",
+    "tegrastats_note": "/home/risenano01/jetson-orin-nano-internal-lab/artifacts/system/tegrastats_system_baseline_20260513_122758.log"
+  },
+  "result": {
+    "benchmarks": [
+      {
+        "checksum": 96000141,
+        "count": 5,
+        "iterations": 2000000,
+        "max_ms": 543.0406,
+        "mean_ms": 516.7891,
+        "min_ms": 509.8108,
+        "name": "cpu_python_loop",
+        "p50_ms": 510.2317,
+        "p95_ms": 536.5952,
+        "samples_ms": [
+          543.0406,
+          510.2317,
+          510.0491,
+          509.8108,
+          510.8134
+        ],
+        "status": "ok",
+        "unit": "milliseconds"
+      },
+      {
+        "checksum": 137.802368,
+        "count": 5,
+        "dtype": "float32",
+        "max_ms": 4.2838,
+        "mean_ms": 2.9245,
+        "min_ms": 2.543,
+        "name": "numpy_matmul",
+        "p50_ms": 2.6173,
+        "p95_ms": 3.953,
+        "samples_ms": [
+          4.2838,
+          2.6173,
+          2.5483,
+          2.6302,
+          2.543
+        ],
+        "shape": [
+          512,
+          512
+        ],
+        "status": "ok",
+        "unit": "milliseconds"
+      },
+      {
+        "checksum": 118.010544,
+        "count": 5,
+        "device": "cpu",
+        "dtype": "float32",
+        "max_ms": 4.464,
+        "mean_ms": 4.0727,
+        "min_ms": 2.8324,
+        "name": "torch_cpu_matmul",
+        "p50_ms": 4.3821,
+        "p95_ms": 4.4538,
+        "samples_ms": [
+          2.8324,
+          4.4128,
+          4.3821,
+          4.464,
+          4.272
+        ],
+        "shape": [
+          512,
+          512
+        ],
+        "status": "ok",
+        "torch_version": "2.8.0",
+        "unit": "milliseconds"
+      },
+      {
+        "checksum": 128.533463,
+        "count": 5,
+        "device": "cuda",
+        "dtype": "float32",
+        "max_ms": 1.9133,
+        "mean_ms": 1.8951,
+        "min_ms": 1.877,
+        "name": "torch_cuda_matmul",
+        "p50_ms": 1.8937,
+        "p95_ms": 1.9109,
+        "samples_ms": [
+          1.9133,
+          1.877,
+          1.8937,
+          1.8906,
+          1.9011
+        ],
+        "shape": [
+          512,
+          512
+        ],
+        "status": "ok",
+        "torch_version": "2.8.0",
+        "unit": "milliseconds"
+      },
+      {
+        "approx_total_mib_per_second": 1006.8062,
+        "bytes_read": 67108864,
+        "count": 5,
+        "max_ms": 127.6864,
+        "mean_ms": 127.1347,
+        "mib_written_and_read_per_repeat": 64,
+        "min_ms": 126.2927,
+        "name": "disk_write_read_smoke",
+        "p50_ms": 127.3946,
+        "p95_ms": 127.6417,
+        "path": "/tmp",
+        "samples_ms": [
+          126.2927,
+          126.8369,
+          127.3946,
+          127.6864,
+          127.4627
+        ],
+        "status": "ok",
+        "unit": "milliseconds"
+      }
+    ],
+    "summary": "Jetson Orin Nano Day 1 system smoke baseline"
+  }
+}
