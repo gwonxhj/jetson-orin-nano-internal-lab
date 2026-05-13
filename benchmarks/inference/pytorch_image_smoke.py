@@ -90,8 +90,9 @@ def build_model(model_name: str):
 def state_dict_sha256(model: Any) -> str:
     import torch
 
+    canonical = {name: tensor.detach().cpu() for name, tensor in model.state_dict().items()}
     buffer = io.BytesIO()
-    torch.save(model.state_dict(), buffer)
+    torch.save(canonical, buffer)
     return hashlib.sha256(buffer.getvalue()).hexdigest()
 
 

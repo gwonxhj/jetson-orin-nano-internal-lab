@@ -7,13 +7,13 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-05-13T12:38:03+09:00 |
+| Date | 2026-05-13T12:52:53+09:00 |
 | Hostname | `nano01` |
 | Conda env | `yolo_env` |
-| Result JSON | `results/inference/pytorch_resnet18_20260513_123756.json` |
-| Tegrastats log | `/home/risenano01/jetson-orin-nano-internal-lab/artifacts/system/tegrastats_inference_resnet18_20260513_123756.log` |
+| Result JSON | `results/inference/pytorch_resnet18_20260513_125245.json` |
+| Tegrastats log | `/home/risenano01/jetson-orin-nano-internal-lab/artifacts/system/tegrastats_inference_resnet18_20260513_125245.log` |
 | Power mode | NV Power Mode: 25W; 1 |
-| Git commit | 977bcc1 |
+| Git commit | 34d04fc |
 
 ## Model / Runtime
 
@@ -25,7 +25,7 @@
 | Architecture | resnet18 |
 | Weights | random_seeded_weights_no_pretrained_accuracy_claim |
 | Parameter count | 11689512 |
-| Model hash | `fb5581c023afb259497b342b2bec2c5a0066377101a7d38fe697fd019f0063d4` |
+| Canonical model hash | `9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245` |
 | Torch | 2.8.0 |
 | Torchvision | 0.23.0 |
 | CUDA device | Orin |
@@ -48,16 +48,16 @@
 |---|---:|
 | Warmup | 10 runs |
 | Repeat | 50 runs |
-| Mean | 11.6585 |
-| P50 | 11.5909 |
-| P95 | 15.8536 |
-| P99 | 16.1578 |
-| Min | 9.7131 |
-| Max | 16.158 |
+| Mean | 11.6289 |
+| P50 | 11.4165 |
+| P95 | 16.3123 |
+| P99 | 16.7595 |
+| Min | 9.7152 |
+| Max | 17.1059 |
 
 ## Notes
 
 - Random seeded weights mean this result must not be interpreted as ImageNet accuracy evidence.
 - The input is a deterministic synthetic tensor, so preprocessing cost is not included.
+- The model hash is computed from a canonical CPU state_dict so it can be compared with ONNX/TensorRT export evidence.
 - Backend, precision, input shape, warmup, repeat, model hash, and power mode are recorded for future TensorRT comparison.
-- This smoke result can be used as the PyTorch CUDA baseline before ONNX export and TensorRT engine build.
