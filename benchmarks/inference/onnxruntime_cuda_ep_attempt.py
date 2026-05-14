@@ -26,9 +26,9 @@ import numpy as np
 
 
 SENSITIVE_REPLACEMENTS = (
-    ("/home/risenano01", "[home]"),
-    ("risenano01", "jetson-user"),
-    ("nano01", "jetson-host"),
+    (str(Path.home()), "[home]"),
+    (Path.home().name, "jetson-user"),
+    (platform.node().split(".", 1)[0], "jetson-host"),
 )
 
 
