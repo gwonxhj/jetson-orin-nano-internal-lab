@@ -43,6 +43,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - LLM isolated env candidate probe and tiny text-generation smoke readiness evidence
 - LLM text-generation smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - InferEdge-compatible `metadata.json` / `result.json` export
+- CI-style InferEdge handoff schema validation
 
 제외:
 
@@ -562,6 +563,7 @@ InferEdge-compatible 핵심 필드:
 | LLM env candidate probe | `scripts/probe_llm_env_candidates.sh` | `results/llm/llm_env_candidates_20260515_010032.json` | `docs/reports/llm_env_candidate_probe.md` |
 | LLM text-generation smoke | `scripts/run_llm_smoke.sh` | `results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json` | `docs/reports/llm_text_generation_smoke.md` |
 | LLM InferEdge export | `scripts/export_llm_inferedge.sh` | `results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/result.json` | `docs/reports/llm_inferedge_export.md` |
+| InferEdge schema validation | `scripts/validate_inferedge_artifacts.sh` | all `results/inferedge/*/{metadata.json,result.json}` pairs | `docs/reports/inferedge_schema_validation.md` |
 | Portfolio final review | n/a | current evidence chain | `docs/reports/portfolio_final_review.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
@@ -605,6 +607,7 @@ python3 -m py_compile \
   scripts/export_fastapi_serving_inferedge.py \
   scripts/export_fastapi_whisper_serving_inferedge.py \
   scripts/export_llm_inferedge.py \
+  scripts/validate_inferedge_artifacts.py \
   tests/test_system_baseline_json.py \
   tests/test_cuda_compute_json.py \
   tests/test_inference_smoke_json.py \
@@ -624,9 +627,11 @@ python3 -m py_compile \
   tests/test_whisper_env_candidate_probe.py \
   tests/test_llm_env_candidate_probe.py \
   tests/test_llm_text_generation_smoke.py \
-  tests/test_llm_inferedge_export.py
+  tests/test_llm_inferedge_export.py \
+  tests/test_inferedge_artifact_validation.py
 
 bash -n scripts/*.sh
+bash scripts/validate_inferedge_artifacts.sh
 python3 tests/test_system_baseline_json.py
 python3 tests/test_cuda_compute_json.py
 python3 tests/test_inference_smoke_json.py
@@ -647,6 +652,7 @@ python3 tests/test_whisper_env_candidate_probe.py
 python3 tests/test_llm_env_candidate_probe.py
 python3 tests/test_llm_text_generation_smoke.py
 python3 tests/test_llm_inferedge_export.py
+python3 tests/test_inferedge_artifact_validation.py
 ```
 
 ## Interpretation Rules

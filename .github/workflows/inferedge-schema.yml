@@ -1,0 +1,20 @@
+name: InferEdge Schema Validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-inferedge-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate InferEdge handoff artifacts
+        run: python3 scripts/validate_inferedge_artifacts.py --json

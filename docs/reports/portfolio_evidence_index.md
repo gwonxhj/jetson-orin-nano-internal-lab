@@ -16,7 +16,7 @@
 | 4 | Serving layer | ResNet18 inference와 Whisper speech transcription을 localhost FastAPI API로 감싸 client/server latency, short concurrency smoke, API 사용 흐름을 확인합니다. | [FastAPI server smoke](fastapi_resnet18_server_smoke.md), [FastAPI concurrency smoke](fastapi_concurrency_smoke.md), [FastAPI Whisper smoke](fastapi_whisper_speech_server_smoke.md), [API usage](fastapi_api_usage.md), [Serving boundary](serving_boundary_notes.md) |
 | 5 | Audio inference | Whisper synthetic tone path smoke와 license-clear generated speech transcription smoke를 분리합니다. | [Whisper synthetic path smoke](whisper_transcription_smoke.md), [Whisper speech smoke](whisper_speech_transcription_smoke.md) |
 | 6 | Text inference readiness | 기존 `yolo_env`를 변경하지 않고 LLM 후보 env와 tiny text-generation smoke readiness를 기록합니다. | [LLM env candidate probe](llm_env_candidate_probe.md), [LLM text generation smoke](llm_text_generation_smoke.md) |
-| 7 | InferEdge handoff | ResNet18 runtime, FastAPI image/audio serving, Whisper speech, LLM text-generation 결과를 `metadata.json` / `result.json` handoff evidence로 변환합니다. | [Runtime InferEdge export](inferedge_export.md), [FastAPI InferEdge export](fastapi_inferedge_export.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md), [Whisper InferEdge export](whisper_inferedge_export.md), [LLM InferEdge export](llm_inferedge_export.md) |
+| 7 | InferEdge handoff | ResNet18 runtime, FastAPI image/audio serving, Whisper speech, LLM text-generation 결과를 `metadata.json` / `result.json` handoff evidence로 변환하고 schema validation으로 drift를 확인합니다. | [Runtime InferEdge export](inferedge_export.md), [FastAPI InferEdge export](fastapi_inferedge_export.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md), [Whisper InferEdge export](whisper_inferedge_export.md), [LLM InferEdge export](llm_inferedge_export.md), [InferEdge schema validation](inferedge_schema_validation.md) |
 
 ## Evidence Tracks
 
@@ -35,6 +35,7 @@
 - Whisper tiny can run in an isolated `whisper_env` and transcribe a license-clear generated speech sample on CUDA.
 - LLM text-generation support runs in an isolated `llm_env`; current tiny-gpt2 CUDA path smoke succeeded while stable `yolo_env` remains unmodified.
 - InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime, FastAPI image serving, FastAPI audio serving, audio transcription, and LLM text-generation tracks.
+- CI-style schema validation now checks all committed InferEdge handoff pairs for schema semantics and artifact sha256 drift.
 
 ## What This Does Not Prove
 

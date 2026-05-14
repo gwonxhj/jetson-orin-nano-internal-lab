@@ -42,7 +42,7 @@
 | Area | Review |
 |---|---|
 | First impression | README now leads with representative evidence and delegates the long map to the evidence index. |
-| Traceability | Major reports point to scripts, JSON results, raw logs, and InferEdge handoff artifacts. |
+| Traceability | Major reports point to scripts, JSON results, raw logs, InferEdge handoff artifacts, and schema validation. |
 | Safety of claims | Reports consistently mark smoke evidence as non-deployment and non-quality proof where appropriate. |
 | Reproducibility | Key runs record environment, precision, backend/provider, warmup/repeat, hashes, and generated artifacts. |
 | Public risk | No external hardware dependency or local absolute path is needed for the portfolio narrative. |
@@ -52,7 +52,7 @@
 1. **Serving realism**: add a slightly longer FastAPI soak or burst test with resource telemetry, still labeled as localhost evidence.
 2. **LLM follow-up model**: try a small but less toy text model after recording model license, cache path, memory use, and latency conditions.
 3. **Evidence packaging**: keep [Evidence release notes](evidence_release_notes.md) updated when the public snapshot changes.
-4. **Automation**: add CI-style schema checks for `results/inferedge/**/metadata.json` and `result.json` so future evidence changes cannot silently break handoff compatibility.
+4. **Automation**: keep `.github/workflows/inferedge-schema.yml` green and extend it if new handoff roles are added.
 
 ## Final Interpretation
 

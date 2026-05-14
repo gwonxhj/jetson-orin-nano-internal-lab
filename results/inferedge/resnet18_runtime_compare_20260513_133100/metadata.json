@@ -10,13 +10,13 @@
       "format": "json",
       "path": "results/inferedge/resnet18_runtime_compare_20260513_133100/result.json",
       "role": "runtime_result",
-      "sha256": "dbcc328c888ff5a12188f3c0c6120961e17d44f6df6a80a30f373fee561ac51c"
+      "sha256": "339093cec00407726870d3f2b018155fd1623bb66dcf5c862fa13630f85e1d39"
     },
     {
       "format": "json",
       "path": "results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_tensorrt_fp16_20260513_131115.json",
       "role": "runtime_comparison",
-      "sha256": "8a1fbb4404908059fbbcd78abec41f5230167cfe15b029e7651b0de7a65f37e0"
+      "sha256": "ff9d2cd727d85ee59ce4b81bf6408318469d05c305a8dcd426eb022cfd36fef3"
     }
   ],
   "build": {

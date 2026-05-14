@@ -27,6 +27,7 @@
 | Whisper offline transcription | [Whisper speech smoke](whisper_speech_transcription_smoke.md), [Whisper InferEdge export](whisper_inferedge_export.md) | `results/inference/whisper_tiny_speech_transcription_20260514_182822.json` | `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/` |
 | FastAPI Whisper serving | [FastAPI Whisper smoke](fastapi_whisper_speech_server_smoke.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md) | `results/inference/fastapi_whisper_speech_server_20260514_202459.json` | `results/inferedge/fastapi_whisper_serving_20260514_202459/` |
 | LLM text generation | [LLM text generation smoke](llm_text_generation_smoke.md), [LLM InferEdge export](llm_inferedge_export.md) | `results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json` | `results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/` |
+| InferEdge schema validation | [InferEdge schema validation](inferedge_schema_validation.md) | `scripts/validate_inferedge_artifacts.py`, `.github/workflows/inferedge-schema.yml` | all committed `results/inferedge/*/` pairs |
 
 ## Snapshot Claim Boundary
 
@@ -72,6 +73,7 @@ LLM_ALLOW_DOWNLOAD=1 conda run -n llm_env bash scripts/run_llm_smoke.sh tiny-gpt
 - README first screen points to the evidence index and final review.
 - Core reports link back to JSON results, raw logs, or handoff directories.
 - InferEdge handoff directories include both `metadata.json` and `result.json`.
+- `bash scripts/validate_inferedge_artifacts.sh` passes before sharing a snapshot.
 - Smoke reports keep boundary language explicit and avoid deployment-ready claims.
 - Local absolute paths and private host details are not required to understand the public narrative.
 
