@@ -7,13 +7,13 @@
 | Field | Result |
 |---|---|
 | Repository | `gwonxhj/jetson-orin-nano-internal-lab` |
-| Current commit checked | `5ca1115` |
+| Source snapshot checked | `5ca1115` |
 | GitHub visibility observed | `public` |
 | Default branch | `main` |
 | Blocking public-safety issue | none found |
 | Visibility change performed | none |
 
-The repository is already public at the time of this check. This report therefore records a post-public safety review rather than a visibility conversion step.
+The repository is already public at the time of this check. `5ca1115` is the source snapshot scanned before this report was committed, and the report itself is tracked by the commit that contains this file.
 
 ## GitHub Repo Card
 
