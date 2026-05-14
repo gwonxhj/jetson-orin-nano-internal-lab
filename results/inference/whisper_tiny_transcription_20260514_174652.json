@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "conda_env": "yolo_env",
+    "generated_at": "2026-05-14T17:46:53+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "a3005bd"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "isolation": {
+      "download_allowed": false,
+      "existing_env_modified": false,
+      "install_command_executed": false,
+      "offline_only": true
+    },
+    "package": {
+      "available": false,
+      "module": "whisper",
+      "version": ""
+    },
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "python_executable": "[home]/miniconda3/envs/yolo_env/bin/python3",
+    "python_version": "3.10.12",
+    "schema_version": "whisper-transcription-smoke-v1",
+    "tegrastats_note": "artifacts/system/tegrastats_whisper_tiny_20260514_174652.log"
+  },
+  "result": {
+    "audio": {
+      "channels": 1,
+      "duration_s": 1.0,
+      "format": "wav",
+      "frames": 16000,
+      "path": "artifacts/audio/whisper_smoke_16khz.wav",
+      "sample_rate_hz": 16000,
+      "sample_width_bytes": 2,
+      "sha256": "cb9568ee93b04dba4a309580b45a0369e486682e2e57305ac8f302630bb8e2ea",
+      "source": "generated_synthetic_tone_no_speech_accuracy_claim"
+    },
+    "backend": "auto",
+    "failure_reason": "",
+    "framework": "whisper",
+    "interpretation": {
+      "accuracy_claim": false,
+      "deployment_ready_claim": false,
+      "external_sensor_dependency": false,
+      "notes": "Synthetic tone input is used only to validate the local audio inference path."
+    },
+    "latency_ms": {
+      "count": 0,
+      "samples_ms": []
+    },
+    "model": {
+      "cache_path": "[home]/.cache/whisper/tiny.pt",
+      "cache_present": false,
+      "family": "whisper",
+      "name": "tiny"
+    },
+    "precision": "fp32_or_fp16_by_device",
+    "runtime": {
+      "language": "en",
+      "repeat": 1,
+      "warmup": 0
+    },
+    "status": "dependency_missing",
+    "success": false,
+    "task": "audio_transcription_smoke",
+    "transcription": {
+      "language": "en",
+      "segments": [],
+      "text": ""
+    }
+  }
+}

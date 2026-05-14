@@ -13,6 +13,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [FastAPI API usage report](docs/reports/fastapi_api_usage.md) — `/health`, `/v1/models`, `/v1/infer/resnet18/synthetic` 호출 흐름과 evidence 산출물 연결을 설명합니다.
 - [FastAPI serving boundary notes](docs/reports/serving_boundary_notes.md) — localhost smoke가 증명하는 것과 증명하지 않는 것을 분리해 deployment-ready 오해를 막습니다.
 - [FastAPI InferEdge serving export](docs/reports/fastapi_inferedge_export.md) — FastAPI localhost serving smoke를 InferEdge-compatible `metadata.json` / `result.json` evidence로 변환합니다.
+- [Whisper transcription smoke](docs/reports/whisper_transcription_smoke.md) — 외부 마이크 없이 synthetic WAV로 Whisper tiny/base offline transcription path 준비 상태를 evidence로 기록합니다.
 - [ONNX Runtime CUDA EP activation attempt](docs/reports/onnxruntime_cuda_ep_activation_attempt.md) — 기존 `yolo_env`를 변경하지 않고 CUDAExecutionProvider 활성화 가능 여부를 evidence로 기록합니다.
 - [InferEdge-compatible export report](docs/reports/inferedge_export.md) — runtime comparison 결과를 `metadata.json` / `result.json` handoff evidence로 변환한 내용을 설명합니다.
 
@@ -35,6 +36,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - FastAPI `/health`, `/v1/models`, `/v1/infer/resnet18/synthetic` API usage flow
 - FastAPI localhost serving boundary notes
 - FastAPI serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export
+- Whisper tiny/base offline transcription smoke
 - InferEdge-compatible `metadata.json` / `result.json` export
 
 제외:
@@ -361,6 +363,27 @@ InferEdge-compatible 핵심 필드:
 - `metadata.json`: `schema_version`, `source_model`, `artifacts`, `build`, `handoff`, `lab_compat`
 - `result.json`: `schema_version`, `compare_key`, `backend_key`, `mean_ms`, `p95_ms`, `p99_ms`, `latency_ms`, `jetson_evidence`, `extra.compare_ready`, `comparison`
 
+### 14. Whisper Offline Transcription Smoke
+
+외부 마이크 없이 synthetic 16kHz WAV를 생성하고, Whisper tiny/base offline transcription path의 준비 상태를 기록합니다. 이 runner는 기본적으로 패키지를 설치하거나 model weight를 다운로드하지 않으므로, 현재 환경에서는 `dependency_missing`도 정상적인 evidence 상태입니다.
+
+```bash
+bash scripts/run_whisper_smoke.sh tiny
+```
+
+주요 산출물:
+
+- `artifacts/audio/whisper_smoke_16khz.wav`
+- `artifacts/system/tegrastats_whisper_tiny_20260514_174652.log`
+- `results/inference/whisper_tiny_transcription_20260514_174652.json`
+- `docs/reports/whisper_transcription_smoke.md`
+
+현재 Whisper smoke 결과:
+
+| Model | Status | Audio | Package install/download |
+|---|---|---|---|
+| `tiny` | `dependency_missing` | generated 1.0s 16kHz WAV | not executed |
+
 ## Evidence Map
 
 | Stage | Script | Result | Report |
@@ -382,6 +405,7 @@ InferEdge-compatible 핵심 필드:
 | FastAPI API usage | n/a | existing FastAPI server smoke and serving export results | `docs/reports/fastapi_api_usage.md` |
 | FastAPI serving boundary | n/a | existing FastAPI server smoke and serving export results | `docs/reports/serving_boundary_notes.md` |
 | FastAPI serving InferEdge export | `scripts/export_fastapi_serving_inferedge.sh` | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` | `docs/reports/fastapi_inferedge_export.md` |
+| Whisper transcription smoke | `scripts/run_whisper_smoke.sh` | `results/inference/whisper_tiny_transcription_20260514_174652.json` | `docs/reports/whisper_transcription_smoke.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
 ## Repository Layout
@@ -412,6 +436,7 @@ python3 -m py_compile \
   benchmarks/inference/onnxruntime_tensorrt_cache_bench.py \
   benchmarks/inference/ort_cuda_wheel_candidate_probe.py \
   benchmarks/inference/fastapi_resnet18_client_smoke.py \
+  benchmarks/inference/whisper_transcription_smoke.py \
   benchmarks/tensorrt/resnet18_trtexec_smoke.py \
   benchmarks/runtime_compare/build_runtime_comparison.py \
   src/server/resnet18_app.py \
@@ -427,7 +452,8 @@ python3 -m py_compile \
   tests/test_runtime_comparison.py \
   tests/test_inferedge_export.py \
   tests/test_fastapi_server_smoke.py \
-  tests/test_fastapi_inferedge_export.py
+  tests/test_fastapi_inferedge_export.py \
+  tests/test_whisper_transcription_smoke.py
 
 bash -n scripts/*.sh
 python3 tests/test_system_baseline_json.py
@@ -442,6 +468,7 @@ python3 tests/test_runtime_comparison.py
 python3 tests/test_inferedge_export.py
 python3 tests/test_fastapi_server_smoke.py
 python3 tests/test_fastapi_inferedge_export.py
+python3 tests/test_whisper_transcription_smoke.py
 ```
 
 ## Interpretation Rules
