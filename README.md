@@ -11,6 +11,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [Runtime comparison report](docs/reports/runtime_comparison.md) — PyTorch CUDA FP32와 TensorRT FP16 결과를 direct regression이 아닌 system/runtime comparison evidence로 정리합니다.
 - [FastAPI ResNet18 server smoke](docs/reports/fastapi_resnet18_server_smoke.md) — ResNet18 PyTorch CUDA path를 localhost FastAPI serving layer로 감싼 client/server latency evidence입니다.
 - [FastAPI API usage report](docs/reports/fastapi_api_usage.md) — `/health`, `/v1/models`, `/v1/infer/resnet18/synthetic` 호출 흐름과 evidence 산출물 연결을 설명합니다.
+- [FastAPI serving boundary notes](docs/reports/serving_boundary_notes.md) — localhost smoke가 증명하는 것과 증명하지 않는 것을 분리해 deployment-ready 오해를 막습니다.
 - [FastAPI InferEdge serving export](docs/reports/fastapi_inferedge_export.md) — FastAPI localhost serving smoke를 InferEdge-compatible `metadata.json` / `result.json` evidence로 변환합니다.
 - [ONNX Runtime CUDA EP activation attempt](docs/reports/onnxruntime_cuda_ep_activation_attempt.md) — 기존 `yolo_env`를 변경하지 않고 CUDAExecutionProvider 활성화 가능 여부를 evidence로 기록합니다.
 - [InferEdge-compatible export report](docs/reports/inferedge_export.md) — runtime comparison 결과를 `metadata.json` / `result.json` handoff evidence로 변환한 내용을 설명합니다.
@@ -32,6 +33,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - PyTorch CUDA FP32 vs ONNX Runtime CPU FP32 vs ONNX Runtime CUDA FP32 vs ONNX Runtime TensorRT FP32 vs TensorRT FP16 runtime comparison
 - FastAPI localhost ResNet18 inference server smoke
 - FastAPI `/health`, `/v1/models`, `/v1/infer/resnet18/synthetic` API usage flow
+- FastAPI localhost serving boundary notes
 - FastAPI serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - InferEdge-compatible `metadata.json` / `result.json` export
 
@@ -308,6 +310,7 @@ bash scripts/run_fastapi_server_smoke.sh
 - `artifacts/system/tegrastats_fastapi_resnet18_20260514_142053.log`
 - `docs/reports/fastapi_resnet18_server_smoke.md`
 - `docs/reports/fastapi_api_usage.md`
+- `docs/reports/serving_boundary_notes.md`
 
 현재 FastAPI server smoke 결과:
 
@@ -377,6 +380,7 @@ InferEdge-compatible 핵심 필드:
 | Runtime matrix summary | n/a | existing runtime/cache results | `docs/reports/resnet18_runtime_matrix_summary.md` |
 | FastAPI server smoke | `scripts/run_fastapi_server_smoke.sh` | `results/inference/fastapi_resnet18_server_20260514_142053.json` | `docs/reports/fastapi_resnet18_server_smoke.md` |
 | FastAPI API usage | n/a | existing FastAPI server smoke and serving export results | `docs/reports/fastapi_api_usage.md` |
+| FastAPI serving boundary | n/a | existing FastAPI server smoke and serving export results | `docs/reports/serving_boundary_notes.md` |
 | FastAPI serving InferEdge export | `scripts/export_fastapi_serving_inferedge.sh` | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` | `docs/reports/fastapi_inferedge_export.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
