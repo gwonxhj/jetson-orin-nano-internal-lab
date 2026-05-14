@@ -367,24 +367,25 @@ InferEdge-compatible 핵심 필드:
 
 ### 14. Whisper Offline Transcription Smoke
 
-외부 마이크 없이 synthetic 16kHz WAV를 생성하고, Whisper tiny/base offline transcription path의 준비 상태를 기록합니다. 이 runner는 기본적으로 패키지를 설치하거나 model weight를 다운로드하지 않으므로, 현재 환경에서는 `dependency_missing`도 정상적인 evidence 상태입니다.
+외부 마이크 없이 synthetic 16kHz WAV를 생성하고, Whisper tiny/base offline transcription path의 준비 상태를 기록합니다. 이 runner는 기본적으로 패키지를 설치하거나 model weight를 다운로드하지 않으므로, `dependency_missing`과 `model_missing`도 정상적인 evidence 상태입니다.
 
 ```bash
 bash scripts/run_whisper_smoke.sh tiny
+WHISPER_ALLOW_DOWNLOAD=1 conda run -n whisper_env bash scripts/run_whisper_smoke.sh tiny
 ```
 
 주요 산출물:
 
 - `artifacts/audio/whisper_smoke_16khz.wav`
-- `artifacts/system/tegrastats_whisper_tiny_20260514_174652.log`
-- `results/inference/whisper_tiny_transcription_20260514_174652.json`
+- `artifacts/system/tegrastats_whisper_tiny_20260514_180622.log`
+- `results/inference/whisper_tiny_transcription_20260514_180622.json`
 - `docs/reports/whisper_transcription_smoke.md`
 
 현재 Whisper smoke 결과:
 
-| Model | Status | Audio | Package install/download |
-|---|---|---|---|
-| `tiny` | `dependency_missing` | generated 1.0s 16kHz WAV | not executed |
+| Model | Status | Env | Backend | Mean ms | Real-time factor | Package install/download |
+|---|---|---|---|---:|---:|---|
+| `tiny` | `succeeded` | `whisper_env` | `cuda` | 1766.6792 | 1.7667 | `openai-whisper` installed in isolated env, tiny weight cache present |
 
 ### 15. Whisper Env Candidate Probe
 
@@ -400,6 +401,8 @@ bash scripts/create_whisper_env.sh
 ```bash
 bash scripts/create_whisper_env.sh --execute
 ```
+
+현재 `whisper_env`는 `create_whisper_env.sh --execute`로 생성되었고, `openai-whisper==20250625`가 설치된 상태에서 tiny transcription smoke를 성공 evidence로 갱신했습니다. 기존 `yolo_env`에는 Whisper package를 직접 설치하지 않았습니다.
 
 주요 산출물:
 
@@ -434,7 +437,7 @@ bash scripts/create_whisper_env.sh --execute
 | FastAPI API usage | n/a | existing FastAPI server smoke and serving export results | `docs/reports/fastapi_api_usage.md` |
 | FastAPI serving boundary | n/a | existing FastAPI server smoke and serving export results | `docs/reports/serving_boundary_notes.md` |
 | FastAPI serving InferEdge export | `scripts/export_fastapi_serving_inferedge.sh` | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` | `docs/reports/fastapi_inferedge_export.md` |
-| Whisper transcription smoke | `scripts/run_whisper_smoke.sh` | `results/inference/whisper_tiny_transcription_20260514_174652.json` | `docs/reports/whisper_transcription_smoke.md` |
+| Whisper transcription smoke | `scripts/run_whisper_smoke.sh` | `results/inference/whisper_tiny_transcription_20260514_180622.json` | `docs/reports/whisper_transcription_smoke.md` |
 | Whisper env candidate probe | `scripts/probe_whisper_env_candidates.sh` | `results/inference/whisper_env_candidates_20260514_175410.json` | `docs/reports/whisper_env_candidate_probe.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 

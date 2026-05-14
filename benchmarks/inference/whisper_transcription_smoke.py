@@ -178,6 +178,10 @@ def build_report(payload: dict[str, Any]) -> str:
         f"| Python | `{meta['python_version']}` |",
         f"| Package | `{meta['package']['module']}` available: {meta['package']['available']} |",
         f"| Model | `{result['model']['name']}` |",
+        f"| Model cache present | {result['model']['cache_present']} |",
+        f"| Model cache path | `{result['model']['cache_path']}` |",
+        f"| Download allowed | {meta['isolation']['download_allowed']} |",
+        f"| Offline only | {meta['isolation']['offline_only']} |",
         f"| Status | `{result['status']}` |",
         f"| Failure reason | `{result['failure_reason'] or 'none'}` |",
         "",
@@ -287,6 +291,7 @@ def main() -> int:
                 status = "failed"
                 failure_reason = repr(exc)
 
+    cache_present = cache_path.exists()
     payload = {
         "metadata": {
             "schema_version": "whisper-transcription-smoke-v1",

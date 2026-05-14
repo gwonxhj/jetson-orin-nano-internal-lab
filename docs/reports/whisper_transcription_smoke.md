@@ -7,13 +7,17 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-05-14T17:46:53+09:00 |
+| Date | 2026-05-14T18:06:30+09:00 |
 | Hostname | `jetson-orin-nano` |
-| Conda env | `yolo_env` |
+| Conda env | `whisper_env` |
 | Python | `3.10.12` |
-| Package | `whisper` available: False |
+| Package | `whisper` available: True |
 | Model | `tiny` |
-| Status | `dependency_missing` |
+| Model cache present | True |
+| Model cache path | `[home]/.cache/whisper/tiny.pt` |
+| Download allowed | True |
+| Offline only | False |
+| Status | `succeeded` |
 | Failure reason | `none` |
 
 ## Audio Input
@@ -32,9 +36,9 @@
 |---|---:|
 | Warmup | 0 |
 | Repeat | 1 |
-| Mean ms | not measured |
-| P95 ms | not measured |
-| Real-time factor | not measured |
+| Mean ms | 1766.6792 |
+| P95 ms | 1766.6792 |
+| Real-time factor | 1.7667 |
 
 ## Transcript Preview
 

@@ -11,6 +11,11 @@ TEGRSTATS_REL="artifacts/system/tegrastats_whisper_${MODEL}_${STAMP}.log"
 AUDIO_FILE="${ROOT_DIR}/${AUDIO_REL}"
 TEGRSTATS_LOG="${ROOT_DIR}/${TEGRSTATS_REL}"
 PID=""
+ALLOW_DOWNLOAD_ARGS=()
+
+if [ "${WHISPER_ALLOW_DOWNLOAD:-0}" = "1" ]; then
+  ALLOW_DOWNLOAD_ARGS=(--allow-download)
+fi
 
 mkdir -p "${ROOT_DIR}/results/inference" "${ROOT_DIR}/docs/reports" "${ROOT_DIR}/artifacts/audio" "${ROOT_DIR}/artifacts/system"
 
@@ -43,7 +48,8 @@ python3 "${ROOT_DIR}/benchmarks/inference/whisper_transcription_smoke.py" \
   --warmup 0 \
   --repeat 1 \
   --language en \
-  --tegrastats-log "${TEGRSTATS_REL}"
+  --tegrastats-log "${TEGRSTATS_REL}" \
+  "${ALLOW_DOWNLOAD_ARGS[@]}"
 
 printf 'Wrote result: %s\n' "${RESULT_FILE}"
 printf 'Wrote report: %s\n' "${REPORT_FILE}"
