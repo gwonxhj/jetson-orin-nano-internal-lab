@@ -51,7 +51,7 @@
 
 1. **Serving realism**: add a slightly longer FastAPI soak or burst test with resource telemetry, still labeled as localhost evidence.
 2. **LLM follow-up model**: try a small but less toy text model after recording model license, cache path, memory use, and latency conditions.
-3. **Evidence packaging**: add a release-style `docs/reports/evidence_release_notes.md` that lists the exact artifacts included in a public portfolio snapshot.
+3. **Evidence packaging**: keep [Evidence release notes](evidence_release_notes.md) updated when the public snapshot changes.
 4. **Automation**: add CI-style schema checks for `results/inferedge/**/metadata.json` and `result.json` so future evidence changes cannot silently break handoff compatibility.
 
 ## Final Interpretation

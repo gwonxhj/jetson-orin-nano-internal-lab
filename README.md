@@ -13,7 +13,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [Whisper / FastAPI Whisper exports](docs/reports/portfolio_evidence_index.md) — Offline transcription과 FastAPI serving 결과를 `metadata.json` / `result.json` handoff evidence로 연결합니다.
 
 전체 report map과 보조 evidence 링크는 [portfolio evidence index](docs/reports/portfolio_evidence_index.md)와 [Evidence Map](#evidence-map)에 위임합니다.
-공개 포트폴리오 관점의 최종 해석은 [portfolio final review](docs/reports/portfolio_final_review.md)에 정리합니다.
+공개 포트폴리오 관점의 최종 해석은 [portfolio final review](docs/reports/portfolio_final_review.md)에 정리하고, 현재 공개 snapshot에 포함된 핵심 artifact는 [evidence release notes](docs/reports/evidence_release_notes.md)에 묶습니다.
 
 ## Scope
 
