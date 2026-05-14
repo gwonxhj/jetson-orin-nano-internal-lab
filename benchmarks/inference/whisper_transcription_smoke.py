@@ -15,6 +15,7 @@ import json
 import math
 import os
 import platform
+import re
 import socket
 import statistics
 import subprocess
@@ -30,6 +31,8 @@ MODEL_CACHE_FILES = {
     "tiny": "tiny.pt",
     "base": "base.pt",
 }
+
+DEFAULT_AUDIO_SOURCE = "generated_synthetic_tone_no_speech_accuracy_claim"
 
 
 def display_path(path: Path) -> str:
@@ -97,6 +100,10 @@ def summarize(samples_ms: list[float]) -> dict[str, Any]:
     }
 
 
+def normalize_transcript(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", " ", text.lower()).strip()
+
+
 def timed_repeats(fn: Callable[[], Any], repeat: int, warmup: int) -> tuple[dict[str, Any], Any]:
     last_value: Any = None
     for _ in range(warmup):
@@ -162,11 +169,13 @@ def build_report(payload: dict[str, Any]) -> str:
     latency = result["latency_ms"]
     transcript = result["transcription"].get("text", "")
     transcript_preview = transcript if transcript else "(empty or not measured)"
+    expected_text = result["transcription"].get("expected_text", "")
+    expected_row = f"| Expected text | `{expected_text}` |" if expected_text else "| Expected text | `not provided` |"
     return "\n".join([
         "# Whisper Transcription Smoke Report",
         "",
         "> Whisper tiny/base offline transcription path를 Jetson에서 evidence로 남기기 위한 smoke report입니다.",
-        "> Synthetic tone input은 accuracy evidence가 아니라 audio decode/model path evidence입니다.",
+        "> Synthetic tone input은 audio decode/model path evidence이고, license-clear generated speech는 transcription path evidence입니다.",
         "",
         "## Run Information",
         "",
@@ -194,6 +203,7 @@ def build_report(payload: dict[str, Any]) -> str:
         f"| Duration s | {result['audio']['duration_s']} |",
         f"| Sample rate Hz | {result['audio']['sample_rate_hz']} |",
         f"| Source | `{result['audio']['source']}` |",
+        expected_row,
         "",
         "## Runtime",
         "",
@@ -216,6 +226,7 @@ def build_report(payload: dict[str, Any]) -> str:
         "- This runner does not install packages or download model weights by default.",
         "- `dependency_missing` and `model_missing` are valid evidence states, not test failures.",
         "- Synthetic tone input does not prove speech recognition quality.",
+        "- License-clear generated speech input is a transcription-path smoke, not a broad accuracy benchmark.",
         "- A future speech sample should be committed only if it is safe to publish and license-clear.",
         "",
     ])
@@ -231,23 +242,35 @@ def main() -> int:
     parser.add_argument("--warmup", type=int, default=0)
     parser.add_argument("--repeat", type=int, default=1)
     parser.add_argument("--language", default="en")
+    parser.add_argument("--audio-source", default=DEFAULT_AUDIO_SOURCE)
+    parser.add_argument("--expected-text", default="")
     parser.add_argument("--offline-only", action="store_true", default=True)
     parser.add_argument("--allow-download", action="store_true")
     parser.add_argument("--tegrastats-log", default="")
     args = parser.parse_args()
 
-    if not args.audio.exists():
+    if not args.audio.exists() and args.audio_source == DEFAULT_AUDIO_SOURCE:
         generate_tone_wav(args.audio, sample_rate=16000, duration_s=1.0, frequency_hz=440.0)
+    elif not args.audio.exists():
+        raise FileNotFoundError(f"audio file not found: {display_path(args.audio)}")
 
     audio = wav_metadata(args.audio)
-    audio["source"] = "generated_synthetic_tone_no_speech_accuracy_claim"
+    audio["source"] = args.audio_source
     package = whisper_package_info()
     cache_path = default_cache_path(args.model)
     cache_present = cache_path.exists()
     status = "dependency_missing"
     failure_reason = ""
     latency = {"samples_ms": [], "count": 0}
-    transcription: dict[str, Any] = {"text": "", "segments": [], "language": args.language}
+    transcription: dict[str, Any] = {
+        "text": "",
+        "language": args.language,
+        "expected_text": args.expected_text,
+        "normalized_text": "",
+        "normalized_expected_text": normalize_transcript(args.expected_text),
+        "normalized_contains_expected": False,
+        "segments": [],
+    }
     runtime_extra: dict[str, Any] = {}
 
     if package["available"]:
@@ -274,9 +297,15 @@ def main() -> int:
 
                 latency, last = timed_repeats(work, args.repeat, args.warmup)
                 text = str(last.get("text", "")).strip()
+                normalized_text = normalize_transcript(text)
+                normalized_expected = normalize_transcript(args.expected_text)
                 transcription = {
                     "text": text,
                     "language": last.get("language", args.language),
+                    "expected_text": args.expected_text,
+                    "normalized_text": normalized_text,
+                    "normalized_expected_text": normalized_expected,
+                    "normalized_contains_expected": bool(normalized_expected and normalized_expected in normalized_text),
                     "segments": [
                         {"start": round(float(segment.get("start", 0.0)), 3), "end": round(float(segment.get("end", 0.0)), 3), "text": str(segment.get("text", "")).strip()}
                         for segment in last.get("segments", [])
@@ -340,7 +369,7 @@ def main() -> int:
                 "accuracy_claim": False,
                 "deployment_ready_claim": False,
                 "external_sensor_dependency": False,
-                "notes": "Synthetic tone input is used only to validate the local audio inference path.",
+                "notes": "Synthetic tone and license-clear generated speech inputs validate local audio/model paths but do not establish broad recognition accuracy.",
             },
         },
     }

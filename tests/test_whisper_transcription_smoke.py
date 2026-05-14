@@ -31,6 +31,8 @@ def main() -> int:
                 "0",
                 "--repeat",
                 "1",
+                "--expected-text",
+                "edge ai lab speech sample",
             ],
             cwd=repo,
             check=True,
@@ -46,6 +48,9 @@ def main() -> int:
     assert payload["result"]["model"]["name"] == "tiny"
     assert payload["result"]["audio"]["sample_rate_hz"] == 16000
     assert payload["result"]["audio"]["duration_s"] == 1.0
+    assert payload["result"]["audio"]["source"] == "generated_synthetic_tone_no_speech_accuracy_claim"
+    assert payload["result"]["transcription"]["expected_text"] == "edge ai lab speech sample"
+    assert payload["result"]["transcription"]["normalized_expected_text"] == "edge ai lab speech sample"
     assert payload["result"]["status"] in {"succeeded", "failed", "dependency_missing", "model_missing"}
     assert payload["result"]["interpretation"]["accuracy_claim"] is False
     assert "Whisper Transcription Smoke Report" in markdown

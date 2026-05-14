@@ -1,0 +1,121 @@
+{
+  "metadata": {
+    "conda_env": "whisper_env",
+    "generated_at": "2026-05-14T18:28:29+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "1857037"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "isolation": {
+      "download_allowed": true,
+      "existing_env_modified": false,
+      "install_command_executed": false,
+      "offline_only": false
+    },
+    "package": {
+      "available": true,
+      "module": "whisper",
+      "version": "20250625"
+    },
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "python_executable": "[home]/miniconda3/envs/whisper_env/bin/python3",
+    "python_version": "3.10.12",
+    "schema_version": "whisper-transcription-smoke-v1",
+    "tegrastats_note": "artifacts/system/tegrastats_whisper_speech_tiny_20260514_182822.log"
+  },
+  "result": {
+    "audio": {
+      "channels": 1,
+      "duration_s": 1.235,
+      "format": "wav",
+      "frames": 19760,
+      "path": "examples/audio/license_clear_whisper_smoke.wav",
+      "sample_rate_hz": 16000,
+      "sample_width_bytes": 2,
+      "sha256": "5eb101e247c9ab4f6743c48256e1e783ab57be418d12647bae315cb953d577dc",
+      "source": "generated_license_clear_ffmpeg_flite_text_to_speech"
+    },
+    "backend": "cuda",
+    "failure_reason": "",
+    "framework": "whisper",
+    "interpretation": {
+      "accuracy_claim": false,
+      "deployment_ready_claim": false,
+      "external_sensor_dependency": false,
+      "notes": "Synthetic tone and license-clear generated speech inputs validate local audio/model paths but do not establish broad recognition accuracy."
+    },
+    "latency_ms": {
+      "count": 1,
+      "max_ms": 1701.2686,
+      "mean_ms": 1701.2686,
+      "min_ms": 1701.2686,
+      "p50_ms": 1701.2686,
+      "p95_ms": 1701.2686,
+      "p99_ms": 1701.2686,
+      "samples_ms": [
+        1701.2686
+      ]
+    },
+    "model": {
+      "cache_path": "[home]/.cache/whisper/tiny.pt",
+      "cache_present": true,
+      "family": "whisper",
+      "name": "tiny"
+    },
+    "precision": "fp32_or_fp16_by_device",
+    "runtime": {
+      "device": "cuda",
+      "language": "en",
+      "real_time_factor": 1.3775,
+      "repeat": 1,
+      "torch_version": "2.8.0",
+      "warmup": 0
+    },
+    "status": "succeeded",
+    "success": true,
+    "task": "audio_transcription_smoke",
+    "transcription": {
+      "expected_text": "hello world",
+      "language": "en",
+      "normalized_contains_expected": true,
+      "normalized_expected_text": "hello world",
+      "normalized_text": "hello world",
+      "segments": [
+        {
+          "end": 2.0,
+          "start": 0.0,
+          "text": "Hello world!"
+        }
+      ],
+      "text": "Hello world!"
+    }
+  }
+}
