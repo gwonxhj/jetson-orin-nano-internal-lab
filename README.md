@@ -10,6 +10,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [TensorRT FP16 optimization report](docs/reports/tensorrt_optimization_report.md) — ResNet18 ONNX export, `trtexec` build/run command, model hash, input shape, precision, warmup/repeat 조건을 기록합니다.
 - [Runtime comparison report](docs/reports/runtime_comparison.md) — PyTorch CUDA FP32와 TensorRT FP16 결과를 direct regression이 아닌 system/runtime comparison evidence로 정리합니다.
 - [FastAPI ResNet18 server smoke](docs/reports/fastapi_resnet18_server_smoke.md) — ResNet18 PyTorch CUDA path를 localhost FastAPI serving layer로 감싼 client/server latency evidence입니다.
+- [FastAPI InferEdge serving export](docs/reports/fastapi_inferedge_export.md) — FastAPI localhost serving smoke를 InferEdge-compatible `metadata.json` / `result.json` evidence로 변환합니다.
 - [ONNX Runtime CUDA EP activation attempt](docs/reports/onnxruntime_cuda_ep_activation_attempt.md) — 기존 `yolo_env`를 변경하지 않고 CUDAExecutionProvider 활성화 가능 여부를 evidence로 기록합니다.
 - [InferEdge-compatible export report](docs/reports/inferedge_export.md) — runtime comparison 결과를 `metadata.json` / `result.json` handoff evidence로 변환한 내용을 설명합니다.
 
@@ -29,6 +30,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - ResNet18 ONNX export와 TensorRT FP16 `trtexec` engine smoke
 - PyTorch CUDA FP32 vs ONNX Runtime CPU FP32 vs ONNX Runtime CUDA FP32 vs ONNX Runtime TensorRT FP32 vs TensorRT FP16 runtime comparison
 - FastAPI localhost ResNet18 inference server smoke
+- FastAPI serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - InferEdge-compatible `metadata.json` / `result.json` export
 
 제외:
@@ -311,7 +313,30 @@ bash scripts/run_fastapi_server_smoke.sh
 | Client roundtrip | localhost HTTP | FP32 | 28.5178 | 29.5806 |
 | Server inference | PyTorch CUDA | FP32 | 18.415 | 19.1253 |
 
-### 12. InferEdge Export
+### 12. FastAPI Serving InferEdge Export
+
+FastAPI localhost serving smoke를 InferEdge-compatible `metadata.json` / `result.json` 쌍으로 변환합니다. Client roundtrip latency를 top-level runtime result로 두고, server-side PyTorch inference latency와 endpoint 정보는 `serving` 섹션에 보존합니다.
+
+```bash
+bash scripts/export_fastapi_serving_inferedge.sh
+```
+
+주요 산출물:
+
+- `results/inferedge/resnet18_fastapi_serving_20260514_142053/metadata.json`
+- `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json`
+- `docs/reports/fastapi_inferedge_export.md`
+
+현재 serving export 요약:
+
+| Field | Value |
+|---|---|
+| Runtime role | `serving-result` |
+| Endpoint | `/v1/infer/resnet18/synthetic` |
+| Engine backend | `fastapi+pytorch` |
+| Verdict | `serving_layer_evidence_not_direct_regression` |
+
+### 13. InferEdge Export
 
 Runtime comparison evidence를 InferEdge-compatible `metadata.json` / `result.json` 쌍으로 변환합니다. `result.json`은 Lab-compatible Runtime top-level fields를 유지하고, comparison details는 `comparison`에 보존합니다.
 
@@ -348,6 +373,7 @@ InferEdge-compatible 핵심 필드:
 | Runtime compare | `scripts/run_runtime_compare.sh` | `results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_onnxruntime_cuda_fp32_vs_onnxruntime_tensorrt_fp32_vs_tensorrt_fp16_20260514_025504.json` | `docs/reports/runtime_comparison.md` |
 | Runtime matrix summary | n/a | existing runtime/cache results | `docs/reports/resnet18_runtime_matrix_summary.md` |
 | FastAPI server smoke | `scripts/run_fastapi_server_smoke.sh` | `results/inference/fastapi_resnet18_server_20260514_142053.json` | `docs/reports/fastapi_resnet18_server_smoke.md` |
+| FastAPI serving InferEdge export | `scripts/export_fastapi_serving_inferedge.sh` | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` | `docs/reports/fastapi_inferedge_export.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
 ## Repository Layout
@@ -381,6 +407,7 @@ python3 -m py_compile \
   benchmarks/tensorrt/resnet18_trtexec_smoke.py \
   benchmarks/runtime_compare/build_runtime_comparison.py \
   src/server/resnet18_app.py \
+  scripts/export_fastapi_serving_inferedge.py \
   tests/test_system_baseline_json.py \
   tests/test_cuda_compute_json.py \
   tests/test_inference_smoke_json.py \
@@ -391,7 +418,8 @@ python3 -m py_compile \
   tests/test_tensorrt_metric_parser.py \
   tests/test_runtime_comparison.py \
   tests/test_inferedge_export.py \
-  tests/test_fastapi_server_smoke.py
+  tests/test_fastapi_server_smoke.py \
+  tests/test_fastapi_inferedge_export.py
 
 bash -n scripts/*.sh
 python3 tests/test_system_baseline_json.py
@@ -405,6 +433,7 @@ python3 tests/test_tensorrt_metric_parser.py
 python3 tests/test_runtime_comparison.py
 python3 tests/test_inferedge_export.py
 python3 tests/test_fastapi_server_smoke.py
+python3 tests/test_fastapi_inferedge_export.py
 ```
 
 ## Interpretation Rules

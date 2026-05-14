@@ -1,0 +1,104 @@
+{
+  "artifacts": [
+    {
+      "format": "json",
+      "path": "results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json",
+      "role": "runtime_result",
+      "sha256": "4564fe84e42401924749395cd6e4e7dcadb3e562f85d6ff9d1de44643dbd21be"
+    },
+    {
+      "format": "json",
+      "path": "results/inference/fastapi_resnet18_server_20260514_142053.json",
+      "role": "serving_smoke_result",
+      "sha256": "8863925ba8cbba25a87d81e177d2eb627982fbb8512535513e96ef7601864056"
+    },
+    {
+      "format": "log",
+      "path": "artifacts/system/fastapi_resnet18_server_20260514_142053.log",
+      "role": "server_log",
+      "sha256": "f6dd0d136fbddc385db5a492f839bcb5a06a47faae2c74b3b146b5492ebdc7e6"
+    },
+    {
+      "format": "log",
+      "path": "artifacts/system/tegrastats_fastapi_resnet18_20260514_142053.log",
+      "role": "tegrastats_log",
+      "sha256": "d844c374ec1f944d1caa935323b00e4d57a54c86f5a2625b678d7002e5a52056"
+    }
+  ],
+  "build": {
+    "backend": "fastapi+pytorch",
+    "build_id": "resnet18-fastapi-serving-20260514T151808+0900",
+    "preset_name": "fastapi/jetson_resnet18_smoke",
+    "target": "jetson",
+    "timestamp": "2026-05-14T15:18:08+09:00"
+  },
+  "export": {
+    "repo_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "040ebdb"
+    },
+    "repo_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "## main...origin/main\n M README.md\n M src/common/inferedge_schema.py\n?? scripts/export_fastapi_serving_inferedge.py\n?? scripts/export_fastapi_serving_inferedge.sh\n?? tests/test_fastapi_inferedge_export.py"
+    },
+    "schema_version": "inferedge-internal-lab-export-v1",
+    "source_fastapi_smoke_json": "results/inference/fastapi_resnet18_server_20260514_142053.json"
+  },
+  "handoff": {
+    "consumer": "InferEdgeLab",
+    "ready": true
+  },
+  "lab_compat": {
+    "profile_ready": true,
+    "runtime": {
+      "device": "jetson",
+      "engine": "fastapi+pytorch",
+      "engine_path": "src/server/resnet18_app.py",
+      "precision": "fp32",
+      "requested_batch": 1,
+      "requested_height": 224,
+      "requested_width": 224,
+      "result_json_path": "results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json",
+      "runtime_artifact_path": "src/server/resnet18_app.py"
+    }
+  },
+  "preset_snapshot": {
+    "backend": "fastapi+pytorch",
+    "build_options": {
+      "input_shape": [
+        1,
+        3,
+        224,
+        224
+      ],
+      "measurement": "localhost_http_client_roundtrip_and_server_inference",
+      "precision": "fp32"
+    },
+    "metadata": {
+      "source": "jetson-orin-nano-internal-lab",
+      "validation_handoff": "inferedgelab"
+    },
+    "name": "fastapi/jetson_resnet18_smoke",
+    "target": "jetson"
+  },
+  "schema_version": "0.1.0",
+  "source_model": {
+    "format": "pytorch_state_dict",
+    "path": "generated:torchvision.models.resnet18(weights=None, seed=42)",
+    "sha256": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245"
+  }
+}
