@@ -1,0 +1,182 @@
+{
+  "backend_key": "transformers_cuda__jetson",
+  "batch": 1,
+  "benchmark": {
+    "message": "LLM text-generation smoke exported to InferEdge-compatible result",
+    "status": "success",
+    "success": true
+  },
+  "compare_key": "sshleifer_tiny-gpt2__text_generation__cuda__fp32_cuda_framework_default",
+  "comparison": {
+    "comparability": {
+      "note": "tiny-gpt2 smoke validates local text-generation plumbing only; it is not a text quality benchmark or deployment approval",
+      "same_backend": true,
+      "same_input_shape": true,
+      "same_model_hash": false,
+      "same_precision": true
+    },
+    "comparison_name": "llm_text_generation_smoke",
+    "ratios": {
+      "generated_tokens_per_second": 24.2339
+    },
+    "source_json": "results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json",
+    "verdict": "text_generation_smoke_not_quality_benchmark"
+  },
+  "device": {
+    "hostname": "jetson-orin-nano",
+    "name": "jetson"
+  },
+  "device_name": "jetson",
+  "engine": {
+    "available": true,
+    "backend": "transformers",
+    "name": "transformers",
+    "path": "python-package:transformers",
+    "sha256": "",
+    "status_message": "Tiny local LLM text-generation smoke completed.",
+    "version": "5.8.1"
+  },
+  "engine_backend": "transformers",
+  "engine_name": "transformers",
+  "extra": {
+    "backend_key": "transformers_cuda__jetson",
+    "compare_key": "sshleifer_tiny-gpt2__text_generation__cuda__fp32_cuda_framework_default",
+    "compare_model_name": "sshleifer/tiny-gpt2",
+    "compare_model_source": "huggingface_model_id",
+    "compare_ready": true,
+    "deployment_ready_claim": false,
+    "evidence_kind": "llm_text_generation_smoke",
+    "export_schema_version": "inferedge-internal-lab-export-v1",
+    "input_mode": "text_prompt",
+    "input_path": "",
+    "input_preprocess": "tokenizer_from_transformers",
+    "jetson_clocks": "unknown",
+    "json_export": "enabled",
+    "latest_path": "results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/result.json",
+    "manifest_format": "transformers",
+    "manifest_precision": "fp32_cuda_framework_default",
+    "manifest_recorded": false,
+    "output_mode": "explicit",
+    "power_mode": "unknown",
+    "quality_claim": false,
+    "runtime": "jetson-orin-nano-internal-lab",
+    "tegrastats_log_path": "artifacts/system/tegrastats_llm_tiny-gpt2_20260515_005755.log",
+    "tegrastats_status": "parsed",
+    "text_generation_ready": true
+  },
+  "fps": 24.2339,
+  "fps_value": 24.2339,
+  "height": 0,
+  "jetson_evidence": {
+    "jetson_clocks": "unknown",
+    "power_mode": "unknown",
+    "tegrastats_log_path": "artifacts/system/tegrastats_llm_tiny-gpt2_20260515_005755.log",
+    "tegrastats_summary": {
+      "max_temp_c": 41.468,
+      "max_temp_name": "gpu",
+      "ram_total_mb": 7620.0,
+      "ram_used_mb_avg": 1849.632,
+      "ram_used_mb_max": 2216.0,
+      "sample_count": 114,
+      "status": "parsed",
+      "vdd_in_mw_avg": 4820.947,
+      "vdd_in_mw_max": 5136.0
+    }
+  },
+  "latency_ms": {
+    "max": 660.2308,
+    "mean": 660.2308,
+    "min": 660.2308,
+    "p50": 660.2308,
+    "p90": null,
+    "p95": 660.2308,
+    "p99": 660.2308,
+    "samples": [
+      660.2308
+    ],
+    "std": null
+  },
+  "manifest_applied": false,
+  "manifest_path": "",
+  "mean_ms": 660.2308,
+  "model": {
+    "alias": "tiny-gpt2",
+    "family": "causal_lm",
+    "name": "sshleifer/tiny-gpt2",
+    "path": "huggingface:sshleifer/tiny-gpt2",
+    "sha256": ""
+  },
+  "model_metadata": {
+    "inputs": [
+      {
+        "element_type": "utf8_text",
+        "name": "prompt",
+        "prompt_token_count": 5,
+        "shape": [
+          1
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "element_type": "utf8_text",
+        "generated_token_count": 16,
+        "name": "generated_text",
+        "shape": [
+          1
+        ]
+      }
+    ]
+  },
+  "model_name": "sshleifer/tiny-gpt2",
+  "model_path": "huggingface:sshleifer/tiny-gpt2",
+  "p50_ms": 660.2308,
+  "p95_ms": 660.2308,
+  "p99_ms": 660.2308,
+  "precision": "fp32_cuda_framework_default",
+  "run_config": {
+    "batch": 1,
+    "conda_env": "llm_env",
+    "device": "cuda",
+    "download_allowed": true,
+    "height": 0,
+    "jetson_clocks": "unknown",
+    "manifest_applied": false,
+    "manifest_path": "",
+    "max_new_tokens": 16,
+    "power_mode": "unknown",
+    "prompt": "Jetson edge AI",
+    "runs": 1,
+    "source_llm_smoke_json": "results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json",
+    "tegrastats_log_path": "artifacts/system/tegrastats_llm_tiny-gpt2_20260515_005755.log",
+    "warmup": 0,
+    "width": 0
+  },
+  "runs": 1,
+  "runtime_role": "text-generation-result",
+  "schema_version": "inferedge-runtime-result-v1",
+  "status": "success",
+  "success": true,
+  "system": {
+    "jetson": {
+      "jetson_clocks": "unknown",
+      "power_mode": "unknown",
+      "tegrastats_log_path": "artifacts/system/tegrastats_llm_tiny-gpt2_20260515_005755.log"
+    },
+    "machine": "aarch64",
+    "os": "linux"
+  },
+  "text_generation": {
+    "deployment_ready_claim": false,
+    "download_allowed": true,
+    "generated_text": "Jetson edge AI factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors",
+    "generated_token_count": 16,
+    "max_new_tokens": 16,
+    "prompt": "Jetson edge AI",
+    "prompt_token_count": 5,
+    "quality_claim": false
+  },
+  "timestamp": "2026-05-15T01:25:56+09:00",
+  "warmup": 0,
+  "width": 0
+}

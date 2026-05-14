@@ -1,0 +1,118 @@
+{
+  "artifacts": [
+    {
+      "format": "json",
+      "path": "results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/result.json",
+      "role": "runtime_result",
+      "sha256": "9bdad64e10ca0da1008cbe8957db3b5c259365ef9f6fb9cc944735a923a9c1f3"
+    },
+    {
+      "format": "json",
+      "path": "results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json",
+      "role": "llm_smoke_result",
+      "sha256": "d44153941b5a48006dfc1ffbe27b0d6c553ce1e42090ae908bf3c697a3f71b23"
+    },
+    {
+      "format": "log",
+      "path": "artifacts/system/tegrastats_llm_tiny-gpt2_20260515_005755.log",
+      "role": "tegrastats_log",
+      "sha256": "d3d9bf7cb7cfb5cde3453dc4cdcdeba6b555a923d3fa6179da31201176eb836e"
+    }
+  ],
+  "build": {
+    "backend": "transformers",
+    "build_id": "llm-text-generation-20260515T012556+0900",
+    "preset_name": "llm/jetson_tiny_gpt2_smoke",
+    "target": "jetson",
+    "timestamp": "2026-05-15T01:25:56+09:00"
+  },
+  "export": {
+    "artifact_commit_note": "The commit containing this generated metadata is the git commit that tracks this file; it is intentionally not embedded to avoid self-referential commit hashes.",
+    "export_workspace_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "9c0ad42"
+    },
+    "export_workspace_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "## main...origin/main\n M src/common/inferedge_schema.py\n?? scripts/export_llm_inferedge.py\n?? scripts/export_llm_inferedge.sh\n?? tests/test_llm_inferedge_export.py"
+    },
+    "schema_version": "inferedge-internal-lab-export-v1",
+    "source_llm_smoke_json": "results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json",
+    "source_smoke_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "479bf84"
+    },
+    "source_smoke_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    }
+  },
+  "handoff": {
+    "consumer": "InferEdgeLab",
+    "ready": true
+  },
+  "lab_compat": {
+    "profile_ready": true,
+    "runtime": {
+      "device": "jetson",
+      "engine": "transformers",
+      "engine_path": "python-package:transformers",
+      "precision": "fp32_cuda_framework_default",
+      "requested_batch": 1,
+      "requested_height": 0,
+      "requested_width": 0,
+      "result_json_path": "results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/result.json",
+      "runtime_artifact_path": "huggingface:sshleifer/tiny-gpt2"
+    }
+  },
+  "preset_snapshot": {
+    "backend": "transformers",
+    "build_options": {
+      "device": "cuda",
+      "max_new_tokens": 16,
+      "measurement": "local_transformers_generate",
+      "model": "sshleifer/tiny-gpt2",
+      "precision": "fp32_cuda_framework_default"
+    },
+    "metadata": {
+      "source": "jetson-orin-nano-internal-lab",
+      "validation_handoff": "inferedgelab"
+    },
+    "name": "llm/jetson_tiny_gpt2_smoke",
+    "target": "jetson"
+  },
+  "schema_version": "0.1.0",
+  "source_model": {
+    "format": "huggingface-model-id",
+    "path": "sshleifer/tiny-gpt2",
+    "sha256": ""
+  }
+}

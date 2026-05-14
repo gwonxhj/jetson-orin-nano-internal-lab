@@ -1081,6 +1081,245 @@ def build_inferedge_audio_export(whisper_smoke_path: Path, output_dir: Path, rep
     return metadata_json, result_json
 
 
+def build_inferedge_llm_export(llm_smoke_path: Path, output_dir: Path, repo_root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Build InferEdge-compatible metadata/result pair for local LLM text-generation evidence."""
+
+    smoke = read_json(llm_smoke_path)
+    metadata = smoke["metadata"]
+    evidence = smoke["result"]
+    if evidence.get("success") is not True or evidence.get("status") != "succeeded":
+        raise ValueError(
+            "LLM text-generation smoke must be successful before InferEdge export: "
+            f"status={evidence.get('status')!r}, success={evidence.get('success')!r}"
+        )
+
+    model = evidence["model"]
+    runtime = evidence["runtime"]
+    latency = evidence["latency_ms"]
+    generation = evidence["generation"]
+    interpretation = evidence.get("interpretation", {})
+    timestamp = now_iso()
+    model_id = model["id"]
+    model_alias = model["alias"]
+    device = runtime["device"]
+    precision = runtime["precision"]
+    backend = evidence["framework"]
+    source_text = _relative_or_original(str(llm_smoke_path), repo_root)
+    result_json_text = _relative_or_original(str(output_dir / "result.json"), repo_root)
+    tegrastats_text = metadata.get("tegrastats_log", "")
+    tegrastats_summary = summarize_tegrastats(_path_from_repo(tegrastats_text, repo_root)) if tegrastats_text else {"status": "not_provided", "sample_count": 0}
+    generated_token_count = generation.get("generated_token_count", 0)
+    mean_seconds = latency["mean_ms"] / 1000.0 if latency.get("mean_ms") else 0.0
+    generated_tokens_per_second = round(generated_token_count / mean_seconds, 4) if mean_seconds else None
+    compare_model_name = model_id.replace("/", "_")
+    compare_key = f"{compare_model_name}__text_generation__{device}__{precision}"
+    backend_key = f"{backend}_{device}__jetson"
+    engine_path = "python-package:transformers"
+    power_mode = metadata.get("power_mode", {}).get("stdout", "unknown").replace("\n", "; ") or "unknown"
+
+    result_json = {
+        "schema_version": RESULT_SCHEMA_VERSION,
+        "compare_key": compare_key,
+        "backend_key": backend_key,
+        "runtime_role": "text-generation-result",
+        "manifest_path": "",
+        "manifest_applied": False,
+        "model_name": model_id,
+        "model_path": f"huggingface:{model_id}",
+        "engine_name": "transformers",
+        "engine_backend": "transformers",
+        "device_name": "jetson",
+        "batch": 1,
+        "height": 0,
+        "width": 0,
+        "warmup": runtime["warmup"],
+        "runs": runtime["repeat"],
+        "mean_ms": latency["mean_ms"],
+        "p50_ms": latency["p50_ms"],
+        "p95_ms": latency["p95_ms"],
+        "p99_ms": latency["p99_ms"],
+        "fps_value": generated_tokens_per_second,
+        "success": True,
+        "status": "success",
+        "model": {
+            "path": f"huggingface:{model_id}",
+            "name": model_id,
+            "alias": model_alias,
+            "family": "causal_lm",
+            "sha256": "",
+        },
+        "engine": {
+            "name": "transformers",
+            "backend": "transformers",
+            "available": metadata["package"]["transformers"]["available"],
+            "status_message": "Tiny local LLM text-generation smoke completed.",
+            "path": engine_path,
+            "version": metadata["package"]["transformers"].get("version", ""),
+            "sha256": "",
+        },
+        "device": {"name": "jetson", "hostname": metadata.get("hostname", "jetson-orin-nano")},
+        "precision": precision,
+        "run_config": {
+            "batch": 1,
+            "height": 0,
+            "width": 0,
+            "warmup": runtime["warmup"],
+            "runs": runtime["repeat"],
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "device": device,
+            "prompt": evidence["prompt"],
+            "max_new_tokens": runtime["max_new_tokens"],
+            "download_allowed": runtime["download_allowed"],
+            "conda_env": metadata.get("conda_env", ""),
+            "tegrastats_log_path": tegrastats_text,
+            "manifest_path": "",
+            "manifest_applied": False,
+            "source_llm_smoke_json": source_text,
+        },
+        "latency_ms": {
+            "mean": latency["mean_ms"],
+            "min": latency["min_ms"],
+            "max": latency["max_ms"],
+            "std": None,
+            "p50": latency["p50_ms"],
+            "p90": None,
+            "p95": latency["p95_ms"],
+            "p99": latency["p99_ms"],
+            "samples": latency["samples_ms"],
+        },
+        "fps": generated_tokens_per_second,
+        "benchmark": {"success": True, "status": "success", "message": "LLM text-generation smoke exported to InferEdge-compatible result"},
+        "timestamp": timestamp,
+        "system": {
+            "os": platform.system().lower(),
+            "machine": platform.machine(),
+            "jetson": {
+                "power_mode": power_mode,
+                "jetson_clocks": "unknown",
+                "tegrastats_log_path": tegrastats_text,
+            },
+        },
+        "jetson_evidence": {
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_summary": tegrastats_summary,
+        },
+        "model_metadata": {
+            "inputs": [{"name": "prompt", "element_type": "utf8_text", "shape": [1], "prompt_token_count": generation["prompt_token_count"]}],
+            "outputs": [{"name": "generated_text", "element_type": "utf8_text", "shape": [1], "generated_token_count": generated_token_count}],
+        },
+        "comparison": {
+            "source_json": source_text,
+            "comparison_name": "llm_text_generation_smoke",
+            "verdict": "text_generation_smoke_not_quality_benchmark",
+            "comparability": {
+                "same_model_hash": False,
+                "same_input_shape": True,
+                "same_precision": True,
+                "same_backend": True,
+                "note": "tiny-gpt2 smoke validates local text-generation plumbing only; it is not a text quality benchmark or deployment approval",
+            },
+            "ratios": {"generated_tokens_per_second": generated_tokens_per_second},
+        },
+        "text_generation": {
+            "prompt": evidence["prompt"],
+            "generated_text": generation["text"],
+            "prompt_token_count": generation["prompt_token_count"],
+            "generated_token_count": generated_token_count,
+            "max_new_tokens": runtime["max_new_tokens"],
+            "download_allowed": runtime["download_allowed"],
+            "quality_claim": bool(interpretation.get("quality_claim", False)),
+            "deployment_ready_claim": bool(interpretation.get("deployment_ready_claim", False)),
+        },
+        "extra": {
+            "runtime": "jetson-orin-nano-internal-lab",
+            "json_export": "enabled",
+            "output_mode": "explicit",
+            "latest_path": result_json_text,
+            "manifest_recorded": False,
+            "manifest_precision": precision,
+            "manifest_format": "transformers",
+            "input_mode": "text_prompt",
+            "input_path": "",
+            "input_preprocess": "tokenizer_from_transformers",
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_status": tegrastats_summary.get("status", "unknown"),
+            "compare_ready": True,
+            "text_generation_ready": True,
+            "compare_key": compare_key,
+            "backend_key": backend_key,
+            "compare_model_source": "huggingface_model_id",
+            "compare_model_name": model_id,
+            "export_schema_version": EXPORT_SCHEMA_VERSION,
+            "evidence_kind": "llm_text_generation_smoke",
+            "quality_claim": False,
+            "deployment_ready_claim": False,
+        },
+    }
+
+    metadata_json = {
+        "schema_version": METADATA_SCHEMA_VERSION,
+        "source_model": {"format": "huggingface-model-id", "path": model_id, "sha256": ""},
+        "artifacts": [
+            {"role": "runtime_result", "format": "json", "path": result_json_text, "sha256": "__FILLED_AFTER_WRITE__"},
+            {"role": "llm_smoke_result", "format": "json", "path": source_text, "sha256": sha256_file(llm_smoke_path)},
+            {"role": "tegrastats_log", "format": "log", "path": tegrastats_text, "sha256": _sha256_if_exists(tegrastats_text, repo_root)},
+        ],
+        "build": {
+            "build_id": f"llm-text-generation-{timestamp.replace(':', '').replace('-', '')}",
+            "backend": "transformers",
+            "target": "jetson",
+            "preset_name": "llm/jetson_tiny_gpt2_smoke",
+            "timestamp": timestamp,
+        },
+        "handoff": {"consumer": "InferEdgeLab", "ready": True},
+        "lab_compat": {
+            "profile_ready": True,
+            "runtime": {
+                "device": "jetson",
+                "engine": "transformers",
+                "engine_path": engine_path,
+                "precision": precision,
+                "requested_batch": 1,
+                "requested_height": 0,
+                "requested_width": 0,
+                "runtime_artifact_path": f"huggingface:{model_id}",
+                "result_json_path": result_json_text,
+            },
+        },
+        "preset_snapshot": {
+            "name": "llm/jetson_tiny_gpt2_smoke",
+            "backend": "transformers",
+            "target": "jetson",
+            "build_options": {
+                "precision": precision,
+                "model": model_id,
+                "device": device,
+                "max_new_tokens": runtime["max_new_tokens"],
+                "measurement": "local_transformers_generate",
+            },
+            "metadata": {"validation_handoff": "inferedgelab", "source": "jetson-orin-nano-internal-lab"},
+        },
+        "export": {
+            "schema_version": EXPORT_SCHEMA_VERSION,
+            "source_llm_smoke_json": source_text,
+            "source_smoke_commit": metadata.get("git_commit", {}),
+            "source_smoke_status": metadata.get("git_status", {}),
+            "export_workspace_commit": run_command(["git", "rev-parse", "--short", "HEAD"]),
+            "export_workspace_status": run_command(["git", "status", "--short", "--branch"]),
+            "artifact_commit_note": (
+                "The commit containing this generated metadata is the git commit that tracks this file; "
+                "it is intentionally not embedded to avoid self-referential commit hashes."
+            ),
+        },
+    }
+    return metadata_json, result_json
+
+
 def validate_inferedge_metadata(payload: dict[str, Any]) -> None:
     required = ["schema_version", "source_model", "artifacts", "build", "handoff", "lab_compat"]
     missing = [key for key in required if key not in payload]
@@ -1127,5 +1366,14 @@ def validate_inferedge_result(payload: dict[str, Any]) -> None:
             raise ValueError("audio transcription result missing audio/transcription details")
         if payload["extra"].get("transcription_ready") is not True:
             raise ValueError("audio transcription result extra.transcription_ready must be true")
-    if runtime_role not in {"runtime-result", "serving-result", "audio-transcription-result"}:
+    if runtime_role == "text-generation-result":
+        if verdict != "text_generation_smoke_not_quality_benchmark":
+            raise ValueError("text generation result must preserve smoke-test semantics")
+        if "text_generation" not in payload:
+            raise ValueError("text generation result missing text_generation details")
+        if payload["extra"].get("text_generation_ready") is not True:
+            raise ValueError("text generation result extra.text_generation_ready must be true")
+        if payload["extra"].get("quality_claim") is not False or payload["extra"].get("deployment_ready_claim") is not False:
+            raise ValueError("text generation result must not claim quality or deployment readiness")
+    if runtime_role not in {"runtime-result", "serving-result", "audio-transcription-result", "text-generation-result"}:
         raise ValueError(f"unsupported runtime_role: {runtime_role}")

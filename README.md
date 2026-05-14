@@ -40,6 +40,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - Whisper speech smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - Whisper isolated env candidate probe for `openai-whisper` and `faster-whisper`
 - LLM isolated env candidate probe and tiny text-generation smoke readiness evidence
+- LLM text-generation smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - InferEdge-compatible `metadata.json` / `result.json` export
 
 제외:
@@ -510,6 +511,25 @@ LLM_ALLOW_DOWNLOAD=1 conda run -n llm_env bash scripts/run_llm_smoke.sh tiny-gpt
 
 주의: 이 결과는 tiny model path smoke이며 text quality나 deployment-ready evidence가 아닙니다. 기존 `yolo_env`에는 `transformers`를 설치하지 않았습니다.
 
+### 19. LLM InferEdge Export
+
+LLM tiny text-generation smoke를 InferEdge-compatible `metadata.json` / `result.json` 쌍으로 변환합니다. `result.json`은 text-generation 세부 정보를 `text_generation`에 보존하며, 이 결과는 text quality benchmark나 deployment approval이 아닙니다.
+
+```bash
+bash scripts/export_llm_inferedge.sh
+```
+
+주요 산출물:
+
+- `results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/metadata.json`
+- `results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/result.json`
+- `docs/reports/llm_inferedge_export.md`
+
+InferEdge-compatible 핵심 필드:
+
+- `metadata.json`: `schema_version`, `source_model`, `artifacts`, `build`, `handoff`, `lab_compat`
+- `result.json`: `schema_version`, `compare_key`, `backend_key`, `runtime_role`, `mean_ms`, `p95_ms`, `p99_ms`, `latency_ms`, `text_generation`, `jetson_evidence`, `extra.compare_ready`
+
 ## Evidence Map
 
 | Stage | Script | Result | Report |
@@ -540,6 +560,7 @@ LLM_ALLOW_DOWNLOAD=1 conda run -n llm_env bash scripts/run_llm_smoke.sh tiny-gpt
 | Whisper env candidate probe | `scripts/probe_whisper_env_candidates.sh` | `results/inference/whisper_env_candidates_20260514_175410.json` | `docs/reports/whisper_env_candidate_probe.md` |
 | LLM env candidate probe | `scripts/probe_llm_env_candidates.sh` | `results/llm/llm_env_candidates_20260515_010032.json` | `docs/reports/llm_env_candidate_probe.md` |
 | LLM text-generation smoke | `scripts/run_llm_smoke.sh` | `results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json` | `docs/reports/llm_text_generation_smoke.md` |
+| LLM InferEdge export | `scripts/export_llm_inferedge.sh` | `results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/result.json` | `docs/reports/llm_inferedge_export.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
 ## Repository Layout
@@ -581,6 +602,7 @@ python3 -m py_compile \
   src/server/resnet18_app.py \
   scripts/export_fastapi_serving_inferedge.py \
   scripts/export_fastapi_whisper_serving_inferedge.py \
+  scripts/export_llm_inferedge.py \
   tests/test_system_baseline_json.py \
   tests/test_cuda_compute_json.py \
   tests/test_inference_smoke_json.py \
@@ -599,7 +621,8 @@ python3 -m py_compile \
   tests/test_whisper_transcription_smoke.py \
   tests/test_whisper_env_candidate_probe.py \
   tests/test_llm_env_candidate_probe.py \
-  tests/test_llm_text_generation_smoke.py
+  tests/test_llm_text_generation_smoke.py \
+  tests/test_llm_inferedge_export.py
 
 bash -n scripts/*.sh
 python3 tests/test_system_baseline_json.py
@@ -621,6 +644,7 @@ python3 tests/test_whisper_transcription_smoke.py
 python3 tests/test_whisper_env_candidate_probe.py
 python3 tests/test_llm_env_candidate_probe.py
 python3 tests/test_llm_text_generation_smoke.py
+python3 tests/test_llm_inferedge_export.py
 ```
 
 ## Interpretation Rules
