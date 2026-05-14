@@ -9,17 +9,10 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [Portfolio evidence index](docs/reports/portfolio_evidence_index.md) — ResNet18 runtime, FastAPI serving, Whisper audio, InferEdge export 흐름을 어떤 순서로 보면 되는지 한 장으로 안내합니다.
 - [ResNet18 runtime matrix summary](docs/reports/resnet18_runtime_matrix_summary.md) — PyTorch CUDA, ONNX Runtime CPU/CUDA/TensorRT EP, native TensorRT, TensorRT EP cache 비용을 한 장으로 요약합니다.
 - [TensorRT FP16 optimization report](docs/reports/tensorrt_optimization_report.md) — ResNet18 ONNX export, `trtexec` build/run command, model hash, input shape, precision, warmup/repeat 조건을 기록합니다.
-- [Runtime comparison report](docs/reports/runtime_comparison.md) — PyTorch CUDA FP32와 TensorRT FP16 결과를 direct regression이 아닌 system/runtime comparison evidence로 정리합니다.
-- [FastAPI ResNet18 server smoke](docs/reports/fastapi_resnet18_server_smoke.md) — ResNet18 PyTorch CUDA path를 localhost FastAPI serving layer로 감싼 client/server latency evidence입니다.
 - [FastAPI API usage report](docs/reports/fastapi_api_usage.md) — `/health`, `/v1/models`, `/v1/infer/resnet18/synthetic` 호출 흐름과 evidence 산출물 연결을 설명합니다.
-- [FastAPI serving boundary notes](docs/reports/serving_boundary_notes.md) — localhost smoke가 증명하는 것과 증명하지 않는 것을 분리해 deployment-ready 오해를 막습니다.
-- [FastAPI InferEdge serving export](docs/reports/fastapi_inferedge_export.md) — FastAPI localhost serving smoke를 InferEdge-compatible `metadata.json` / `result.json` evidence로 변환합니다.
-- [Whisper synthetic path smoke](docs/reports/whisper_transcription_smoke.md) — 외부 마이크 없이 synthetic tone WAV로 Whisper tiny/base audio decode/model path 준비 상태를 evidence로 기록합니다.
-- [Whisper speech transcription smoke](docs/reports/whisper_speech_transcription_smoke.md) — license-clear generated speech WAV로 실제 transcription path를 synthetic path smoke와 분리해 기록합니다.
 - [Whisper InferEdge export](docs/reports/whisper_inferedge_export.md) — Whisper speech smoke를 InferEdge-compatible `metadata.json` / `result.json` handoff evidence로 변환합니다.
-- [Whisper env candidate probe](docs/reports/whisper_env_candidate_probe.md) — `yolo_env`를 바꾸지 않고 `openai-whisper` / `faster-whisper` 격리 env 후보를 검증합니다.
-- [ONNX Runtime CUDA EP activation attempt](docs/reports/onnxruntime_cuda_ep_activation_attempt.md) — 기존 `yolo_env`를 변경하지 않고 CUDAExecutionProvider 활성화 가능 여부를 evidence로 기록합니다.
-- [InferEdge-compatible export report](docs/reports/inferedge_export.md) — runtime comparison 결과를 `metadata.json` / `result.json` handoff evidence로 변환한 내용을 설명합니다.
+
+전체 report map과 보조 evidence 링크는 [portfolio evidence index](docs/reports/portfolio_evidence_index.md)와 [Evidence Map](#evidence-map)에 위임합니다.
 
 ## Scope
 
