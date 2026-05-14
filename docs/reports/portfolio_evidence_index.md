@@ -15,14 +15,14 @@
 | 3 | Runtime matrix | CPU, CUDA, ORT TensorRT EP, native TensorRT의 backend/precision/cache 차이를 direct regression이 아닌 runtime comparison으로 해석합니다. | [ResNet18 runtime matrix summary](resnet18_runtime_matrix_summary.md), [Runtime comparison](runtime_comparison.md) |
 | 4 | Serving layer | ResNet18 inference와 Whisper speech transcription을 localhost FastAPI API로 감싸 client/server latency와 API 사용 흐름을 확인합니다. | [FastAPI server smoke](fastapi_resnet18_server_smoke.md), [FastAPI Whisper smoke](fastapi_whisper_speech_server_smoke.md), [API usage](fastapi_api_usage.md), [Serving boundary](serving_boundary_notes.md) |
 | 5 | Audio inference | Whisper synthetic tone path smoke와 license-clear generated speech transcription smoke를 분리합니다. | [Whisper synthetic path smoke](whisper_transcription_smoke.md), [Whisper speech smoke](whisper_speech_transcription_smoke.md) |
-| 6 | InferEdge handoff | ResNet18 runtime, FastAPI serving, Whisper speech 결과를 `metadata.json` / `result.json` handoff evidence로 변환합니다. | [Runtime InferEdge export](inferedge_export.md), [FastAPI InferEdge export](fastapi_inferedge_export.md), [Whisper InferEdge export](whisper_inferedge_export.md) |
+| 6 | InferEdge handoff | ResNet18 runtime, FastAPI image/audio serving, Whisper speech 결과를 `metadata.json` / `result.json` handoff evidence로 변환합니다. | [Runtime InferEdge export](inferedge_export.md), [FastAPI InferEdge export](fastapi_inferedge_export.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md), [Whisper InferEdge export](whisper_inferedge_export.md) |
 
 ## Evidence Tracks
 
 | Track | Question Answered | Key Result | Handoff |
 |---|---|---|---|
 | ResNet18 runtime | Which local backend/runtime path works on this Jetson, under which precision and cache conditions? | [Runtime matrix summary](resnet18_runtime_matrix_summary.md) | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` |
-| FastAPI serving | Can local image and audio inference be exposed through reproducible localhost API smoke paths? | [FastAPI API usage](fastapi_api_usage.md), [FastAPI Whisper smoke](fastapi_whisper_speech_server_smoke.md) | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json`; `results/inference/fastapi_whisper_speech_server_20260514_202459.json` |
+| FastAPI serving | Can local image and audio inference be exposed through reproducible localhost API smoke paths? | [FastAPI API usage](fastapi_api_usage.md), [FastAPI Whisper smoke](fastapi_whisper_speech_server_smoke.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md) | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json`; `results/inferedge/fastapi_whisper_serving_20260514_202459/result.json` |
 | Whisper audio | Can a license-clear audio input exercise the local transcription path without external sensors? | [Whisper speech smoke](whisper_speech_transcription_smoke.md) | `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json` |
 
 ## What This Proves
@@ -31,7 +31,7 @@
 - ResNet18 inference paths were exercised across PyTorch, ONNX Runtime, TensorRT EP, and native TensorRT evidence.
 - A localhost FastAPI serving layer can produce structured image and audio result evidence without claiming production readiness.
 - Whisper tiny can run in an isolated `whisper_env` and transcribe a license-clear generated speech sample on CUDA.
-- InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime, serving, and audio tracks.
+- InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime, FastAPI image serving, FastAPI audio serving, and audio transcription tracks.
 
 ## What This Does Not Prove
 
@@ -47,4 +47,5 @@
 - [InferEdge runtime result](../../results/inferedge/resnet18_runtime_compare_20260513_133100/result.json)
 - [InferEdge serving result](../../results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json)
 - [FastAPI Whisper serving result](../../results/inference/fastapi_whisper_speech_server_20260514_202459.json)
+- [InferEdge FastAPI Whisper serving result](../../results/inferedge/fastapi_whisper_serving_20260514_202459/result.json)
 - [InferEdge Whisper result](../../results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json)

@@ -1,0 +1,269 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_s": 1.235,
+    "format": "wav",
+    "path": "examples/audio/license_clear_whisper_smoke.wav",
+    "sample_rate_hz": 16000,
+    "sha256": "5eb101e247c9ab4f6743c48256e1e783ab57be418d12647bae315cb953d577dc",
+    "source": "generated_license_clear_ffmpeg_flite_text_to_speech"
+  },
+  "backend_key": "fastapi_openai_whisper_cuda__jetson",
+  "batch": 1,
+  "benchmark": {
+    "message": "FastAPI Whisper serving smoke exported to InferEdge-compatible result",
+    "status": "success",
+    "success": true
+  },
+  "compare_key": "whisper-tiny__fastapi_speech__16000hz__cuda",
+  "comparison": {
+    "comparability": {
+      "note": "serving result validates localhost HTTP plus Whisper transcription plumbing; it is not a broad speech accuracy benchmark or deployment approval",
+      "same_backend": true,
+      "same_input_shape": true,
+      "same_model_hash": false,
+      "same_precision": true
+    },
+    "comparison_name": "fastapi_whisper_serving_layer_smoke",
+    "ratios": {
+      "audio_seconds_per_client_second": 0.3769,
+      "audio_seconds_per_server_second": 0.685
+    },
+    "source_json": "results/inference/fastapi_whisper_speech_server_20260514_202459.json",
+    "verdict": "serving_layer_evidence_not_direct_regression"
+  },
+  "device": {
+    "hostname": "jetson-orin-nano",
+    "name": "jetson"
+  },
+  "device_name": "jetson",
+  "engine": {
+    "available": true,
+    "backend": "fastapi+openai-whisper",
+    "name": "fastapi-whisper",
+    "path": "src/server/resnet18_app.py",
+    "sha256": "3ce8ace1fb8235cb3ac85089b35fafca86785ade51c2767c4ea3c01fc7448739",
+    "status_message": "FastAPI localhost Whisper speech transcription smoke completed."
+  },
+  "engine_backend": "fastapi+openai-whisper",
+  "engine_name": "fastapi-whisper",
+  "extra": {
+    "accuracy_claim": false,
+    "backend_key": "fastapi_openai_whisper_cuda__jetson",
+    "compare_key": "whisper-tiny__fastapi_speech__16000hz__cuda",
+    "compare_model_name": "whisper-tiny",
+    "compare_model_source": "fastapi_whisper_serving_source_model",
+    "compare_ready": true,
+    "deployment_ready_claim": false,
+    "evidence_kind": "fastapi_audio_serving_smoke",
+    "expected_text_matched": true,
+    "export_schema_version": "inferedge-internal-lab-export-v1",
+    "input_mode": "license_clear_generated_speech",
+    "input_path": "examples/audio/license_clear_whisper_smoke.wav",
+    "input_preprocess": "repo_relative_wav_path_validated_by_fastapi",
+    "jetson_clocks": "unknown",
+    "json_export": "enabled",
+    "latest_path": "results/inferedge/fastapi_whisper_serving_20260514_202459/result.json",
+    "manifest_format": "fastapi+openai-whisper",
+    "manifest_precision": "fp32_or_fp16_by_device",
+    "manifest_recorded": false,
+    "output_mode": "explicit",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "runtime": "jetson-orin-nano-internal-lab",
+    "server_log_path": "artifacts/system/fastapi_whisper_server_20260514_202459.log",
+    "serving_ready": true,
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_whisper_20260514_202459.log",
+    "tegrastats_status": "parsed",
+    "transcription_ready": true
+  },
+  "fps": 0.3769,
+  "fps_value": 0.3769,
+  "height": 0,
+  "jetson_evidence": {
+    "jetson_clocks": "unknown",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "server_log_path": "artifacts/system/fastapi_whisper_server_20260514_202459.log",
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_whisper_20260514_202459.log",
+    "tegrastats_summary": {
+      "max_temp_c": 42.031,
+      "max_temp_name": "gpu",
+      "ram_total_mb": 7620.0,
+      "ram_used_mb_avg": 2318.727,
+      "ram_used_mb_max": 2878.0,
+      "sample_count": 66,
+      "status": "parsed",
+      "vdd_in_mw_avg": 5170.909,
+      "vdd_in_mw_max": 5528.0
+    }
+  },
+  "latency_ms": {
+    "max": 3276.5571,
+    "mean": 3276.5571,
+    "min": 3276.5571,
+    "p50": 3276.5571,
+    "p90": null,
+    "p95": 3276.5571,
+    "p99": 3276.5571,
+    "samples": [
+      3276.5571
+    ],
+    "std": null
+  },
+  "manifest_applied": false,
+  "manifest_path": "",
+  "mean_ms": 3276.5571,
+  "model": {
+    "cache_present": true,
+    "family": "whisper",
+    "name": "whisper-tiny",
+    "path": "python-package:openai-whisper",
+    "sha256": ""
+  },
+  "model_metadata": {
+    "inputs": [
+      {
+        "duration_s": 1.235,
+        "element_type": "pcm_s16le",
+        "name": "audio",
+        "sample_rate_hz": 16000,
+        "shape": [
+          19760,
+          1
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "element_type": "utf8_text",
+        "name": "transcript",
+        "shape": [
+          1
+        ]
+      }
+    ]
+  },
+  "model_name": "whisper-tiny",
+  "model_path": "python-package:openai-whisper",
+  "p50_ms": 3276.5571,
+  "p95_ms": 3276.5571,
+  "p99_ms": 3276.5571,
+  "precision": "fp32_or_fp16_by_device",
+  "run_config": {
+    "audio_path": "examples/audio/license_clear_whisper_smoke.wav",
+    "audio_source": "generated_license_clear_ffmpeg_flite_text_to_speech",
+    "base_url": "http://127.0.0.1:18081",
+    "batch": 1,
+    "endpoint": "/v1/infer/whisper/speech",
+    "expected_text": "hello world",
+    "height": 0,
+    "jetson_clocks": "unknown",
+    "language": "en",
+    "manifest_applied": false,
+    "manifest_path": "",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "runs": 1,
+    "server_log_path": "artifacts/system/fastapi_whisper_server_20260514_202459.log",
+    "source_fastapi_whisper_smoke_json": "results/inference/fastapi_whisper_speech_server_20260514_202459.json",
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_whisper_20260514_202459.log",
+    "warmup": 0,
+    "width": 0
+  },
+  "runs": 1,
+  "runtime_role": "serving-result",
+  "schema_version": "inferedge-runtime-result-v1",
+  "serving": {
+    "asgi": "uvicorn",
+    "base_url": "http://127.0.0.1:18081",
+    "endpoint": "/v1/infer/whisper/speech",
+    "framework": "fastapi",
+    "health": {
+      "device": "cuda",
+      "model": "resnet18",
+      "model_hash": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+      "precision": "fp32",
+      "services": {
+        "resnet18": {
+          "device": "cuda",
+          "precision": "fp32",
+          "status": "ok"
+        },
+        "whisper": {
+          "architecture": "whisper",
+          "backend": "openai-whisper",
+          "device": "cuda",
+          "id": "whisper-tiny",
+          "model_cache_present": true,
+          "package_available": true,
+          "precision": "fp32_or_fp16_by_device"
+        }
+      },
+      "status": "ok"
+    },
+    "latency_layers": {
+      "client_roundtrip_ms": {
+        "count": 1,
+        "max_ms": 3276.5571,
+        "mean_ms": 3276.5571,
+        "min_ms": 3276.5571,
+        "p50_ms": 3276.5571,
+        "p95_ms": 3276.5571,
+        "p99_ms": 3276.5571,
+        "samples_ms": [
+          3276.5571
+        ]
+      },
+      "server_transcription_ms": {
+        "count": 1,
+        "max_ms": 1802.9543,
+        "mean_ms": 1802.9543,
+        "min_ms": 1802.9543,
+        "p50_ms": 1802.9543,
+        "p95_ms": 1802.9543,
+        "p99_ms": 1802.9543,
+        "samples_ms": [
+          1802.9543
+        ]
+      }
+    },
+    "request": {
+      "audio_path": "examples/audio/license_clear_whisper_smoke.wav",
+      "audio_sha256": "5eb101e247c9ab4f6743c48256e1e783ab57be418d12647bae315cb953d577dc",
+      "channels": 1,
+      "duration_s": 1.235,
+      "expected_text": "hello world",
+      "language": "en",
+      "sample_rate_hz": 16000,
+      "source": "generated_license_clear_ffmpeg_flite_text_to_speech"
+    },
+    "server_log_path": "artifacts/system/fastapi_whisper_server_20260514_202459.log",
+    "source_json": "results/inference/fastapi_whisper_speech_server_20260514_202459.json",
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_whisper_20260514_202459.log"
+  },
+  "status": "success",
+  "success": true,
+  "system": {
+    "jetson": {
+      "jetson_clocks": "unknown",
+      "power_mode": "NV Power Mode: 25W; 1",
+      "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_whisper_20260514_202459.log"
+    },
+    "machine": "aarch64",
+    "os": "linux"
+  },
+  "timestamp": "2026-05-14T20:39:47+09:00",
+  "transcription": {
+    "expected_text": "hello world",
+    "language": "en",
+    "normalized_contains_expected": true,
+    "segments": [
+      {
+        "end": 2.0,
+        "start": 0.0,
+        "text": "Hello world!"
+      }
+    ],
+    "text": "Hello world!"
+  },
+  "warmup": 0,
+  "width": 0
+}

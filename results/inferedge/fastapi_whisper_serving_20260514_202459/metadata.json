@@ -1,0 +1,107 @@
+{
+  "artifacts": [
+    {
+      "format": "json",
+      "path": "results/inferedge/fastapi_whisper_serving_20260514_202459/result.json",
+      "role": "runtime_result",
+      "sha256": "a8413d04d5d71aa4c240dc13ac12ebc55d992f0a11af97c4a7223717f1fa7333"
+    },
+    {
+      "format": "json",
+      "path": "results/inference/fastapi_whisper_speech_server_20260514_202459.json",
+      "role": "fastapi_whisper_serving_smoke",
+      "sha256": "ffc14ba258130c98cab4a5a3ffe259f2d611578c39c2200c66f8a0fe730e6f14"
+    },
+    {
+      "format": "wav",
+      "path": "examples/audio/license_clear_whisper_smoke.wav",
+      "role": "audio_input",
+      "sha256": "5eb101e247c9ab4f6743c48256e1e783ab57be418d12647bae315cb953d577dc"
+    },
+    {
+      "format": "log",
+      "path": "artifacts/system/fastapi_whisper_server_20260514_202459.log",
+      "role": "server_log",
+      "sha256": "0651bfe0299a63e2f2691b5d589146dc5ebd482de1f0b20eb483a8ea9c935376"
+    },
+    {
+      "format": "log",
+      "path": "artifacts/system/tegrastats_fastapi_whisper_20260514_202459.log",
+      "role": "tegrastats_log",
+      "sha256": "827ff115674c5ef994b47079f4df220838483e2c0281f2a20c0df7b81f8e5d1d"
+    }
+  ],
+  "build": {
+    "backend": "fastapi+openai-whisper",
+    "build_id": "fastapi-whisper-serving-20260514T203947+0900",
+    "preset_name": "fastapi/jetson_whisper_speech_smoke",
+    "target": "jetson",
+    "timestamp": "2026-05-14T20:39:47+09:00"
+  },
+  "export": {
+    "repo_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "387c1a8"
+    },
+    "repo_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "## main...origin/main\n M README.md\n M docs/reports/fastapi_api_usage.md\n M docs/reports/portfolio_evidence_index.md\n M src/common/inferedge_schema.py\n?? scripts/export_fastapi_whisper_serving_inferedge.py\n?? scripts/export_fastapi_whisper_serving_inferedge.sh\n?? tests/test_fastapi_whisper_inferedge_export.py"
+    },
+    "schema_version": "inferedge-internal-lab-export-v1",
+    "source_fastapi_whisper_smoke_json": "results/inference/fastapi_whisper_speech_server_20260514_202459.json"
+  },
+  "handoff": {
+    "consumer": "InferEdgeLab",
+    "ready": true
+  },
+  "lab_compat": {
+    "profile_ready": true,
+    "runtime": {
+      "device": "jetson",
+      "engine": "fastapi+openai-whisper",
+      "engine_path": "src/server/resnet18_app.py",
+      "precision": "fp32_or_fp16_by_device",
+      "requested_batch": 1,
+      "requested_height": 0,
+      "requested_width": 0,
+      "result_json_path": "results/inferedge/fastapi_whisper_serving_20260514_202459/result.json",
+      "runtime_artifact_path": "src/server/resnet18_app.py"
+    }
+  },
+  "preset_snapshot": {
+    "backend": "fastapi+openai-whisper",
+    "build_options": {
+      "audio_sample_rate_hz": 16000,
+      "endpoint": "/v1/infer/whisper/speech",
+      "measurement": "localhost_http_client_roundtrip_and_server_transcription",
+      "model": "whisper-tiny",
+      "precision": "fp32_or_fp16_by_device"
+    },
+    "metadata": {
+      "source": "jetson-orin-nano-internal-lab",
+      "validation_handoff": "inferedgelab"
+    },
+    "name": "fastapi/jetson_whisper_speech_smoke",
+    "target": "jetson"
+  },
+  "schema_version": "0.1.0",
+  "source_model": {
+    "format": "openai-whisper-package",
+    "path": "python-package:openai-whisper",
+    "sha256": ""
+  }
+}

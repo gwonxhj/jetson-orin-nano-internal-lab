@@ -34,6 +34,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - FastAPI localhost Whisper speech transcription server smoke
 - FastAPI localhost serving boundary notes
 - FastAPI serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export
+- FastAPI Whisper serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - Whisper tiny/base offline transcription smoke with separate synthetic tone and generated speech inputs
 - Whisper speech smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - Whisper isolated env candidate probe for `openai-whisper` and `faster-whisper`
@@ -335,10 +336,11 @@ bash scripts/run_fastapi_whisper_smoke.sh
 
 ### 12. FastAPI Serving InferEdge Export
 
-FastAPI localhost serving smoke를 InferEdge-compatible `metadata.json` / `result.json` 쌍으로 변환합니다. Client roundtrip latency를 top-level runtime result로 두고, server-side PyTorch inference latency와 endpoint 정보는 `serving` 섹션에 보존합니다.
+FastAPI localhost serving smoke를 InferEdge-compatible `metadata.json` / `result.json` 쌍으로 변환합니다. Client roundtrip latency를 top-level runtime result로 두고, server-side inference/transcription latency와 endpoint 정보는 `serving` 섹션에 보존합니다.
 
 ```bash
 bash scripts/export_fastapi_serving_inferedge.sh
+bash scripts/export_fastapi_whisper_serving_inferedge.sh
 ```
 
 주요 산출물:
@@ -346,15 +348,16 @@ bash scripts/export_fastapi_serving_inferedge.sh
 - `results/inferedge/resnet18_fastapi_serving_20260514_142053/metadata.json`
 - `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json`
 - `docs/reports/fastapi_inferedge_export.md`
+- `results/inferedge/fastapi_whisper_serving_20260514_202459/metadata.json`
+- `results/inferedge/fastapi_whisper_serving_20260514_202459/result.json`
+- `docs/reports/fastapi_whisper_inferedge_export.md`
 
 현재 serving export 요약:
 
-| Field | Value |
-|---|---|
-| Runtime role | `serving-result` |
-| Endpoint | `/v1/infer/resnet18/synthetic` |
-| Engine backend | `fastapi+pytorch` |
-| Verdict | `serving_layer_evidence_not_direct_regression` |
+| Evidence | Runtime role | Endpoint | Engine backend | Verdict |
+|---|---|---|---|---|
+| ResNet18 FastAPI serving | `serving-result` | `/v1/infer/resnet18/synthetic` | `fastapi+pytorch` | `serving_layer_evidence_not_direct_regression` |
+| Whisper FastAPI serving | `serving-result` | `/v1/infer/whisper/speech` | `fastapi+openai-whisper` | `serving_layer_evidence_not_direct_regression` |
 
 ### 13. InferEdge Export
 
@@ -489,6 +492,7 @@ bash scripts/create_whisper_env.sh --execute
 | FastAPI API usage | n/a | existing FastAPI server smoke and serving export results | `docs/reports/fastapi_api_usage.md` |
 | FastAPI serving boundary | n/a | existing FastAPI server smoke and serving export results | `docs/reports/serving_boundary_notes.md` |
 | FastAPI serving InferEdge export | `scripts/export_fastapi_serving_inferedge.sh` | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` | `docs/reports/fastapi_inferedge_export.md` |
+| FastAPI Whisper serving InferEdge export | `scripts/export_fastapi_whisper_serving_inferedge.sh` | `results/inferedge/fastapi_whisper_serving_20260514_202459/result.json` | `docs/reports/fastapi_whisper_inferedge_export.md` |
 | Whisper transcription smoke | `scripts/run_whisper_smoke.sh` | `results/inference/whisper_tiny_transcription_20260514_180622.json` | `docs/reports/whisper_transcription_smoke.md` |
 | Whisper speech transcription smoke | `scripts/run_whisper_speech_smoke.sh` | `results/inference/whisper_tiny_speech_transcription_20260514_182822.json` | `docs/reports/whisper_speech_transcription_smoke.md` |
 | Whisper InferEdge export | `scripts/export_whisper_inferedge.sh` | `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json` | `docs/reports/whisper_inferedge_export.md` |
@@ -530,6 +534,7 @@ python3 -m py_compile \
   benchmarks/runtime_compare/build_runtime_comparison.py \
   src/server/resnet18_app.py \
   scripts/export_fastapi_serving_inferedge.py \
+  scripts/export_fastapi_whisper_serving_inferedge.py \
   tests/test_system_baseline_json.py \
   tests/test_cuda_compute_json.py \
   tests/test_inference_smoke_json.py \
@@ -543,6 +548,7 @@ python3 -m py_compile \
   tests/test_fastapi_server_smoke.py \
   tests/test_fastapi_whisper_server_smoke.py \
   tests/test_fastapi_inferedge_export.py \
+  tests/test_fastapi_whisper_inferedge_export.py \
   tests/test_whisper_transcription_smoke.py \
   tests/test_whisper_env_candidate_probe.py
 
@@ -560,6 +566,7 @@ python3 tests/test_inferedge_export.py
 python3 tests/test_fastapi_server_smoke.py
 python3 tests/test_fastapi_whisper_server_smoke.py
 python3 tests/test_fastapi_inferedge_export.py
+python3 tests/test_fastapi_whisper_inferedge_export.py
 python3 tests/test_whisper_transcription_smoke.py
 python3 tests/test_whisper_env_candidate_probe.py
 ```

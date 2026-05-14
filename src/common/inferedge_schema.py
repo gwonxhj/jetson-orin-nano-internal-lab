@@ -558,6 +558,278 @@ def build_inferedge_serving_export(fastapi_smoke_path: Path, output_dir: Path, r
     return metadata_json, result_json
 
 
+def build_inferedge_whisper_serving_export(fastapi_whisper_smoke_path: Path, output_dir: Path, repo_root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Build InferEdge-compatible metadata/result pair for FastAPI Whisper serving evidence."""
+
+    smoke = read_json(fastapi_whisper_smoke_path)
+    metadata = smoke["metadata"]
+    serving_result = smoke["result"]
+    model = serving_result["model"]
+    audio = serving_result["input"]
+    transcription = serving_result["transcription"]
+    client_latency = serving_result["latency"]["client_roundtrip_ms"]
+    server_latency = serving_result["latency"]["server_inference_ms"]
+    backend = serving_result["backend"]
+    precision = serving_result["precision"]
+    power_mode = metadata.get("power_mode", {}).get("stdout", "unknown").replace("\n", "; ") or "unknown"
+    timestamp = now_iso()
+    model_name = model["id"]
+    source_text = _relative_or_original(str(fastapi_whisper_smoke_path), repo_root)
+    result_json_text = _relative_or_original(str(output_dir / "result.json"), repo_root)
+    server_log_text = metadata.get("server_log", "")
+    tegrastats_text = metadata.get("tegrastats_log", "")
+    server_app_text = "src/server/resnet18_app.py"
+    tegrastats_summary = summarize_tegrastats(_path_from_repo(tegrastats_text, repo_root)) if tegrastats_text else {"status": "not_provided", "sample_count": 0}
+    duration_s = audio["duration_s"]
+    audio_seconds_per_client_second = round(duration_s / (client_latency["mean_ms"] / 1000.0), 4) if client_latency.get("mean_ms") else None
+    audio_seconds_per_server_second = round(duration_s / (server_latency["mean_ms"] / 1000.0), 4) if server_latency.get("mean_ms") else None
+    compare_key = f"{model_name}__fastapi_speech__{audio['sample_rate_hz']}hz__{backend}"
+    backend_key = f"fastapi_openai_whisper_{backend}__jetson"
+    normalized_contains_expected = bool(transcription.get("normalized_contains_expected"))
+
+    result_json = {
+        "schema_version": RESULT_SCHEMA_VERSION,
+        "compare_key": compare_key,
+        "backend_key": backend_key,
+        "runtime_role": "serving-result",
+        "manifest_path": "",
+        "manifest_applied": False,
+        "model_name": model_name,
+        "model_path": "python-package:openai-whisper",
+        "engine_name": "fastapi-whisper",
+        "engine_backend": "fastapi+openai-whisper",
+        "device_name": "jetson",
+        "batch": 1,
+        "height": 0,
+        "width": 0,
+        "warmup": serving_result["runtime"]["warmup"],
+        "runs": serving_result["runtime"]["repeat"],
+        "mean_ms": client_latency["mean_ms"],
+        "p50_ms": client_latency["p50_ms"],
+        "p95_ms": client_latency["p95_ms"],
+        "p99_ms": client_latency["p99_ms"],
+        "fps_value": audio_seconds_per_client_second,
+        "success": True,
+        "status": "success",
+        "model": {
+            "path": "python-package:openai-whisper",
+            "name": model_name,
+            "family": model.get("architecture", "whisper"),
+            "sha256": "",
+            "cache_present": model.get("model_cache_present", False),
+        },
+        "engine": {
+            "name": "fastapi-whisper",
+            "backend": "fastapi+openai-whisper",
+            "available": True,
+            "status_message": "FastAPI localhost Whisper speech transcription smoke completed.",
+            "path": server_app_text,
+            "sha256": _sha256_if_exists(server_app_text, repo_root),
+        },
+        "device": {"name": "jetson", "hostname": metadata.get("hostname", "jetson-orin-nano")},
+        "precision": precision,
+        "run_config": {
+            "batch": 1,
+            "height": 0,
+            "width": 0,
+            "warmup": serving_result["runtime"]["warmup"],
+            "runs": serving_result["runtime"]["repeat"],
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "base_url": serving_result["server"]["base_url"],
+            "endpoint": serving_result["server"]["endpoint"],
+            "audio_path": audio["path"],
+            "audio_source": audio["source"],
+            "expected_text": transcription.get("expected_text", ""),
+            "language": transcription.get("language", "en"),
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+            "manifest_path": "",
+            "manifest_applied": False,
+            "source_fastapi_whisper_smoke_json": source_text,
+        },
+        "latency_ms": {
+            "mean": client_latency["mean_ms"],
+            "min": client_latency["min_ms"],
+            "max": client_latency["max_ms"],
+            "std": None,
+            "p50": client_latency["p50_ms"],
+            "p90": None,
+            "p95": client_latency["p95_ms"],
+            "p99": client_latency["p99_ms"],
+            "samples": client_latency["samples_ms"],
+        },
+        "fps": audio_seconds_per_client_second,
+        "benchmark": {"success": True, "status": "success", "message": "FastAPI Whisper serving smoke exported to InferEdge-compatible result"},
+        "timestamp": timestamp,
+        "system": {
+            "os": platform.system().lower(),
+            "machine": platform.machine(),
+            "jetson": {
+                "power_mode": power_mode,
+                "jetson_clocks": "unknown",
+                "tegrastats_log_path": tegrastats_text,
+            },
+        },
+        "jetson_evidence": {
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_summary": tegrastats_summary,
+        },
+        "model_metadata": {
+            "inputs": [{
+                "name": "audio",
+                "element_type": "pcm_s16le",
+                "shape": [audio["frames"], audio["channels"]],
+                "sample_rate_hz": audio["sample_rate_hz"],
+                "duration_s": duration_s,
+            }],
+            "outputs": [{"name": "transcript", "element_type": "utf8_text", "shape": [1]}],
+        },
+        "comparison": {
+            "source_json": source_text,
+            "comparison_name": "fastapi_whisper_serving_layer_smoke",
+            "verdict": "serving_layer_evidence_not_direct_regression",
+            "comparability": {
+                "same_model_hash": False,
+                "same_input_shape": True,
+                "same_precision": True,
+                "same_backend": True,
+                "note": "serving result validates localhost HTTP plus Whisper transcription plumbing; it is not a broad speech accuracy benchmark or deployment approval",
+            },
+            "ratios": {
+                "audio_seconds_per_client_second": audio_seconds_per_client_second,
+                "audio_seconds_per_server_second": audio_seconds_per_server_second,
+            },
+        },
+        "serving": {
+            "source_json": source_text,
+            "framework": serving_result["server"]["framework"],
+            "asgi": serving_result["server"]["asgi"],
+            "base_url": serving_result["server"]["base_url"],
+            "endpoint": serving_result["server"]["endpoint"],
+            "health": serving_result["server"]["health"],
+            "request": {
+                "source": audio["source"],
+                "audio_path": audio["path"],
+                "audio_sha256": audio["sha256"],
+                "sample_rate_hz": audio["sample_rate_hz"],
+                "channels": audio["channels"],
+                "duration_s": duration_s,
+                "expected_text": transcription.get("expected_text", ""),
+                "language": transcription.get("language", "en"),
+            },
+            "latency_layers": {
+                "client_roundtrip_ms": client_latency,
+                "server_transcription_ms": server_latency,
+            },
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+        },
+        "audio": {
+            "path": audio["path"],
+            "sha256": audio["sha256"],
+            "source": audio["source"],
+            "sample_rate_hz": audio["sample_rate_hz"],
+            "channels": audio["channels"],
+            "duration_s": duration_s,
+            "format": audio["format"],
+        },
+        "transcription": {
+            "text": transcription["text"],
+            "expected_text": transcription.get("expected_text", ""),
+            "language": transcription.get("language", "en"),
+            "normalized_contains_expected": normalized_contains_expected,
+            "segments": transcription.get("segments", []),
+        },
+        "extra": {
+            "runtime": "jetson-orin-nano-internal-lab",
+            "json_export": "enabled",
+            "output_mode": "explicit",
+            "latest_path": result_json_text,
+            "manifest_recorded": False,
+            "manifest_precision": precision,
+            "manifest_format": "fastapi+openai-whisper",
+            "input_mode": "license_clear_generated_speech",
+            "input_path": audio["path"],
+            "input_preprocess": "repo_relative_wav_path_validated_by_fastapi",
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_status": tegrastats_summary.get("status", "unknown"),
+            "compare_ready": True,
+            "serving_ready": True,
+            "transcription_ready": True,
+            "expected_text_matched": normalized_contains_expected,
+            "compare_key": compare_key,
+            "backend_key": backend_key,
+            "compare_model_source": "fastapi_whisper_serving_source_model",
+            "compare_model_name": model_name,
+            "export_schema_version": EXPORT_SCHEMA_VERSION,
+            "evidence_kind": "fastapi_audio_serving_smoke",
+            "accuracy_claim": False,
+            "deployment_ready_claim": False,
+        },
+    }
+
+    metadata_json = {
+        "schema_version": METADATA_SCHEMA_VERSION,
+        "source_model": {"format": "openai-whisper-package", "path": "python-package:openai-whisper", "sha256": ""},
+        "artifacts": [
+            {"role": "runtime_result", "format": "json", "path": result_json_text, "sha256": "__FILLED_AFTER_WRITE__"},
+            {"role": "fastapi_whisper_serving_smoke", "format": "json", "path": source_text, "sha256": sha256_file(fastapi_whisper_smoke_path)},
+            {"role": "audio_input", "format": "wav", "path": audio["path"], "sha256": audio["sha256"]},
+            {"role": "server_log", "format": "log", "path": server_log_text, "sha256": _sha256_if_exists(server_log_text, repo_root)},
+            {"role": "tegrastats_log", "format": "log", "path": tegrastats_text, "sha256": _sha256_if_exists(tegrastats_text, repo_root)},
+        ],
+        "build": {
+            "build_id": f"fastapi-whisper-serving-{timestamp.replace(':', '').replace('-', '')}",
+            "backend": "fastapi+openai-whisper",
+            "target": "jetson",
+            "preset_name": "fastapi/jetson_whisper_speech_smoke",
+            "timestamp": timestamp,
+        },
+        "handoff": {"consumer": "InferEdgeLab", "ready": True},
+        "lab_compat": {
+            "profile_ready": True,
+            "runtime": {
+                "device": "jetson",
+                "engine": "fastapi+openai-whisper",
+                "engine_path": server_app_text,
+                "precision": precision,
+                "requested_batch": 1,
+                "requested_height": 0,
+                "requested_width": 0,
+                "runtime_artifact_path": server_app_text,
+                "result_json_path": result_json_text,
+            },
+        },
+        "preset_snapshot": {
+            "name": "fastapi/jetson_whisper_speech_smoke",
+            "backend": "fastapi+openai-whisper",
+            "target": "jetson",
+            "build_options": {
+                "precision": precision,
+                "model": model_name,
+                "endpoint": serving_result["server"]["endpoint"],
+                "audio_sample_rate_hz": audio["sample_rate_hz"],
+                "measurement": "localhost_http_client_roundtrip_and_server_transcription",
+            },
+            "metadata": {"validation_handoff": "inferedgelab", "source": "jetson-orin-nano-internal-lab"},
+        },
+        "export": {
+            "schema_version": EXPORT_SCHEMA_VERSION,
+            "source_fastapi_whisper_smoke_json": source_text,
+            "repo_commit": run_command(["git", "rev-parse", "--short", "HEAD"]),
+            "repo_status": run_command(["git", "status", "--short", "--branch"]),
+        },
+    }
+    return metadata_json, result_json
+
+
 def build_inferedge_audio_export(whisper_smoke_path: Path, output_dir: Path, repo_root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     """Build InferEdge-compatible metadata/result pair for Whisper audio transcription evidence."""
 

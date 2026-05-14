@@ -203,6 +203,20 @@ InferEdge serving output:
 | Result | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` |
 | Report | `docs/reports/fastapi_inferedge_export.md` |
 
+`scripts/export_fastapi_whisper_serving_inferedge.sh` converts the Whisper serving smoke JSON into a matching InferEdge-compatible serving handoff.
+
+```bash
+bash scripts/export_fastapi_whisper_serving_inferedge.sh
+```
+
+InferEdge Whisper serving output:
+
+| Artifact | Path |
+|---|---|
+| Metadata | `results/inferedge/fastapi_whisper_serving_20260514_202459/metadata.json` |
+| Result | `results/inferedge/fastapi_whisper_serving_20260514_202459/result.json` |
+| Report | `docs/reports/fastapi_whisper_inferedge_export.md` |
+
 ## Current Recorded Result
 
 | Endpoint | Layer | Mean ms | P95 ms | P99 ms |
@@ -220,4 +234,5 @@ InferEdge serving output:
 - Client roundtrip latency includes localhost HTTP serialization, FastAPI routing, request validation, synthetic tensor creation, inference, and response serialization.
 - Server inference/transcription latency is measured inside the handler around the PyTorch model call or Whisper `model.transcribe`.
 - The InferEdge serving export uses client roundtrip latency as the top-level `latency_ms` and preserves server-side latency under `serving.latency_layers.server_inference_ms`.
+- The FastAPI Whisper serving export also uses client roundtrip latency as top-level `latency_ms`, while preserving transcription timing under `serving.latency_layers.server_transcription_ms`.
 - This serving evidence does not replace native TensorRT or ONNX Runtime provider evidence; it adds a local API layer evidence point.
