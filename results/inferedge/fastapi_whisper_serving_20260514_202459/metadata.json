@@ -4,7 +4,7 @@
       "format": "json",
       "path": "results/inferedge/fastapi_whisper_serving_20260514_202459/result.json",
       "role": "runtime_result",
-      "sha256": "a8413d04d5d71aa4c240dc13ac12ebc55d992f0a11af97c4a7223717f1fa7333"
+      "sha256": "4535ccaf450400bdaeb8285ef2d77859ab63a528abeb0f4799a5ec562a240230"
     },
     {
       "format": "json",
@@ -33,13 +33,14 @@
   ],
   "build": {
     "backend": "fastapi+openai-whisper",
-    "build_id": "fastapi-whisper-serving-20260514T203947+0900",
+    "build_id": "fastapi-whisper-serving-20260514T213644+0900",
     "preset_name": "fastapi/jetson_whisper_speech_smoke",
     "target": "jetson",
-    "timestamp": "2026-05-14T20:39:47+09:00"
+    "timestamp": "2026-05-14T21:36:44+09:00"
   },
   "export": {
-    "repo_commit": {
+    "artifact_commit_note": "The commit containing this generated metadata is the git commit that tracks this file; it is intentionally not embedded to avoid self-referential commit hashes.",
+    "export_workspace_commit": {
       "command": [
         "git",
         "rev-parse",
@@ -48,9 +49,9 @@
       ],
       "exit_code": 0,
       "stderr": "",
-      "stdout": "387c1a8"
+      "stdout": "3c030c7"
     },
-    "repo_status": {
+    "export_workspace_status": {
       "command": [
         "git",
         "status",
@@ -59,10 +60,32 @@
       ],
       "exit_code": 0,
       "stderr": "",
-      "stdout": "## main...origin/main\n M README.md\n M docs/reports/fastapi_api_usage.md\n M docs/reports/portfolio_evidence_index.md\n M src/common/inferedge_schema.py\n?? scripts/export_fastapi_whisper_serving_inferedge.py\n?? scripts/export_fastapi_whisper_serving_inferedge.sh\n?? tests/test_fastapi_whisper_inferedge_export.py"
+      "stdout": "## main...origin/main\n M src/common/inferedge_schema.py\n M tests/test_fastapi_whisper_inferedge_export.py"
     },
     "schema_version": "inferedge-internal-lab-export-v1",
-    "source_fastapi_whisper_smoke_json": "results/inference/fastapi_whisper_speech_server_20260514_202459.json"
+    "source_fastapi_whisper_smoke_json": "results/inference/fastapi_whisper_speech_server_20260514_202459.json",
+    "source_smoke_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "e6afc29"
+    },
+    "source_smoke_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    }
   },
   "handoff": {
     "consumer": "InferEdgeLab",

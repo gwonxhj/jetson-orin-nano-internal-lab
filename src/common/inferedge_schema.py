@@ -564,6 +564,11 @@ def build_inferedge_whisper_serving_export(fastapi_whisper_smoke_path: Path, out
     smoke = read_json(fastapi_whisper_smoke_path)
     metadata = smoke["metadata"]
     serving_result = smoke["result"]
+    if serving_result.get("success") is not True or serving_result.get("status") != "succeeded":
+        raise ValueError(
+            "FastAPI Whisper serving smoke must be successful before InferEdge export: "
+            f"status={serving_result.get('status')!r}, success={serving_result.get('success')!r}"
+        )
     model = serving_result["model"]
     audio = serving_result["input"]
     transcription = serving_result["transcription"]
@@ -823,8 +828,14 @@ def build_inferedge_whisper_serving_export(fastapi_whisper_smoke_path: Path, out
         "export": {
             "schema_version": EXPORT_SCHEMA_VERSION,
             "source_fastapi_whisper_smoke_json": source_text,
-            "repo_commit": run_command(["git", "rev-parse", "--short", "HEAD"]),
-            "repo_status": run_command(["git", "status", "--short", "--branch"]),
+            "source_smoke_commit": metadata.get("git_commit", {}),
+            "source_smoke_status": metadata.get("git_status", {}),
+            "export_workspace_commit": run_command(["git", "rev-parse", "--short", "HEAD"]),
+            "export_workspace_status": run_command(["git", "status", "--short", "--branch"]),
+            "artifact_commit_note": (
+                "The commit containing this generated metadata is the git commit that tracks this file; "
+                "it is intentionally not embedded to avoid self-referential commit hashes."
+            ),
         },
     }
     return metadata_json, result_json
