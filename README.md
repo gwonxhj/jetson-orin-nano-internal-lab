@@ -10,7 +10,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [ResNet18 runtime matrix summary](docs/reports/resnet18_runtime_matrix_summary.md) — PyTorch CUDA, ONNX Runtime CPU/CUDA/TensorRT EP, native TensorRT, TensorRT EP cache 비용을 한 장으로 요약합니다.
 - [TensorRT FP16 optimization report](docs/reports/tensorrt_optimization_report.md) — ResNet18 ONNX export, `trtexec` build/run command, model hash, input shape, precision, warmup/repeat 조건을 기록합니다.
 - [FastAPI API usage report](docs/reports/fastapi_api_usage.md) — `/health`, `/v1/models`, ResNet18 synthetic inference, Whisper speech transcription API 호출 흐름과 evidence 산출물 연결을 설명합니다.
-- [Whisper / FastAPI Whisper InferEdge exports](docs/reports/portfolio_evidence_index.md) — Whisper offline transcription과 FastAPI Whisper serving 결과를 InferEdge-compatible `metadata.json` / `result.json` handoff evidence로 연결합니다.
+- [Whisper / FastAPI Whisper exports](docs/reports/portfolio_evidence_index.md) — Offline transcription과 FastAPI serving 결과를 `metadata.json` / `result.json` handoff evidence로 연결합니다.
 
 전체 report map과 보조 evidence 링크는 [portfolio evidence index](docs/reports/portfolio_evidence_index.md)와 [Evidence Map](#evidence-map)에 위임합니다.
 
