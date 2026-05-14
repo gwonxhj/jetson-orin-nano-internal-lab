@@ -15,6 +15,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [FastAPI InferEdge serving export](docs/reports/fastapi_inferedge_export.md) — FastAPI localhost serving smoke를 InferEdge-compatible `metadata.json` / `result.json` evidence로 변환합니다.
 - [Whisper synthetic path smoke](docs/reports/whisper_transcription_smoke.md) — 외부 마이크 없이 synthetic tone WAV로 Whisper tiny/base audio decode/model path 준비 상태를 evidence로 기록합니다.
 - [Whisper speech transcription smoke](docs/reports/whisper_speech_transcription_smoke.md) — license-clear generated speech WAV로 실제 transcription path를 synthetic path smoke와 분리해 기록합니다.
+- [Whisper InferEdge export](docs/reports/whisper_inferedge_export.md) — Whisper speech smoke를 InferEdge-compatible `metadata.json` / `result.json` handoff evidence로 변환합니다.
 - [Whisper env candidate probe](docs/reports/whisper_env_candidate_probe.md) — `yolo_env`를 바꾸지 않고 `openai-whisper` / `faster-whisper` 격리 env 후보를 검증합니다.
 - [ONNX Runtime CUDA EP activation attempt](docs/reports/onnxruntime_cuda_ep_activation_attempt.md) — 기존 `yolo_env`를 변경하지 않고 CUDAExecutionProvider 활성화 가능 여부를 evidence로 기록합니다.
 - [InferEdge-compatible export report](docs/reports/inferedge_export.md) — runtime comparison 결과를 `metadata.json` / `result.json` handoff evidence로 변환한 내용을 설명합니다.
@@ -39,6 +40,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - FastAPI localhost serving boundary notes
 - FastAPI serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - Whisper tiny/base offline transcription smoke with separate synthetic tone and generated speech inputs
+- Whisper speech smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - Whisper isolated env candidate probe for `openai-whisper` and `faster-whisper`
 - InferEdge-compatible `metadata.json` / `result.json` export
 
@@ -410,7 +412,26 @@ WHISPER_ALLOW_DOWNLOAD=1 conda run -n whisper_env bash scripts/run_whisper_speec
 |---|---|---|---|---|---|---:|---:|
 | `tiny` | `succeeded` | `whisper_env` | `cuda` | `hello world` | `Hello world!` | 1701.2686 | 1.3775 |
 
-### 16. Whisper Env Candidate Probe
+### 16. Whisper InferEdge Export
+
+Whisper speech transcription smoke를 InferEdge-compatible `metadata.json` / `result.json` 쌍으로 변환합니다. 이 export는 audio/transcription 세부 정보를 보존하지만, 여전히 짧은 license-clear smoke evidence이며 accuracy benchmark나 deployment approval이 아닙니다.
+
+```bash
+bash scripts/export_whisper_inferedge.sh
+```
+
+주요 산출물:
+
+- `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/metadata.json`
+- `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json`
+- `docs/reports/whisper_inferedge_export.md`
+
+InferEdge-compatible 핵심 필드:
+
+- `metadata.json`: `schema_version`, `source_model`, `artifacts`, `build`, `handoff`, `lab_compat`
+- `result.json`: `schema_version`, `compare_key`, `backend_key`, `runtime_role`, `mean_ms`, `p95_ms`, `p99_ms`, `latency_ms`, `audio`, `transcription`, `jetson_evidence`, `extra.compare_ready`
+
+### 17. Whisper Env Candidate Probe
 
 기존 `yolo_env`를 직접 수정하지 않고, 별도 `whisper_env`를 만들기 전 `openai-whisper`와 `faster-whisper` 후보를 비교합니다. 기본 경로는 `yolo_env`를 clone해서 PyTorch CUDA stack을 보존한 뒤 candidate package만 격리 설치하는 방식입니다.
 
@@ -462,6 +483,7 @@ bash scripts/create_whisper_env.sh --execute
 | FastAPI serving InferEdge export | `scripts/export_fastapi_serving_inferedge.sh` | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` | `docs/reports/fastapi_inferedge_export.md` |
 | Whisper transcription smoke | `scripts/run_whisper_smoke.sh` | `results/inference/whisper_tiny_transcription_20260514_180622.json` | `docs/reports/whisper_transcription_smoke.md` |
 | Whisper speech transcription smoke | `scripts/run_whisper_speech_smoke.sh` | `results/inference/whisper_tiny_speech_transcription_20260514_182822.json` | `docs/reports/whisper_speech_transcription_smoke.md` |
+| Whisper InferEdge export | `scripts/export_whisper_inferedge.sh` | `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json` | `docs/reports/whisper_inferedge_export.md` |
 | Whisper env candidate probe | `scripts/probe_whisper_env_candidates.sh` | `results/inference/whisper_env_candidates_20260514_175410.json` | `docs/reports/whisper_env_candidate_probe.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 

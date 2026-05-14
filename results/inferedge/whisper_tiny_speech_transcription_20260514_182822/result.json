@@ -1,0 +1,197 @@
+{
+  "audio": {
+    "channels": 1,
+    "duration_s": 1.235,
+    "format": "wav",
+    "path": "examples/audio/license_clear_whisper_smoke.wav",
+    "sample_rate_hz": 16000,
+    "sha256": "5eb101e247c9ab4f6743c48256e1e783ab57be418d12647bae315cb953d577dc",
+    "source": "generated_license_clear_ffmpeg_flite_text_to_speech"
+  },
+  "backend_key": "openai_whisper_cuda__jetson",
+  "batch": 1,
+  "benchmark": {
+    "message": "Whisper transcription smoke exported to InferEdge-compatible result",
+    "status": "success",
+    "success": true
+  },
+  "compare_key": "whisper-tiny__speech__16000hz__cuda",
+  "comparison": {
+    "comparability": {
+      "note": "speech smoke validates a license-clear local transcription path; it is not a broad accuracy benchmark or deployment approval",
+      "same_backend": true,
+      "same_input_shape": true,
+      "same_model_hash": true,
+      "same_precision": true
+    },
+    "comparison_name": "whisper_speech_transcription_smoke",
+    "ratios": {
+      "audio_seconds_per_second": 0.7259,
+      "real_time_factor": 1.3775
+    },
+    "source_json": "results/inference/whisper_tiny_speech_transcription_20260514_182822.json",
+    "verdict": "audio_transcription_smoke_not_accuracy_benchmark"
+  },
+  "device": {
+    "hostname": "jetson-orin-nano",
+    "name": "jetson"
+  },
+  "device_name": "jetson",
+  "engine": {
+    "available": true,
+    "backend": "openai-whisper",
+    "name": "openai-whisper",
+    "path": "python-package:openai-whisper",
+    "sha256": "",
+    "status_message": "Whisper speech transcription smoke completed.",
+    "version": "20250625"
+  },
+  "engine_backend": "openai-whisper",
+  "engine_name": "openai-whisper",
+  "extra": {
+    "accuracy_claim": false,
+    "backend_key": "openai_whisper_cuda__jetson",
+    "compare_key": "whisper-tiny__speech__16000hz__cuda",
+    "compare_model_name": "whisper-tiny",
+    "compare_model_source": "whisper_model_cache",
+    "compare_ready": true,
+    "deployment_ready_claim": false,
+    "evidence_kind": "audio_transcription_smoke",
+    "expected_text_matched": true,
+    "export_schema_version": "inferedge-internal-lab-export-v1",
+    "input_mode": "license_clear_generated_speech",
+    "input_path": "examples/audio/license_clear_whisper_smoke.wav",
+    "input_preprocess": "ffmpeg_flite_generated_wav_16khz_mono",
+    "jetson_clocks": "unknown",
+    "json_export": "enabled",
+    "latest_path": "results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json",
+    "manifest_format": "openai-whisper",
+    "manifest_precision": "fp32_or_fp16_by_device",
+    "manifest_recorded": false,
+    "output_mode": "explicit",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "runtime": "jetson-orin-nano-internal-lab",
+    "tegrastats_log_path": "artifacts/system/tegrastats_whisper_speech_tiny_20260514_182822.log",
+    "tegrastats_status": "parsed",
+    "transcription_ready": true
+  },
+  "fps": 0.7259,
+  "fps_value": 0.7259,
+  "height": 0,
+  "jetson_evidence": {
+    "jetson_clocks": "unknown",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "tegrastats_log_path": "artifacts/system/tegrastats_whisper_speech_tiny_20260514_182822.log",
+    "tegrastats_summary": {
+      "max_temp_c": 41.718,
+      "max_temp_name": "gpu",
+      "ram_total_mb": 7620.0,
+      "ram_used_mb_avg": 2245.125,
+      "ram_used_mb_max": 2761.0,
+      "sample_count": 48,
+      "status": "parsed",
+      "vdd_in_mw_avg": 5110.125,
+      "vdd_in_mw_max": 5368.0
+    }
+  },
+  "latency_ms": {
+    "max": 1701.2686,
+    "mean": 1701.2686,
+    "min": 1701.2686,
+    "p50": 1701.2686,
+    "p90": null,
+    "p95": 1701.2686,
+    "p99": 1701.2686,
+    "samples": [
+      1701.2686
+    ],
+    "std": null
+  },
+  "manifest_applied": false,
+  "manifest_path": "",
+  "mean_ms": 1701.2686,
+  "model": {
+    "cache_present": true,
+    "family": "whisper",
+    "name": "whisper-tiny",
+    "path": "[home]/.cache/whisper/tiny.pt",
+    "sha256": "65147644a518d12f04e32d6f3b26facc3f8dd46e5390956a9424a650c0ce22b9"
+  },
+  "model_metadata": {
+    "inputs": [
+      {
+        "duration_s": 1.235,
+        "element_type": "pcm_s16le",
+        "name": "audio",
+        "sample_rate_hz": 16000,
+        "shape": [
+          19760,
+          1
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "element_type": "utf8_text",
+        "name": "transcript",
+        "shape": [
+          1
+        ]
+      }
+    ]
+  },
+  "model_name": "whisper-tiny",
+  "model_path": "[home]/.cache/whisper/tiny.pt",
+  "p50_ms": 1701.2686,
+  "p95_ms": 1701.2686,
+  "p99_ms": 1701.2686,
+  "precision": "fp32_or_fp16_by_device",
+  "run_config": {
+    "audio_path": "examples/audio/license_clear_whisper_smoke.wav",
+    "audio_source": "generated_license_clear_ffmpeg_flite_text_to_speech",
+    "batch": 1,
+    "expected_text": "hello world",
+    "height": 0,
+    "jetson_clocks": "unknown",
+    "language": "en",
+    "manifest_applied": false,
+    "manifest_path": "",
+    "model_cache_path": "[home]/.cache/whisper/tiny.pt",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "runs": 1,
+    "source_whisper_smoke_json": "results/inference/whisper_tiny_speech_transcription_20260514_182822.json",
+    "tegrastats_log_path": "artifacts/system/tegrastats_whisper_speech_tiny_20260514_182822.log",
+    "warmup": 0,
+    "width": 0
+  },
+  "runs": 1,
+  "runtime_role": "audio-transcription-result",
+  "schema_version": "inferedge-runtime-result-v1",
+  "status": "success",
+  "success": true,
+  "system": {
+    "jetson": {
+      "jetson_clocks": "unknown",
+      "power_mode": "NV Power Mode: 25W; 1",
+      "tegrastats_log_path": "artifacts/system/tegrastats_whisper_speech_tiny_20260514_182822.log"
+    },
+    "machine": "aarch64",
+    "os": "linux"
+  },
+  "timestamp": "2026-05-14T18:41:32+09:00",
+  "transcription": {
+    "expected_text": "hello world",
+    "language": "en",
+    "normalized_contains_expected": true,
+    "segments": [
+      {
+        "end": 2.0,
+        "start": 0.0,
+        "text": "Hello world!"
+      }
+    ],
+    "text": "Hello world!"
+  },
+  "warmup": 0,
+  "width": 0
+}

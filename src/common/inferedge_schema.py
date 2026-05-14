@@ -314,6 +314,19 @@ def _sha256_if_exists(path_text: str, repo_root: Path) -> str:
     return ""
 
 
+def _path_from_sanitized(path_text: str, repo_root: Path) -> Path:
+    if path_text.startswith("[home]/"):
+        return Path.home() / path_text[len("[home]/"):]
+    return _path_from_repo(path_text, repo_root)
+
+
+def _sha256_sanitized_if_exists(path_text: str, repo_root: Path) -> str:
+    path = _path_from_sanitized(path_text, repo_root)
+    if path.exists() and path.is_file():
+        return sha256_file(path)
+    return ""
+
+
 def build_inferedge_serving_export(fastapi_smoke_path: Path, output_dir: Path, repo_root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     """Build InferEdge-compatible metadata/result pair for FastAPI serving evidence."""
 
@@ -545,6 +558,246 @@ def build_inferedge_serving_export(fastapi_smoke_path: Path, output_dir: Path, r
     return metadata_json, result_json
 
 
+def build_inferedge_audio_export(whisper_smoke_path: Path, output_dir: Path, repo_root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Build InferEdge-compatible metadata/result pair for Whisper audio transcription evidence."""
+
+    smoke = read_json(whisper_smoke_path)
+    metadata = smoke["metadata"]
+    evidence = smoke["result"]
+    audio = evidence["audio"]
+    model = evidence["model"]
+    runtime = evidence["runtime"]
+    latency = evidence["latency_ms"]
+    transcription = evidence["transcription"]
+    power_mode = metadata.get("power_mode", {}).get("stdout", "unknown").replace("\n", "; ") or "unknown"
+    timestamp = now_iso()
+    model_name = f"whisper-{model['name']}"
+    backend = evidence["backend"]
+    precision = evidence["precision"]
+    source_text = _relative_or_original(str(whisper_smoke_path), repo_root)
+    result_json_text = _relative_or_original(str(output_dir / "result.json"), repo_root)
+    audio_path_text = audio["path"]
+    tegrastats_text = metadata.get("tegrastats_note", "")
+    tegrastats_summary = summarize_tegrastats(_path_from_repo(tegrastats_text, repo_root)) if tegrastats_text else {"status": "not_provided", "sample_count": 0}
+    duration_s = audio["duration_s"]
+    real_time_factor = runtime.get("real_time_factor")
+    audio_seconds_per_second = round(duration_s / (latency["mean_ms"] / 1000.0), 4) if latency.get("mean_ms") else None
+    compare_key = f"{model_name}__speech__{audio['sample_rate_hz']}hz__{backend}"
+    backend_key = f"openai_whisper_{backend}__jetson"
+    normalized_contains_expected = bool(transcription.get("normalized_contains_expected"))
+    model_cache_path = model.get("cache_path", "")
+    model_cache_sha256 = _sha256_sanitized_if_exists(model_cache_path, repo_root)
+
+    result_json = {
+        "schema_version": RESULT_SCHEMA_VERSION,
+        "compare_key": compare_key,
+        "backend_key": backend_key,
+        "runtime_role": "audio-transcription-result",
+        "manifest_path": "",
+        "manifest_applied": False,
+        "model_name": model_name,
+        "model_path": model_cache_path,
+        "engine_name": "openai-whisper",
+        "engine_backend": "openai-whisper",
+        "device_name": "jetson",
+        "batch": 1,
+        "height": 0,
+        "width": 0,
+        "warmup": runtime["warmup"],
+        "runs": runtime["repeat"],
+        "mean_ms": latency["mean_ms"],
+        "p50_ms": latency["p50_ms"],
+        "p95_ms": latency["p95_ms"],
+        "p99_ms": latency["p99_ms"],
+        "fps_value": audio_seconds_per_second,
+        "success": True,
+        "status": "success",
+        "model": {
+            "path": model_cache_path,
+            "name": model_name,
+            "family": model["family"],
+            "sha256": model_cache_sha256,
+            "cache_present": model["cache_present"],
+        },
+        "engine": {
+            "name": "openai-whisper",
+            "backend": "openai-whisper",
+            "available": metadata["package"]["available"],
+            "status_message": "Whisper speech transcription smoke completed.",
+            "path": "python-package:openai-whisper",
+            "version": metadata["package"].get("version", ""),
+            "sha256": "",
+        },
+        "device": {"name": "jetson", "hostname": metadata.get("hostname", "jetson-orin-nano")},
+        "precision": precision,
+        "run_config": {
+            "batch": 1,
+            "height": 0,
+            "width": 0,
+            "warmup": runtime["warmup"],
+            "runs": runtime["repeat"],
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "audio_path": audio_path_text,
+            "audio_source": audio["source"],
+            "expected_text": transcription.get("expected_text", ""),
+            "language": runtime["language"],
+            "model_cache_path": model_cache_path,
+            "tegrastats_log_path": tegrastats_text,
+            "manifest_path": "",
+            "manifest_applied": False,
+            "source_whisper_smoke_json": source_text,
+        },
+        "latency_ms": {
+            "mean": latency["mean_ms"],
+            "min": latency["min_ms"],
+            "max": latency["max_ms"],
+            "std": None,
+            "p50": latency["p50_ms"],
+            "p90": None,
+            "p95": latency["p95_ms"],
+            "p99": latency["p99_ms"],
+            "samples": latency["samples_ms"],
+        },
+        "fps": audio_seconds_per_second,
+        "benchmark": {"success": True, "status": "success", "message": "Whisper transcription smoke exported to InferEdge-compatible result"},
+        "timestamp": timestamp,
+        "system": {
+            "os": platform.system().lower(),
+            "machine": platform.machine(),
+            "jetson": {
+                "power_mode": power_mode,
+                "jetson_clocks": "unknown",
+                "tegrastats_log_path": tegrastats_text,
+            },
+        },
+        "jetson_evidence": {
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_summary": tegrastats_summary,
+        },
+        "model_metadata": {
+            "inputs": [{
+                "name": "audio",
+                "element_type": "pcm_s16le",
+                "shape": [audio["frames"], audio["channels"]],
+                "sample_rate_hz": audio["sample_rate_hz"],
+                "duration_s": duration_s,
+            }],
+            "outputs": [{"name": "transcript", "element_type": "utf8_text", "shape": [1]}],
+        },
+        "comparison": {
+            "source_json": source_text,
+            "comparison_name": "whisper_speech_transcription_smoke",
+            "verdict": "audio_transcription_smoke_not_accuracy_benchmark",
+            "comparability": {
+                "same_model_hash": bool(model_cache_sha256),
+                "same_input_shape": True,
+                "same_precision": True,
+                "same_backend": True,
+                "note": "speech smoke validates a license-clear local transcription path; it is not a broad accuracy benchmark or deployment approval",
+            },
+            "ratios": {"real_time_factor": real_time_factor, "audio_seconds_per_second": audio_seconds_per_second},
+        },
+        "audio": {
+            "path": audio_path_text,
+            "sha256": audio["sha256"],
+            "source": audio["source"],
+            "sample_rate_hz": audio["sample_rate_hz"],
+            "channels": audio["channels"],
+            "duration_s": duration_s,
+            "format": audio["format"],
+        },
+        "transcription": {
+            "text": transcription["text"],
+            "expected_text": transcription.get("expected_text", ""),
+            "language": transcription.get("language", runtime["language"]),
+            "normalized_contains_expected": normalized_contains_expected,
+            "segments": transcription.get("segments", []),
+        },
+        "extra": {
+            "runtime": "jetson-orin-nano-internal-lab",
+            "json_export": "enabled",
+            "output_mode": "explicit",
+            "latest_path": result_json_text,
+            "manifest_recorded": False,
+            "manifest_precision": precision,
+            "manifest_format": "openai-whisper",
+            "input_mode": "license_clear_generated_speech",
+            "input_path": audio_path_text,
+            "input_preprocess": "ffmpeg_flite_generated_wav_16khz_mono",
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_status": tegrastats_summary.get("status", "unknown"),
+            "compare_ready": True,
+            "transcription_ready": True,
+            "expected_text_matched": normalized_contains_expected,
+            "compare_key": compare_key,
+            "backend_key": backend_key,
+            "compare_model_source": "whisper_model_cache",
+            "compare_model_name": model_name,
+            "export_schema_version": EXPORT_SCHEMA_VERSION,
+            "evidence_kind": "audio_transcription_smoke",
+            "accuracy_claim": False,
+            "deployment_ready_claim": False,
+        },
+    }
+
+    metadata_json = {
+        "schema_version": METADATA_SCHEMA_VERSION,
+        "source_model": {"format": "openai-whisper-cache", "path": model_cache_path, "sha256": model_cache_sha256},
+        "artifacts": [
+            {"role": "runtime_result", "format": "json", "path": result_json_text, "sha256": "__FILLED_AFTER_WRITE__"},
+            {"role": "whisper_smoke_result", "format": "json", "path": source_text, "sha256": sha256_file(whisper_smoke_path)},
+            {"role": "audio_input", "format": "wav", "path": audio_path_text, "sha256": audio["sha256"]},
+            {"role": "tegrastats_log", "format": "log", "path": tegrastats_text, "sha256": _sha256_if_exists(tegrastats_text, repo_root)},
+        ],
+        "build": {
+            "build_id": f"whisper-speech-transcription-{timestamp.replace(':', '').replace('-', '')}",
+            "backend": "openai-whisper",
+            "target": "jetson",
+            "preset_name": "whisper/jetson_speech_smoke",
+            "timestamp": timestamp,
+        },
+        "handoff": {"consumer": "InferEdgeLab", "ready": True},
+        "lab_compat": {
+            "profile_ready": True,
+            "runtime": {
+                "device": "jetson",
+                "engine": "openai-whisper",
+                "engine_path": "python-package:openai-whisper",
+                "precision": precision,
+                "requested_batch": 1,
+                "requested_height": 0,
+                "requested_width": 0,
+                "runtime_artifact_path": model_cache_path,
+                "result_json_path": result_json_text,
+            },
+        },
+        "preset_snapshot": {
+            "name": "whisper/jetson_speech_smoke",
+            "backend": "openai-whisper",
+            "target": "jetson",
+            "build_options": {
+                "precision": precision,
+                "model": model["name"],
+                "audio_sample_rate_hz": audio["sample_rate_hz"],
+                "measurement": "local_whisper_transcribe",
+            },
+            "metadata": {"validation_handoff": "inferedgelab", "source": "jetson-orin-nano-internal-lab"},
+        },
+        "export": {
+            "schema_version": EXPORT_SCHEMA_VERSION,
+            "source_whisper_smoke_json": source_text,
+            "repo_commit": run_command(["git", "rev-parse", "--short", "HEAD"]),
+            "repo_status": run_command(["git", "status", "--short", "--branch"]),
+        },
+    }
+    return metadata_json, result_json
+
+
 def validate_inferedge_metadata(payload: dict[str, Any]) -> None:
     required = ["schema_version", "source_model", "artifacts", "build", "handoff", "lab_compat"]
     missing = [key for key in required if key not in payload]
@@ -584,5 +837,12 @@ def validate_inferedge_result(payload: dict[str, Any]) -> None:
             raise ValueError("serving result missing serving details")
         if payload["extra"].get("serving_ready") is not True:
             raise ValueError("serving result extra.serving_ready must be true")
-    if runtime_role not in {"runtime-result", "serving-result"}:
+    if runtime_role == "audio-transcription-result":
+        if verdict != "audio_transcription_smoke_not_accuracy_benchmark":
+            raise ValueError("audio transcription result must preserve smoke-test semantics")
+        if "audio" not in payload or "transcription" not in payload:
+            raise ValueError("audio transcription result missing audio/transcription details")
+        if payload["extra"].get("transcription_ready") is not True:
+            raise ValueError("audio transcription result extra.transcription_ready must be true")
+    if runtime_role not in {"runtime-result", "serving-result", "audio-transcription-result"}:
         raise ValueError(f"unsupported runtime_role: {runtime_role}")

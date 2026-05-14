@@ -1,0 +1,100 @@
+{
+  "artifacts": [
+    {
+      "format": "json",
+      "path": "results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json",
+      "role": "runtime_result",
+      "sha256": "1598e894c65363a243fdbd23c965596d184c34deadfb01c4af301df751acca98"
+    },
+    {
+      "format": "json",
+      "path": "results/inference/whisper_tiny_speech_transcription_20260514_182822.json",
+      "role": "whisper_smoke_result",
+      "sha256": "2d96b6bac84221fc61036331a3229daef7a78cc46177bc0ca112312abed35f5b"
+    },
+    {
+      "format": "wav",
+      "path": "examples/audio/license_clear_whisper_smoke.wav",
+      "role": "audio_input",
+      "sha256": "5eb101e247c9ab4f6743c48256e1e783ab57be418d12647bae315cb953d577dc"
+    },
+    {
+      "format": "log",
+      "path": "artifacts/system/tegrastats_whisper_speech_tiny_20260514_182822.log",
+      "role": "tegrastats_log",
+      "sha256": "590508df01b013e199593fd3ab930bbc506b69389b0790b84f6ec63e46733977"
+    }
+  ],
+  "build": {
+    "backend": "openai-whisper",
+    "build_id": "whisper-speech-transcription-20260514T184132+0900",
+    "preset_name": "whisper/jetson_speech_smoke",
+    "target": "jetson",
+    "timestamp": "2026-05-14T18:41:32+09:00"
+  },
+  "export": {
+    "repo_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "e47f532"
+    },
+    "repo_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "## main...origin/main\n M README.md\n M src/common/inferedge_schema.py\n?? docs/reports/whisper_inferedge_export.md\n?? results/inferedge/whisper_tiny_speech_transcription_20260514_182822/\n?? scripts/export_whisper_inferedge.py\n?? scripts/export_whisper_inferedge.sh\n?? tests/test_whisper_inferedge_export.py"
+    },
+    "schema_version": "inferedge-internal-lab-export-v1",
+    "source_whisper_smoke_json": "results/inference/whisper_tiny_speech_transcription_20260514_182822.json"
+  },
+  "handoff": {
+    "consumer": "InferEdgeLab",
+    "ready": true
+  },
+  "lab_compat": {
+    "profile_ready": true,
+    "runtime": {
+      "device": "jetson",
+      "engine": "openai-whisper",
+      "engine_path": "python-package:openai-whisper",
+      "precision": "fp32_or_fp16_by_device",
+      "requested_batch": 1,
+      "requested_height": 0,
+      "requested_width": 0,
+      "result_json_path": "results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json",
+      "runtime_artifact_path": "[home]/.cache/whisper/tiny.pt"
+    }
+  },
+  "preset_snapshot": {
+    "backend": "openai-whisper",
+    "build_options": {
+      "audio_sample_rate_hz": 16000,
+      "measurement": "local_whisper_transcribe",
+      "model": "tiny",
+      "precision": "fp32_or_fp16_by_device"
+    },
+    "metadata": {
+      "source": "jetson-orin-nano-internal-lab",
+      "validation_handoff": "inferedgelab"
+    },
+    "name": "whisper/jetson_speech_smoke",
+    "target": "jetson"
+  },
+  "schema_version": "0.1.0",
+  "source_model": {
+    "format": "openai-whisper-cache",
+    "path": "[home]/.cache/whisper/tiny.pt",
+    "sha256": "65147644a518d12f04e32d6f3b26facc3f8dd46e5390956a9424a650c0ce22b9"
+  }
+}
