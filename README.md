@@ -9,7 +9,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [Portfolio evidence index](docs/reports/portfolio_evidence_index.md) — ResNet18 runtime, FastAPI serving, Whisper audio, InferEdge export 흐름을 어떤 순서로 보면 되는지 한 장으로 안내합니다.
 - [ResNet18 runtime matrix summary](docs/reports/resnet18_runtime_matrix_summary.md) — PyTorch CUDA, ONNX Runtime CPU/CUDA/TensorRT EP, native TensorRT, TensorRT EP cache 비용을 한 장으로 요약합니다.
 - [TensorRT FP16 optimization report](docs/reports/tensorrt_optimization_report.md) — ResNet18 ONNX export, `trtexec` build/run command, model hash, input shape, precision, warmup/repeat 조건을 기록합니다.
-- [FastAPI API usage report](docs/reports/fastapi_api_usage.md) — `/health`, `/v1/models`, `/v1/infer/resnet18/synthetic` 호출 흐름과 evidence 산출물 연결을 설명합니다.
+- [FastAPI API usage report](docs/reports/fastapi_api_usage.md) — `/health`, `/v1/models`, ResNet18 synthetic inference, Whisper speech transcription API 호출 흐름과 evidence 산출물 연결을 설명합니다.
 - [Whisper InferEdge export](docs/reports/whisper_inferedge_export.md) — Whisper speech smoke를 InferEdge-compatible `metadata.json` / `result.json` handoff evidence로 변환합니다.
 
 전체 report map과 보조 evidence 링크는 [portfolio evidence index](docs/reports/portfolio_evidence_index.md)와 [Evidence Map](#evidence-map)에 위임합니다.
@@ -30,7 +30,8 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - ResNet18 ONNX export와 TensorRT FP16 `trtexec` engine smoke
 - PyTorch CUDA FP32 vs ONNX Runtime CPU FP32 vs ONNX Runtime CUDA FP32 vs ONNX Runtime TensorRT FP32 vs TensorRT FP16 runtime comparison
 - FastAPI localhost ResNet18 inference server smoke
-- FastAPI `/health`, `/v1/models`, `/v1/infer/resnet18/synthetic` API usage flow
+- FastAPI `/health`, `/v1/models`, `/v1/infer/resnet18/synthetic`, `/v1/infer/whisper/speech` API usage flow
+- FastAPI localhost Whisper speech transcription server smoke
 - FastAPI localhost serving boundary notes
 - FastAPI serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - Whisper tiny/base offline transcription smoke with separate synthetic tone and generated speech inputs
@@ -298,10 +299,12 @@ bash scripts/run_runtime_compare.sh
 
 ### 11. FastAPI Local Inference Server
 
-같은 ResNet18 random seeded model hash를 FastAPI localhost server로 감싸고, client roundtrip latency와 server-side PyTorch CUDA inference latency를 분리해 기록합니다.
+같은 ResNet18 random seeded model hash를 FastAPI localhost server로 감싸고, client roundtrip latency와 server-side PyTorch CUDA inference latency를 분리해 기록합니다. 같은 server app은 `whisper_env`에서 license-clear generated speech WAV를 Whisper tiny CUDA transcription endpoint로도 노출합니다.
 
 ```bash
 bash scripts/run_fastapi_server_smoke.sh
+conda activate whisper_env
+bash scripts/run_fastapi_whisper_smoke.sh
 ```
 
 주요 산출물:
@@ -310,6 +313,10 @@ bash scripts/run_fastapi_server_smoke.sh
 - `artifacts/system/fastapi_resnet18_server_20260514_142053.log`
 - `artifacts/system/tegrastats_fastapi_resnet18_20260514_142053.log`
 - `docs/reports/fastapi_resnet18_server_smoke.md`
+- `results/inference/fastapi_whisper_speech_server_20260514_202459.json`
+- `artifacts/system/fastapi_whisper_server_20260514_202459.log`
+- `artifacts/system/tegrastats_fastapi_whisper_20260514_202459.log`
+- `docs/reports/fastapi_whisper_speech_server_smoke.md`
 - `docs/reports/fastapi_api_usage.md`
 - `docs/reports/serving_boundary_notes.md`
 
@@ -319,6 +326,12 @@ bash scripts/run_fastapi_server_smoke.sh
 |---|---|---|---:|---:|
 | Client roundtrip | localhost HTTP | FP32 | 28.5178 | 29.5806 |
 | Server inference | PyTorch CUDA | FP32 | 18.415 | 19.1253 |
+
+현재 FastAPI Whisper speech server smoke 결과:
+
+| Endpoint | Backend | Transcript | Expected matched | Client mean ms | Server mean ms |
+|---|---|---|---:|---:|---:|
+| `/v1/infer/whisper/speech` | CUDA | `Hello world!` | true | 3276.5571 | 1802.9543 |
 
 ### 12. FastAPI Serving InferEdge Export
 
@@ -472,6 +485,7 @@ bash scripts/create_whisper_env.sh --execute
 | Runtime compare | `scripts/run_runtime_compare.sh` | `results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_onnxruntime_cuda_fp32_vs_onnxruntime_tensorrt_fp32_vs_tensorrt_fp16_20260514_025504.json` | `docs/reports/runtime_comparison.md` |
 | Runtime matrix summary | n/a | existing runtime/cache results | `docs/reports/resnet18_runtime_matrix_summary.md` |
 | FastAPI server smoke | `scripts/run_fastapi_server_smoke.sh` | `results/inference/fastapi_resnet18_server_20260514_142053.json` | `docs/reports/fastapi_resnet18_server_smoke.md` |
+| FastAPI Whisper server smoke | `scripts/run_fastapi_whisper_smoke.sh` | `results/inference/fastapi_whisper_speech_server_20260514_202459.json` | `docs/reports/fastapi_whisper_speech_server_smoke.md` |
 | FastAPI API usage | n/a | existing FastAPI server smoke and serving export results | `docs/reports/fastapi_api_usage.md` |
 | FastAPI serving boundary | n/a | existing FastAPI server smoke and serving export results | `docs/reports/serving_boundary_notes.md` |
 | FastAPI serving InferEdge export | `scripts/export_fastapi_serving_inferedge.sh` | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` | `docs/reports/fastapi_inferedge_export.md` |
@@ -509,6 +523,7 @@ python3 -m py_compile \
   benchmarks/inference/onnxruntime_tensorrt_cache_bench.py \
   benchmarks/inference/ort_cuda_wheel_candidate_probe.py \
   benchmarks/inference/fastapi_resnet18_client_smoke.py \
+  benchmarks/inference/fastapi_whisper_client_smoke.py \
   benchmarks/inference/whisper_transcription_smoke.py \
   benchmarks/inference/whisper_env_candidate_probe.py \
   benchmarks/tensorrt/resnet18_trtexec_smoke.py \
@@ -526,6 +541,7 @@ python3 -m py_compile \
   tests/test_runtime_comparison.py \
   tests/test_inferedge_export.py \
   tests/test_fastapi_server_smoke.py \
+  tests/test_fastapi_whisper_server_smoke.py \
   tests/test_fastapi_inferedge_export.py \
   tests/test_whisper_transcription_smoke.py \
   tests/test_whisper_env_candidate_probe.py
@@ -542,6 +558,7 @@ python3 tests/test_tensorrt_metric_parser.py
 python3 tests/test_runtime_comparison.py
 python3 tests/test_inferedge_export.py
 python3 tests/test_fastapi_server_smoke.py
+python3 tests/test_fastapi_whisper_server_smoke.py
 python3 tests/test_fastapi_inferedge_export.py
 python3 tests/test_whisper_transcription_smoke.py
 python3 tests/test_whisper_env_candidate_probe.py

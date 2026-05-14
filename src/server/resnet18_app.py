@@ -1,22 +1,27 @@
-"""FastAPI ResNet18 synthetic inference server for Jetson local smoke evidence."""
+"""FastAPI inference server for Jetson local smoke evidence."""
 
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import io
 import os
 import time
 from functools import lru_cache
+from pathlib import Path
 from typing import Any
+import wave
 
 import torch
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from torchvision.models import resnet18
 
 
 MODEL_SEED = 42
 DEFAULT_DEVICE = os.environ.get("JETSON_LAB_SERVER_DEVICE", "cuda" if torch.cuda.is_available() else "cpu")
+DEFAULT_WHISPER_MODEL = os.environ.get("JETSON_LAB_WHISPER_MODEL", "tiny")
+DEFAULT_WHISPER_AUDIO = "examples/audio/license_clear_whisper_smoke.wav"
 
 
 class SyntheticInferenceRequest(BaseModel):
@@ -24,6 +29,12 @@ class SyntheticInferenceRequest(BaseModel):
     height: int = Field(default=224, ge=32, le=512)
     width: int = Field(default=224, ge=32, le=512)
     seed: int = Field(default=42, ge=0)
+
+
+class WhisperSpeechRequest(BaseModel):
+    audio_path: str = Field(default=DEFAULT_WHISPER_AUDIO)
+    language: str = Field(default="en")
+    expected_text: str = Field(default="hello world")
 
 
 def state_dict_sha256(model: torch.nn.Module) -> str:
@@ -35,6 +46,30 @@ def state_dict_sha256(model: torch.nn.Module) -> str:
 
 def parameter_count(model: torch.nn.Module) -> int:
     return sum(param.numel() for param in model.parameters())
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def audio_metadata(path: Path, display_path: str | None = None) -> dict[str, Any]:
+    with wave.open(str(path), "rb") as handle:
+        frames = handle.getnframes()
+        sample_rate = handle.getframerate()
+        return {
+            "path": display_path or str(path),
+            "sha256": sha256_file(path),
+            "format": "wav",
+            "channels": handle.getnchannels(),
+            "sample_width_bytes": handle.getsampwidth(),
+            "sample_rate_hz": sample_rate,
+            "frames": frames,
+            "duration_s": round(frames / sample_rate, 4) if sample_rate else 0.0,
+        }
 
 
 class ModelBundle:
@@ -78,12 +113,66 @@ class ModelBundle:
         }
 
 
+class WhisperBundle:
+    def __init__(self, device_name: str, model_name: str) -> None:
+        if importlib.util.find_spec("whisper") is None:
+            raise RuntimeError("openai-whisper package is unavailable in this environment")
+        import whisper
+
+        if device_name == "cuda" and not torch.cuda.is_available():
+            raise RuntimeError("requested CUDA Whisper device but torch.cuda.is_available() is False")
+        self.device_name = device_name
+        self.model_name = model_name
+        self.cache_path = Path.home() / ".cache" / "whisper" / f"{model_name}.pt"
+        self.package_version = getattr(whisper, "__version__", "unknown")
+        self.model = whisper.load_model(model_name, device=device_name, download_root=str(self.cache_path.parent))
+
+    def transcribe(self, audio_path: Path, language: str) -> dict[str, Any]:
+        start = time.perf_counter()
+        result = self.model.transcribe(str(audio_path), language=language, fp16=(self.device_name == "cuda"))
+        if self.device_name == "cuda" and torch.cuda.is_available():
+            torch.cuda.synchronize()
+        inference_ms = (time.perf_counter() - start) * 1000.0
+        text = str(result.get("text", "")).strip()
+        return {
+            "inference_ms": round(inference_ms, 4),
+            "text": text,
+            "language": result.get("language", language),
+            "segments": [
+                {
+                    "start": round(float(segment.get("start", 0.0)), 3),
+                    "end": round(float(segment.get("end", 0.0)), 3),
+                    "text": str(segment.get("text", "")).strip(),
+                }
+                for segment in result.get("segments", [])
+            ],
+        }
+
+
 @lru_cache(maxsize=1)
 def get_bundle() -> ModelBundle:
     return ModelBundle(DEFAULT_DEVICE)
 
 
-app = FastAPI(title="Jetson Orin Nano Internal Lab ResNet18 Server", version="0.1.0")
+@lru_cache(maxsize=1)
+def get_whisper_bundle() -> WhisperBundle:
+    return WhisperBundle(DEFAULT_DEVICE, DEFAULT_WHISPER_MODEL)
+
+
+def whisper_status() -> dict[str, Any]:
+    cache_path = Path.home() / ".cache" / "whisper" / f"{DEFAULT_WHISPER_MODEL}.pt"
+    return {
+        "id": f"whisper-{DEFAULT_WHISPER_MODEL}",
+        "architecture": "whisper",
+        "backend": "openai-whisper",
+        "package_available": importlib.util.find_spec("whisper") is not None,
+        "model_cache_present": cache_path.exists(),
+        "device": DEFAULT_DEVICE,
+        "precision": "fp32_or_fp16_by_device",
+    }
+
+
+app = FastAPI(title="Jetson Orin Nano Internal Lab Server", version="0.2.0")
 
 
 @app.get("/health")
@@ -95,6 +184,10 @@ def health() -> dict[str, Any]:
         "device": bundle.device.type,
         "precision": "fp32",
         "model_hash": bundle.model_hash,
+        "services": {
+            "resnet18": {"status": "ok", "device": bundle.device.type, "precision": "fp32"},
+            "whisper": whisper_status(),
+        },
     }
 
 
@@ -111,7 +204,8 @@ def models() -> dict[str, Any]:
                 "state_dict_sha256": bundle.model_hash,
                 "device": bundle.device.type,
                 "precision": "fp32",
-            }
+            },
+            whisper_status(),
         ]
     }
 
@@ -138,4 +232,70 @@ def infer_resnet18_synthetic(request: SyntheticInferenceRequest) -> dict[str, An
             "seed": request.seed,
         },
         "result": result,
+    }
+
+
+@app.post("/v1/infer/whisper/speech")
+def infer_whisper_speech(request: WhisperSpeechRequest) -> dict[str, Any]:
+    audio_path = Path(request.audio_path)
+    if audio_path.is_absolute():
+        raise HTTPException(status_code=400, detail="audio_path must be repo-relative")
+    if ".." in audio_path.parts:
+        raise HTTPException(status_code=400, detail="audio_path must not traverse parent directories")
+    audio_path = Path.cwd() / audio_path
+    if not audio_path.exists():
+        raise HTTPException(status_code=404, detail=f"audio file not found: {request.audio_path}")
+    try:
+        bundle = get_whisper_bundle()
+    except Exception as exc:
+        return {
+            "task": "audio_transcription_serving_smoke",
+            "framework": "whisper",
+            "server": "fastapi",
+            "backend": DEFAULT_DEVICE,
+            "precision": "fp32_or_fp16_by_device",
+            "status": "dependency_missing",
+            "success": False,
+            "failure_reason": repr(exc),
+            "model": whisper_status(),
+            "input": audio_metadata(audio_path, request.audio_path),
+            "result": {"inference_ms": None, "text": "", "language": request.language, "segments": []},
+            "interpretation": {
+                "accuracy_claim": False,
+                "deployment_ready_claim": False,
+                "external_sensor_dependency": False,
+            },
+        }
+
+    result = bundle.transcribe(audio_path, request.language)
+    audio = audio_metadata(audio_path, request.audio_path)
+    return {
+        "task": "audio_transcription_serving_smoke",
+        "framework": "whisper",
+        "server": "fastapi",
+        "backend": bundle.device_name,
+        "precision": "fp32_or_fp16_by_device",
+        "status": "succeeded",
+        "success": True,
+        "model": {
+            "id": f"whisper-{bundle.model_name}",
+            "architecture": "whisper",
+            "backend": "openai-whisper",
+            "package_version": bundle.package_version,
+            "cache_path": "[home]/.cache/whisper/" + f"{bundle.model_name}.pt",
+            "cache_present": bundle.cache_path.exists(),
+            "device": bundle.device_name,
+        },
+        "input": {
+            **audio,
+            "source": "generated_license_clear_ffmpeg_flite_text_to_speech",
+            "expected_text": request.expected_text,
+        },
+        "result": result,
+        "interpretation": {
+            "accuracy_claim": False,
+            "deployment_ready_claim": False,
+            "external_sensor_dependency": False,
+            "notes": "License-clear generated speech input validates a localhost audio serving path; it is not a broad recognition accuracy benchmark.",
+        },
     }

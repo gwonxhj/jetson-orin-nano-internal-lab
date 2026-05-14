@@ -1,0 +1,152 @@
+{
+  "metadata": {
+    "generated_at": "2026-05-14T20:25:10+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "e6afc29"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "schema_version": "fastapi-whisper-server-smoke-v1",
+    "server_log": "artifacts/system/fastapi_whisper_server_20260514_202459.log",
+    "tegrastats_log": "artifacts/system/tegrastats_fastapi_whisper_20260514_202459.log"
+  },
+  "result": {
+    "backend": "cuda",
+    "failure_reason": "",
+    "framework": "whisper",
+    "input": {
+      "channels": 1,
+      "duration_s": 1.235,
+      "expected_text": "hello world",
+      "format": "wav",
+      "frames": 19760,
+      "path": "examples/audio/license_clear_whisper_smoke.wav",
+      "sample_rate_hz": 16000,
+      "sample_width_bytes": 2,
+      "sha256": "5eb101e247c9ab4f6743c48256e1e783ab57be418d12647bae315cb953d577dc",
+      "source": "generated_license_clear_ffmpeg_flite_text_to_speech"
+    },
+    "interpretation": {
+      "accuracy_claim": false,
+      "deployment_ready_claim": false,
+      "external_sensor_dependency": false,
+      "notes": "License-clear generated speech input validates a localhost audio serving path; it is not a broad recognition accuracy benchmark."
+    },
+    "latency": {
+      "client_roundtrip_ms": {
+        "count": 1,
+        "max_ms": 3276.5571,
+        "mean_ms": 3276.5571,
+        "min_ms": 3276.5571,
+        "p50_ms": 3276.5571,
+        "p95_ms": 3276.5571,
+        "p99_ms": 3276.5571,
+        "samples_ms": [
+          3276.5571
+        ]
+      },
+      "server_inference_ms": {
+        "count": 1,
+        "max_ms": 1802.9543,
+        "mean_ms": 1802.9543,
+        "min_ms": 1802.9543,
+        "p50_ms": 1802.9543,
+        "p95_ms": 1802.9543,
+        "p99_ms": 1802.9543,
+        "samples_ms": [
+          1802.9543
+        ]
+      }
+    },
+    "model": {
+      "architecture": "whisper",
+      "backend": "openai-whisper",
+      "device": "cuda",
+      "id": "whisper-tiny",
+      "model_cache_present": true,
+      "package_available": true,
+      "precision": "fp32_or_fp16_by_device"
+    },
+    "precision": "fp32_or_fp16_by_device",
+    "runtime": {
+      "repeat": 1,
+      "timing": "client_roundtrip_and_server_handler_transcription",
+      "warmup": 0
+    },
+    "server": {
+      "asgi": "uvicorn",
+      "base_url": "http://127.0.0.1:18081",
+      "endpoint": "/v1/infer/whisper/speech",
+      "framework": "fastapi",
+      "health": {
+        "device": "cuda",
+        "model": "resnet18",
+        "model_hash": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+        "precision": "fp32",
+        "services": {
+          "resnet18": {
+            "device": "cuda",
+            "precision": "fp32",
+            "status": "ok"
+          },
+          "whisper": {
+            "architecture": "whisper",
+            "backend": "openai-whisper",
+            "device": "cuda",
+            "id": "whisper-tiny",
+            "model_cache_present": true,
+            "package_available": true,
+            "precision": "fp32_or_fp16_by_device"
+          }
+        },
+        "status": "ok"
+      }
+    },
+    "status": "succeeded",
+    "success": true,
+    "task": "local_audio_transcription_api_smoke",
+    "transcription": {
+      "expected_text": "hello world",
+      "language": "en",
+      "normalized_contains_expected": true,
+      "normalized_expected_text": "hello world",
+      "normalized_text": "hello world",
+      "segments": [
+        {
+          "end": 2.0,
+          "start": 0.0,
+          "text": "Hello world!"
+        }
+      ],
+      "text": "Hello world!"
+    }
+  }
+}
