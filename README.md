@@ -14,6 +14,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [FastAPI serving boundary notes](docs/reports/serving_boundary_notes.md) — localhost smoke가 증명하는 것과 증명하지 않는 것을 분리해 deployment-ready 오해를 막습니다.
 - [FastAPI InferEdge serving export](docs/reports/fastapi_inferedge_export.md) — FastAPI localhost serving smoke를 InferEdge-compatible `metadata.json` / `result.json` evidence로 변환합니다.
 - [Whisper transcription smoke](docs/reports/whisper_transcription_smoke.md) — 외부 마이크 없이 synthetic WAV로 Whisper tiny/base offline transcription path 준비 상태를 evidence로 기록합니다.
+- [Whisper env candidate probe](docs/reports/whisper_env_candidate_probe.md) — `yolo_env`를 바꾸지 않고 `openai-whisper` / `faster-whisper` 격리 env 후보를 검증합니다.
 - [ONNX Runtime CUDA EP activation attempt](docs/reports/onnxruntime_cuda_ep_activation_attempt.md) — 기존 `yolo_env`를 변경하지 않고 CUDAExecutionProvider 활성화 가능 여부를 evidence로 기록합니다.
 - [InferEdge-compatible export report](docs/reports/inferedge_export.md) — runtime comparison 결과를 `metadata.json` / `result.json` handoff evidence로 변환한 내용을 설명합니다.
 
@@ -37,6 +38,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - FastAPI localhost serving boundary notes
 - FastAPI serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - Whisper tiny/base offline transcription smoke
+- Whisper isolated env candidate probe for `openai-whisper` and `faster-whisper`
 - InferEdge-compatible `metadata.json` / `result.json` export
 
 제외:
@@ -384,6 +386,33 @@ bash scripts/run_whisper_smoke.sh tiny
 |---|---|---|---|
 | `tiny` | `dependency_missing` | generated 1.0s 16kHz WAV | not executed |
 
+### 15. Whisper Env Candidate Probe
+
+기존 `yolo_env`를 직접 수정하지 않고, 별도 `whisper_env`를 만들기 전 `openai-whisper`와 `faster-whisper` 후보를 비교합니다. 기본 경로는 `yolo_env`를 clone해서 PyTorch CUDA stack을 보존한 뒤 candidate package만 격리 설치하는 방식입니다.
+
+```bash
+bash scripts/probe_whisper_env_candidates.sh
+bash scripts/create_whisper_env.sh
+```
+
+`create_whisper_env.sh`는 기본적으로 plan만 출력하며, 실제 env 생성은 명시적으로 실행할 때만 진행합니다.
+
+```bash
+bash scripts/create_whisper_env.sh --execute
+```
+
+주요 산출물:
+
+- `results/inference/whisper_env_candidates_20260514_175410.json`
+- `docs/reports/whisper_env_candidate_probe.md`
+
+현재 candidate probe 결과:
+
+| Candidate | Verdict | Notes |
+|---|---|---|
+| `openai-whisper` | `recommended_first_isolated_candidate` | cloned `yolo_env`의 Jetson PyTorch CUDA stack을 재사용하는 첫 후보 |
+| `faster-whisper` | `secondary_isolated_candidate_requires_cuda_validation` | CTranslate2 CUDA/aarch64 호환성을 별도 검증해야 하는 최적화 후보 |
+
 ## Evidence Map
 
 | Stage | Script | Result | Report |
@@ -406,6 +435,7 @@ bash scripts/run_whisper_smoke.sh tiny
 | FastAPI serving boundary | n/a | existing FastAPI server smoke and serving export results | `docs/reports/serving_boundary_notes.md` |
 | FastAPI serving InferEdge export | `scripts/export_fastapi_serving_inferedge.sh` | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` | `docs/reports/fastapi_inferedge_export.md` |
 | Whisper transcription smoke | `scripts/run_whisper_smoke.sh` | `results/inference/whisper_tiny_transcription_20260514_174652.json` | `docs/reports/whisper_transcription_smoke.md` |
+| Whisper env candidate probe | `scripts/probe_whisper_env_candidates.sh` | `results/inference/whisper_env_candidates_20260514_175410.json` | `docs/reports/whisper_env_candidate_probe.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
 ## Repository Layout
@@ -437,6 +467,7 @@ python3 -m py_compile \
   benchmarks/inference/ort_cuda_wheel_candidate_probe.py \
   benchmarks/inference/fastapi_resnet18_client_smoke.py \
   benchmarks/inference/whisper_transcription_smoke.py \
+  benchmarks/inference/whisper_env_candidate_probe.py \
   benchmarks/tensorrt/resnet18_trtexec_smoke.py \
   benchmarks/runtime_compare/build_runtime_comparison.py \
   src/server/resnet18_app.py \
@@ -453,7 +484,8 @@ python3 -m py_compile \
   tests/test_inferedge_export.py \
   tests/test_fastapi_server_smoke.py \
   tests/test_fastapi_inferedge_export.py \
-  tests/test_whisper_transcription_smoke.py
+  tests/test_whisper_transcription_smoke.py \
+  tests/test_whisper_env_candidate_probe.py
 
 bash -n scripts/*.sh
 python3 tests/test_system_baseline_json.py
@@ -469,6 +501,7 @@ python3 tests/test_inferedge_export.py
 python3 tests/test_fastapi_server_smoke.py
 python3 tests/test_fastapi_inferedge_export.py
 python3 tests/test_whisper_transcription_smoke.py
+python3 tests/test_whisper_env_candidate_probe.py
 ```
 
 ## Interpretation Rules
