@@ -51,6 +51,7 @@
 - [README Quickstart](../../README.md#portfolio-quickstart)
 - [Portfolio final review](portfolio_final_review.md)
 - [Evidence release notes](evidence_release_notes.md)
+- [Public safety check](public_safety_check.md)
 - [Evidence Map](../../README.md#evidence-map)
 - [InferEdge runtime result](../../results/inferedge/resnet18_runtime_compare_20260513_133100/result.json)
 - [InferEdge serving result](../../results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json)

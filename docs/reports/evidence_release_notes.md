@@ -28,6 +28,7 @@
 | FastAPI Whisper serving | [FastAPI Whisper smoke](fastapi_whisper_speech_server_smoke.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md) | `results/inference/fastapi_whisper_speech_server_20260514_202459.json` | `results/inferedge/fastapi_whisper_serving_20260514_202459/` |
 | LLM text generation | [LLM text generation smoke](llm_text_generation_smoke.md), [LLM InferEdge export](llm_inferedge_export.md) | `results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json` | `results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/` |
 | InferEdge schema validation | [InferEdge schema validation](inferedge_schema_validation.md) | `scripts/validate_inferedge_artifacts.py`, `.github/workflows/inferedge-schema.yml` | all committed `results/inferedge/*/` pairs |
+| Public safety check | [Public safety check](public_safety_check.md) | repo scan results, GitHub repo card status, artifact size review | public sharing decision record |
 
 ## Snapshot Claim Boundary
 
@@ -79,6 +80,6 @@ LLM_ALLOW_DOWNLOAD=1 conda run -n llm_env bash scripts/run_llm_smoke.sh tiny-gpt
 
 ## Recommended Follow-Up After This Snapshot
 
-1. Add CI-style schema validation for `results/inferedge/**/metadata.json` and `result.json`.
+1. Re-run [Public safety check](public_safety_check.md) whenever new raw logs, model artifacts, or handoff directories are added.
 2. Add a longer localhost FastAPI soak or burst test with `tegrastats` telemetry.
 3. Try one small non-toy LLM model only after recording license, memory use, cache path, and latency conditions.

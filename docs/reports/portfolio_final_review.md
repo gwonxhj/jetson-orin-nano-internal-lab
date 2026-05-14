@@ -45,7 +45,7 @@
 | Traceability | Major reports point to scripts, JSON results, raw logs, InferEdge handoff artifacts, and schema validation. |
 | Safety of claims | Reports consistently mark smoke evidence as non-deployment and non-quality proof where appropriate. |
 | Reproducibility | Key runs record environment, precision, backend/provider, warmup/repeat, hashes, and generated artifacts. |
-| Public risk | No external hardware dependency or local absolute path is needed for the portfolio narrative. |
+| Public risk | [Public safety check](public_safety_check.md) found no blocking secret, local path, private host/IP, or raw-log exposure issue. |
 
 ## Recommended Next Extensions
 
