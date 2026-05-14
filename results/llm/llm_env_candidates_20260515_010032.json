@@ -1,0 +1,101 @@
+{
+  "metadata": {
+    "environment": {
+      "conda_env": "yolo_env",
+      "current_packages": {
+        "accelerate": false,
+        "llama_cpp": false,
+        "safetensors": false,
+        "sentencepiece": false,
+        "transformers": false
+      },
+      "machine": "aarch64",
+      "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+      "python_executable": "python3 (current env)",
+      "python_tag": "cp310",
+      "python_version": "3.10.12",
+      "target_env": "llm_env",
+      "target_env_exists": true,
+      "torch": {
+        "available": true,
+        "cuda_available": true,
+        "cuda_version": "12.6",
+        "device_count": 1,
+        "version": "2.8.0"
+      }
+    },
+    "generated_at": "2026-05-15T01:00:37+09:00",
+    "hostname": "jetson-orin-nano",
+    "result_json": "results/llm/llm_env_candidates_20260515_010032.json",
+    "schema_version": "llm-env-candidate-probe-v1"
+  },
+  "result": {
+    "candidate_count": 3,
+    "candidates": [
+      {
+        "backend": "transformers",
+        "candidate_verdict": "isolated_env_exists_validate_or_reuse",
+        "checks": {
+          "current_transformers_not_installed": true,
+          "platform_aarch64": true,
+          "python_cp310": true,
+          "target_env_free": false,
+          "torch_cuda_available_in_source_env": true
+        },
+        "env_strategy": "conda clone yolo_env, then pip install transformers stack inside llm_env",
+        "expected_device_path": "cuda if cloned torch remains usable, cpu fallback otherwise",
+        "install_spec": "transformers accelerate safetensors sentencepiece",
+        "model_candidate": "sshleifer/tiny-gpt2",
+        "name": "transformers_tiny_gpt2_clone_yolo",
+        "notes": "Best first LLM candidate because it reuses the known Jetson PyTorch CUDA stack and keeps model size tiny.",
+        "package": "transformers",
+        "runtime_engine": "PyTorch",
+        "trust_level": "upstream_open_source_package_and_huggingface_model"
+      },
+      {
+        "backend": "transformers",
+        "candidate_verdict": "followup_after_tiny_smoke",
+        "checks": {
+          "current_transformers_not_installed": true,
+          "platform_aarch64": true,
+          "python_cp310": true,
+          "target_env_free": false,
+          "torch_cuda_available_in_source_env": true
+        },
+        "env_strategy": "reuse llm_env after tiny-gpt2 succeeds",
+        "expected_device_path": "cuda if memory and cache allow, cpu fallback otherwise",
+        "install_spec": "transformers accelerate safetensors sentencepiece",
+        "model_candidate": "distilgpt2",
+        "name": "transformers_distilgpt2_followup",
+        "notes": "Useful follow-up for a less toy model, but it should not be the first smoke because model download/cache is larger.",
+        "package": "transformers",
+        "runtime_engine": "PyTorch",
+        "trust_level": "upstream_open_source_package_and_huggingface_model"
+      },
+      {
+        "backend": "llama-cpp-python",
+        "candidate_verdict": "followup_requires_native_build_review",
+        "checks": {
+          "current_transformers_not_installed": true,
+          "platform_aarch64": true,
+          "python_cp310": true,
+          "target_env_free": false,
+          "torch_cuda_available_in_source_env": true
+        },
+        "env_strategy": "separate llm_env variant after transformers smoke succeeds",
+        "expected_device_path": "cpu first; CUDA build support must be proven separately on Jetson",
+        "install_spec": "llama-cpp-python",
+        "model_candidate": "small GGUF model candidate to be selected later",
+        "name": "llama_cpp_python_followup",
+        "notes": "Potential local LLM runtime follow-up, but native build and GGUF model provenance need separate evidence.",
+        "package": "llama-cpp-python",
+        "runtime_engine": "llama.cpp",
+        "trust_level": "native_extension_requires_build_review"
+      }
+    ],
+    "download_command_executed": false,
+    "existing_env_modified": false,
+    "install_command_executed": false,
+    "task": "llm_isolated_env_candidate_probe"
+  }
+}

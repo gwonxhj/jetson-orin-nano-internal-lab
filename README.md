@@ -479,7 +479,7 @@ bash scripts/create_whisper_env.sh --execute
 
 ### 18. LLM Env Candidate Probe and Tiny Text Generation Smoke
 
-기존 `yolo_env`에 LLM package를 바로 설치하지 않고, 별도 `llm_env` 후보와 tiny text-generation smoke를 먼저 격리 검증합니다. 기본 smoke는 package 설치나 model download를 수행하지 않으며, `dependency_missing` / `model_missing`도 안전한 readiness evidence로 기록합니다.
+기존 `yolo_env`에 LLM package를 바로 설치하지 않고, 별도 `llm_env` 후보와 tiny text-generation smoke를 격리 검증합니다. 기본 smoke는 package 설치나 model download를 수행하지 않으며, `dependency_missing` / `model_missing`도 안전한 readiness evidence로 기록합니다.
 
 ```bash
 bash scripts/create_llm_env.sh
@@ -496,17 +496,19 @@ LLM_ALLOW_DOWNLOAD=1 conda run -n llm_env bash scripts/run_llm_smoke.sh tiny-gpt
 
 주요 산출물:
 
-- `results/llm/llm_env_candidates_20260515_003908.json`
-- `results/llm/llm_tiny-gpt2_text_generation_20260515_003914.json`
-- `artifacts/system/tegrastats_llm_tiny-gpt2_20260515_003914.log`
+- `results/llm/llm_env_candidates_20260515_010032.json`
+- `results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json`
+- `artifacts/system/tegrastats_llm_tiny-gpt2_20260515_005755.log`
 - `docs/reports/llm_env_candidate_probe.md`
 - `docs/reports/llm_text_generation_smoke.md`
 
 현재 LLM smoke 상태:
 
-| Model | Env | Backend | Torch CUDA available | Status | Reason |
-|---|---|---|---:|---|---|
-| `sshleifer/tiny-gpt2` | `yolo_env` | `transformers` | true | `dependency_missing` | `transformers`는 기존 env에 설치하지 않음 |
+| Model | Env | Backend | Device | Status | Mean ms |
+|---|---|---|---|---|---:|
+| `sshleifer/tiny-gpt2` | `llm_env` | `transformers 5.8.1` | `cuda` | `succeeded` | 660.2308 |
+
+주의: 이 결과는 tiny model path smoke이며 text quality나 deployment-ready evidence가 아닙니다. 기존 `yolo_env`에는 `transformers`를 설치하지 않았습니다.
 
 ## Evidence Map
 
@@ -536,8 +538,8 @@ LLM_ALLOW_DOWNLOAD=1 conda run -n llm_env bash scripts/run_llm_smoke.sh tiny-gpt
 | Whisper speech transcription smoke | `scripts/run_whisper_speech_smoke.sh` | `results/inference/whisper_tiny_speech_transcription_20260514_182822.json` | `docs/reports/whisper_speech_transcription_smoke.md` |
 | Whisper InferEdge export | `scripts/export_whisper_inferedge.sh` | `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json` | `docs/reports/whisper_inferedge_export.md` |
 | Whisper env candidate probe | `scripts/probe_whisper_env_candidates.sh` | `results/inference/whisper_env_candidates_20260514_175410.json` | `docs/reports/whisper_env_candidate_probe.md` |
-| LLM env candidate probe | `scripts/probe_llm_env_candidates.sh` | `results/llm/llm_env_candidates_20260515_003908.json` | `docs/reports/llm_env_candidate_probe.md` |
-| LLM text-generation smoke | `scripts/run_llm_smoke.sh` | `results/llm/llm_tiny-gpt2_text_generation_20260515_003914.json` | `docs/reports/llm_text_generation_smoke.md` |
+| LLM env candidate probe | `scripts/probe_llm_env_candidates.sh` | `results/llm/llm_env_candidates_20260515_010032.json` | `docs/reports/llm_env_candidate_probe.md` |
+| LLM text-generation smoke | `scripts/run_llm_smoke.sh` | `results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json` | `docs/reports/llm_text_generation_smoke.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
 ## Repository Layout

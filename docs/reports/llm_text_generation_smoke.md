@@ -7,17 +7,17 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-05-15T00:39:18+09:00 |
+| Date | 2026-05-15T00:58:00+09:00 |
 | Hostname | `jetson-orin-nano` |
-| Conda env | `yolo_env` |
-| Transformers available | False |
+| Conda env | `llm_env` |
+| Transformers available | True |
 | Torch CUDA available | True |
 | Model | `sshleifer/tiny-gpt2` |
-| Device | `unavailable` |
-| Download allowed | False |
-| Offline only | True |
-| Status | `dependency_missing` |
-| Failure reason | `transformers is not installed in the active environment` |
+| Device | `cuda` |
+| Download allowed | True |
+| Offline only | False |
+| Status | `succeeded` |
+| Failure reason | `none` |
 
 ## Runtime
 
@@ -26,8 +26,8 @@
 | Warmup | 0 |
 | Repeat | 1 |
 | Max new tokens | 16 |
-| Mean ms | not measured |
-| P95 ms | not measured |
+| Mean ms | 660.2308 |
+| P95 ms | 660.2308 |
 
 ## Prompt
 
@@ -38,7 +38,7 @@ Jetson edge AI
 ## Generated Text Preview
 
 ```text
-(not generated)
+Jetson edge AI factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors
 ```
 
 ## Interpretation

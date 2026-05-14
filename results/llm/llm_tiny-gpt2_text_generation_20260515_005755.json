@@ -1,0 +1,95 @@
+{
+  "metadata": {
+    "conda_env": "llm_env",
+    "generated_at": "2026-05-15T00:58:00+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "479bf84"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "isolation": {
+      "download_allowed": true,
+      "existing_env_modified": false,
+      "install_command_executed": false,
+      "offline_only": false,
+      "target_env": "llm_env"
+    },
+    "package": {
+      "torch": {
+        "available": true,
+        "cuda_available": true,
+        "cuda_version": "12.6",
+        "device_count": 1,
+        "version": "2.8.0"
+      },
+      "transformers": {
+        "available": true,
+        "version": "5.8.1"
+      }
+    },
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "python_version": "3.10.12",
+    "schema_version": "llm-text-generation-smoke-v1",
+    "tegrastats_log": "artifacts/system/tegrastats_llm_tiny-gpt2_20260515_005755.log"
+  },
+  "result": {
+    "failure_reason": "",
+    "framework": "transformers",
+    "generation": {
+      "generated_token_count": 16,
+      "prompt_token_count": 5,
+      "text": "Jetson edge AI factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors factors"
+    },
+    "interpretation": {
+      "deployment_ready_claim": false,
+      "path_smoke_only": true,
+      "quality_claim": false
+    },
+    "latency_ms": {
+      "count": 1,
+      "max_ms": 660.2308,
+      "mean_ms": 660.2308,
+      "min_ms": 660.2308,
+      "p50_ms": 660.2308,
+      "p95_ms": 660.2308,
+      "p99_ms": 660.2308,
+      "samples_ms": [
+        660.2308
+      ]
+    },
+    "model": {
+      "alias": "tiny-gpt2",
+      "id": "sshleifer/tiny-gpt2"
+    },
+    "prompt": "Jetson edge AI",
+    "runtime": {
+      "device": "cuda",
+      "download_allowed": true,
+      "max_new_tokens": 16,
+      "precision": "fp32_cuda_framework_default",
+      "repeat": 1,
+      "warmup": 0
+    },
+    "status": "succeeded",
+    "success": true,
+    "task": "llm_text_generation_smoke"
+  }
+}

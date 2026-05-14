@@ -157,7 +157,12 @@ def evaluate_candidate(candidate: Candidate, env: dict[str, Any]) -> dict[str, A
     target_free = not env["target_env_exists"]
     transformers_not_installed = not env["current_packages"]["transformers"]
     if candidate.name == "transformers_tiny_gpt2_clone_yolo":
-        verdict = "recommended_first_isolated_candidate" if python_matches and platform_matches and torch_cuda_available and target_free else "requires_review"
+        if python_matches and platform_matches and torch_cuda_available and target_free:
+            verdict = "recommended_first_isolated_candidate"
+        elif python_matches and platform_matches and torch_cuda_available and env["target_env_exists"]:
+            verdict = "isolated_env_exists_validate_or_reuse"
+        else:
+            verdict = "requires_review"
     elif candidate.backend == "transformers":
         verdict = "followup_after_tiny_smoke" if python_matches and platform_matches else "requires_review"
     else:
@@ -192,6 +197,21 @@ def build_report(payload: dict[str, Any]) -> str:
         f"| {item['backend']} | `{item['model_candidate']}` | `{item['install_spec']}` | {item['runtime_engine']} | `{item['candidate_verdict']}` |"
         for item in result["candidates"]
     ]
+    if env["target_env_exists"]:
+        recommended_flow = [
+            "1. Keep `yolo_env` unchanged.",
+            f"2. Reuse existing `{env['target_env']}` for tiny text-generation smoke validation.",
+            f"3. Run `LLM_ALLOW_DOWNLOAD=1 conda run -n {env['target_env']} bash scripts/run_llm_smoke.sh tiny-gpt2` when model download/cache is allowed.",
+            "4. Treat `sshleifer/tiny-gpt2` as path smoke only; do not claim model quality or deployment readiness.",
+        ]
+    else:
+        recommended_flow = [
+            "1. Keep `yolo_env` unchanged.",
+            "2. Run `bash scripts/create_llm_env.sh` first and review the plan.",
+            "3. Create the isolated env only with `bash scripts/create_llm_env.sh --execute`.",
+            f"4. Use `conda run -n {env['target_env']} bash scripts/run_llm_smoke.sh tiny-gpt2` after reviewing model download/cache policy.",
+            "5. Treat `sshleifer/tiny-gpt2` as path smoke only; do not claim model quality or deployment readiness.",
+        ]
     return "\n".join([
         "# LLM Env Candidate Probe",
         "",
@@ -219,11 +239,7 @@ def build_report(payload: dict[str, Any]) -> str:
         "",
         "## Recommended Flow",
         "",
-        "1. Keep `yolo_env` unchanged.",
-        "2. Run `bash scripts/create_llm_env.sh` first and review the plan.",
-        "3. Create the isolated env only with `bash scripts/create_llm_env.sh --execute`.",
-        "4. Use `conda run -n llm_env bash scripts/run_llm_smoke.sh tiny-gpt2` after reviewing model download/cache policy.",
-        "5. Treat `sshleifer/tiny-gpt2` as path smoke only; do not claim model quality or deployment readiness.",
+        *recommended_flow,
         "",
         "## Notes",
         "",
