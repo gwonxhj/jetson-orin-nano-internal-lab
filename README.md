@@ -6,6 +6,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 
 ## Representative Evidence
 
+- [ResNet18 runtime matrix summary](docs/reports/resnet18_runtime_matrix_summary.md) — PyTorch CUDA, ONNX Runtime CPU/CUDA/TensorRT EP, native TensorRT, TensorRT EP cache 비용을 한 장으로 요약합니다.
 - [TensorRT FP16 optimization report](docs/reports/tensorrt_optimization_report.md) — ResNet18 ONNX export, `trtexec` build/run command, model hash, input shape, precision, warmup/repeat 조건을 기록합니다.
 - [Runtime comparison report](docs/reports/runtime_comparison.md) — PyTorch CUDA FP32와 TensorRT FP16 결과를 direct regression이 아닌 system/runtime comparison evidence로 정리합니다.
 - [ONNX Runtime CUDA EP activation attempt](docs/reports/onnxruntime_cuda_ep_activation_attempt.md) — 기존 `yolo_env`를 변경하지 않고 CUDAExecutionProvider 활성화 가능 여부를 evidence로 기록합니다.
@@ -321,6 +322,7 @@ InferEdge-compatible 핵심 필드:
 | ONNX Runtime TensorRT cache | `scripts/run_onnxruntime_tensorrt_cache_bench.sh` | `results/inference/onnxruntime_tensorrt_cache_bench_20260514_030413.json` | `docs/reports/onnxruntime_tensorrt_cache_bench.md` |
 | ONNX Runtime CUDA env candidate probe | `scripts/probe_ort_cuda_wheel_candidates.sh` | `results/inference/ort_cuda_wheel_candidates_20260514_020616.json` | `docs/reports/onnxruntime_cuda_env_candidate_probe.md` |
 | Runtime compare | `scripts/run_runtime_compare.sh` | `results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_onnxruntime_cuda_fp32_vs_onnxruntime_tensorrt_fp32_vs_tensorrt_fp16_20260514_025504.json` | `docs/reports/runtime_comparison.md` |
+| Runtime matrix summary | n/a | existing runtime/cache results | `docs/reports/resnet18_runtime_matrix_summary.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
 ## Repository Layout
