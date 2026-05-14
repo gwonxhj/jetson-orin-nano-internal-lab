@@ -11,13 +11,14 @@
 | PyTorch CUDA inference works behind the API | `result.backend`, `result.result.inference_ms` | Server-side timing is measured inside the FastAPI handler around the PyTorch model call. |
 | Whisper speech transcription path is wired into the API | `/v1/models`, `/v1/infer/whisper/speech` | A license-clear generated WAV can be transcribed through the same FastAPI app in isolated `whisper_env`. |
 | Local HTTP roundtrip can be measured | `client_roundtrip_ms` | Includes request validation, local serialization, routing, tensor generation, inference, and response serialization. |
+| Short localhost concurrency path can be measured | `results/inference/fastapi_resnet18_concurrency_20260514_233246.json` | Concurrent client requests can be issued against the ResNet18 endpoint and summarized by concurrency level. |
 | Serving output can be exported as evidence | `results/inferedge/resnet18_fastapi_serving_*/result.json` | InferEdge-compatible serving result preserves endpoint, request shape, latency layers, and Jetson telemetry. |
 
 ## What This Evidence Does Not Prove
 
 | Non-claim | Why not |
 |---|---|
-| It is deployment-ready | There is no concurrent load test, soak test, network exposure test, auth, TLS, process supervision, or restart policy validation. |
+| It is deployment-ready | The concurrency smoke is short, localhost-only, and does not include soak testing, network exposure, auth, TLS, process supervision, or restart policy validation. |
 | It is production-secure | The server is bound to localhost for smoke evidence and does not validate production security controls. |
 | It has application accuracy | The model uses random seeded weights and synthetic input; outputs are only path smoke evidence. |
 | It proves broad speech recognition accuracy | Whisper currently uses one short generated `hello world` speech sample; this validates plumbing, not recognition quality across speakers, accents, noise, or long-form audio. |
@@ -35,10 +36,12 @@
 | FastAPI server inference | `serving.latency_layers.server_inference_ms` | PyTorch model call measured inside the handler. |
 | FastAPI Whisper transcription | `results/inference/fastapi_whisper_speech_server_20260514_202459.json` | Whisper `model.transcribe` measured inside the handler. |
 | FastAPI client roundtrip | top-level `latency_ms` in serving `result.json` | Localhost request/response path plus server work. |
+| FastAPI concurrency smoke | `results/inference/fastapi_resnet18_concurrency_20260514_233246.json` | Client-side wall time and per-request latency grouped by concurrency level. |
 
 ## Interpretation Rules
 
 - Treat localhost serving smoke as **API path evidence**, not deployment approval.
+- Treat concurrency smoke as a small path check, not a capacity plan or production load test.
 - Compare FastAPI client roundtrip to direct model runtimes only as a layered system comparison.
 - Interpret ResNet18 and Whisper endpoint timings separately because they exercise different model families, preprocessing, and output paths.
 - Keep backend, precision, input shape, warmup/repeat, and power mode attached to every latency number.
@@ -51,6 +54,7 @@
 |---|---|
 | API usage report | `docs/reports/fastapi_api_usage.md` |
 | Server smoke report | `docs/reports/fastapi_resnet18_server_smoke.md` |
+| Concurrency smoke report | `docs/reports/fastapi_concurrency_smoke.md` |
 | Whisper server smoke report | `docs/reports/fastapi_whisper_speech_server_smoke.md` |
 | Serving InferEdge export report | `docs/reports/fastapi_inferedge_export.md` |
 | Serving result JSON | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` |

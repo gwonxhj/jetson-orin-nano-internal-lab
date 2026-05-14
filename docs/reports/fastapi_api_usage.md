@@ -12,7 +12,8 @@
 3. ResNet18 synthetic inference endpoint를 호출합니다.
 4. Whisper speech transcription endpoint를 호출합니다.
 5. client/server latency smoke를 실행합니다.
-6. serving smoke를 InferEdge-compatible `metadata.json` / `result.json`으로 export합니다.
+6. short localhost concurrency smoke를 실행합니다.
+7. serving smoke를 InferEdge-compatible `metadata.json` / `result.json`으로 export합니다.
 
 ## Start Server
 
@@ -189,6 +190,21 @@ Whisper serving smoke output:
 | Server log | `artifacts/system/fastapi_whisper_server_20260514_202459.log` |
 | Tegrastats log | `artifacts/system/tegrastats_fastapi_whisper_20260514_202459.log` |
 
+`scripts/run_fastapi_concurrency_smoke.sh` starts the ResNet18 API server and issues short localhost concurrent requests grouped by concurrency level.
+
+```bash
+bash scripts/run_fastapi_concurrency_smoke.sh
+```
+
+Concurrency smoke output:
+
+| Artifact | Path |
+|---|---|
+| Result JSON | `results/inference/fastapi_resnet18_concurrency_20260514_233246.json` |
+| Report | `docs/reports/fastapi_concurrency_smoke.md` |
+| Server log | `artifacts/system/fastapi_concurrency_server_*.log` |
+| Tegrastats log | `artifacts/system/tegrastats_fastapi_concurrency_*.log` |
+
 `scripts/export_fastapi_serving_inferedge.sh` converts that serving smoke JSON into InferEdge-compatible handoff evidence.
 
 ```bash
@@ -231,6 +247,7 @@ InferEdge Whisper serving output:
 - `/health` and `/v1/models` are reproducibility checks, not benchmark endpoints.
 - `/v1/infer/resnet18/synthetic` uses synthetic tensors and random seeded weights, so it proves the local serving path, not model accuracy.
 - `/v1/infer/whisper/speech` uses a short generated WAV sample, so it proves the local audio serving path and transcription plumbing, not broad speech recognition accuracy.
+- FastAPI concurrency smoke is a short localhost path check; it is not a production load test or capacity plan.
 - Client roundtrip latency includes localhost HTTP serialization, FastAPI routing, request validation, synthetic tensor creation, inference, and response serialization.
 - Server inference/transcription latency is measured inside the handler around the PyTorch model call or Whisper `model.transcribe`.
 - The InferEdge serving export uses client roundtrip latency as the top-level `latency_ms` and preserves server-side latency under `serving.latency_layers.server_inference_ms`.
