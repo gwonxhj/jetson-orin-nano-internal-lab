@@ -13,6 +13,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [Whisper / FastAPI Whisper exports](docs/reports/portfolio_evidence_index.md) — Offline transcription과 FastAPI serving 결과를 `metadata.json` / `result.json` handoff evidence로 연결합니다.
 
 전체 report map과 보조 evidence 링크는 [portfolio evidence index](docs/reports/portfolio_evidence_index.md)와 [Evidence Map](#evidence-map)에 위임합니다.
+공개 포트폴리오 관점의 최종 해석은 [portfolio final review](docs/reports/portfolio_final_review.md)에 정리합니다.
 
 ## Scope
 
@@ -561,6 +562,7 @@ InferEdge-compatible 핵심 필드:
 | LLM env candidate probe | `scripts/probe_llm_env_candidates.sh` | `results/llm/llm_env_candidates_20260515_010032.json` | `docs/reports/llm_env_candidate_probe.md` |
 | LLM text-generation smoke | `scripts/run_llm_smoke.sh` | `results/llm/llm_tiny-gpt2_text_generation_20260515_005755.json` | `docs/reports/llm_text_generation_smoke.md` |
 | LLM InferEdge export | `scripts/export_llm_inferedge.sh` | `results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/result.json` | `docs/reports/llm_inferedge_export.md` |
+| Portfolio final review | n/a | current evidence chain | `docs/reports/portfolio_final_review.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
 ## Repository Layout

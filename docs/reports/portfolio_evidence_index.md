@@ -4,7 +4,7 @@
 
 ## Start Here
 
-이 프로젝트의 evidence는 **환경 조건 -> runtime 비교 -> serving layer -> audio/text inference -> InferEdge-compatible handoff** 순서로 읽으면 가장 자연스럽습니다. 각 결과는 재현 조건과 한계를 함께 기록하며, 짧은 smoke benchmark만으로 deployment-ready를 주장하지 않습니다.
+이 프로젝트의 evidence는 **환경 조건 -> runtime 비교 -> serving layer -> audio/text inference -> InferEdge-compatible handoff** 순서로 읽으면 가장 자연스럽습니다. 각 결과는 재현 조건과 한계를 함께 기록하며, 짧은 smoke benchmark만으로 deployment-ready를 주장하지 않습니다. 공개 포트폴리오 관점의 한 장짜리 결론은 [Portfolio final review](portfolio_final_review.md)에 정리합니다.
 
 ## Recommended Reading Order
 
@@ -48,6 +48,7 @@
 ## Fast Links
 
 - [README Quickstart](../../README.md#portfolio-quickstart)
+- [Portfolio final review](portfolio_final_review.md)
 - [Evidence Map](../../README.md#evidence-map)
 - [InferEdge runtime result](../../results/inferedge/resnet18_runtime_compare_20260513_133100/result.json)
 - [InferEdge serving result](../../results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json)
