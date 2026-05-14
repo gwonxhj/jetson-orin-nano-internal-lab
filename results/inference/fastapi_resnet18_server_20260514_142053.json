@@ -1,0 +1,190 @@
+{
+  "metadata": {
+    "generated_at": "2026-05-14T14:21:02+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "823c6b4"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "schema_version": "fastapi-server-smoke-v1",
+    "server_log": "artifacts/system/fastapi_resnet18_server_20260514_142053.log",
+    "tegrastats_log": "artifacts/system/tegrastats_fastapi_resnet18_20260514_142053.log"
+  },
+  "result": {
+    "backend": "cuda",
+    "framework": "pytorch",
+    "input": {
+      "dtype": "float32",
+      "seed": 42,
+      "shape": [
+        1,
+        3,
+        224,
+        224
+      ],
+      "source": "synthetic_random_tensor"
+    },
+    "latency": {
+      "client_roundtrip_ms": {
+        "count": 30,
+        "max_ms": 29.6695,
+        "mean_ms": 28.5178,
+        "min_ms": 25.3073,
+        "p50_ms": 29.0647,
+        "p95_ms": 29.5806,
+        "p99_ms": 29.6584,
+        "samples_ms": [
+          25.5353,
+          25.3073,
+          25.9652,
+          26.3803,
+          26.4124,
+          27.7392,
+          27.8382,
+          27.9645,
+          28.2877,
+          28.8054,
+          28.7742,
+          29.5179,
+          29.4245,
+          29.6695,
+          29.1617,
+          29.0941,
+          29.4277,
+          29.0354,
+          28.9569,
+          29.1982,
+          29.4141,
+          29.6311,
+          29.0308,
+          28.9662,
+          29.1059,
+          29.2678,
+          29.4348,
+          29.5189,
+          29.329,
+          29.339
+        ]
+      },
+      "server_inference_ms": {
+        "count": 30,
+        "max_ms": 19.2189,
+        "mean_ms": 18.415,
+        "min_ms": 16.6645,
+        "p50_ms": 18.7426,
+        "p95_ms": 19.1253,
+        "p99_ms": 19.2008,
+        "samples_ms": [
+          16.6645,
+          16.7808,
+          16.9994,
+          17.2014,
+          17.2424,
+          17.6318,
+          17.8893,
+          17.9437,
+          18.3541,
+          18.5583,
+          18.4455,
+          18.707,
+          18.9008,
+          18.7422,
+          18.8746,
+          18.7489,
+          19.1565,
+          18.7622,
+          18.6897,
+          18.9673,
+          18.7551,
+          18.9733,
+          18.7431,
+          18.7634,
+          18.8403,
+          19.0034,
+          19.2189,
+          18.7235,
+          19.0818,
+          19.0872
+        ]
+      }
+    },
+    "model": {
+      "architecture": "resnet18",
+      "device": "cuda",
+      "id": "resnet18-random-seed42",
+      "parameter_count": 11689512,
+      "precision": "fp32",
+      "state_dict_sha256": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+      "weights": "random_seeded_weights_no_pretrained_accuracy_claim"
+    },
+    "output": {
+      "inference_ms": 19.0872,
+      "output_shape": [
+        1,
+        1000
+      ],
+      "top5_indices": [
+        275,
+        562,
+        630,
+        439,
+        366
+      ],
+      "top5_values": [
+        1.42081,
+        1.402925,
+        1.386302,
+        1.350889,
+        1.256872
+      ]
+    },
+    "precision": "fp32",
+    "runtime": {
+      "repeat": 30,
+      "timing": "client_roundtrip_and_server_handler_inference",
+      "warmup": 5
+    },
+    "server": {
+      "asgi": "uvicorn",
+      "base_url": "http://127.0.0.1:18080",
+      "endpoint": "/v1/infer/resnet18/synthetic",
+      "framework": "fastapi",
+      "health": {
+        "device": "cuda",
+        "model": "resnet18",
+        "model_hash": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+        "precision": "fp32",
+        "status": "ok"
+      }
+    },
+    "task": "local_inference_api_smoke"
+  }
+}

@@ -9,6 +9,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - [ResNet18 runtime matrix summary](docs/reports/resnet18_runtime_matrix_summary.md) — PyTorch CUDA, ONNX Runtime CPU/CUDA/TensorRT EP, native TensorRT, TensorRT EP cache 비용을 한 장으로 요약합니다.
 - [TensorRT FP16 optimization report](docs/reports/tensorrt_optimization_report.md) — ResNet18 ONNX export, `trtexec` build/run command, model hash, input shape, precision, warmup/repeat 조건을 기록합니다.
 - [Runtime comparison report](docs/reports/runtime_comparison.md) — PyTorch CUDA FP32와 TensorRT FP16 결과를 direct regression이 아닌 system/runtime comparison evidence로 정리합니다.
+- [FastAPI ResNet18 server smoke](docs/reports/fastapi_resnet18_server_smoke.md) — ResNet18 PyTorch CUDA path를 localhost FastAPI serving layer로 감싼 client/server latency evidence입니다.
 - [ONNX Runtime CUDA EP activation attempt](docs/reports/onnxruntime_cuda_ep_activation_attempt.md) — 기존 `yolo_env`를 변경하지 않고 CUDAExecutionProvider 활성화 가능 여부를 evidence로 기록합니다.
 - [InferEdge-compatible export report](docs/reports/inferedge_export.md) — runtime comparison 결과를 `metadata.json` / `result.json` handoff evidence로 변환한 내용을 설명합니다.
 
@@ -27,6 +28,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - JetPack 6 / CUDA 12.6 / cuDNN 9용 ONNX Runtime GPU wheel 후보 검증
 - ResNet18 ONNX export와 TensorRT FP16 `trtexec` engine smoke
 - PyTorch CUDA FP32 vs ONNX Runtime CPU FP32 vs ONNX Runtime CUDA FP32 vs ONNX Runtime TensorRT FP32 vs TensorRT FP16 runtime comparison
+- FastAPI localhost ResNet18 inference server smoke
 - InferEdge-compatible `metadata.json` / `result.json` export
 
 제외:
@@ -287,7 +289,29 @@ bash scripts/run_runtime_compare.sh
 - Mean latency ONNX Runtime CUDA/TensorRT ratio: `7.2592x`
 - Mean latency ONNX Runtime TensorRT/TensorRT ratio: `4.3458x`
 
-### 11. InferEdge Export
+### 11. FastAPI Local Inference Server
+
+같은 ResNet18 random seeded model hash를 FastAPI localhost server로 감싸고, client roundtrip latency와 server-side PyTorch CUDA inference latency를 분리해 기록합니다.
+
+```bash
+bash scripts/run_fastapi_server_smoke.sh
+```
+
+주요 산출물:
+
+- `results/inference/fastapi_resnet18_server_20260514_142053.json`
+- `artifacts/system/fastapi_resnet18_server_20260514_142053.log`
+- `artifacts/system/tegrastats_fastapi_resnet18_20260514_142053.log`
+- `docs/reports/fastapi_resnet18_server_smoke.md`
+
+현재 FastAPI server smoke 결과:
+
+| Layer | Backend | Precision | Mean ms | P95 ms |
+|---|---|---|---:|---:|
+| Client roundtrip | localhost HTTP | FP32 | 28.5178 | 29.5806 |
+| Server inference | PyTorch CUDA | FP32 | 18.415 | 19.1253 |
+
+### 12. InferEdge Export
 
 Runtime comparison evidence를 InferEdge-compatible `metadata.json` / `result.json` 쌍으로 변환합니다. `result.json`은 Lab-compatible Runtime top-level fields를 유지하고, comparison details는 `comparison`에 보존합니다.
 
@@ -323,6 +347,7 @@ InferEdge-compatible 핵심 필드:
 | ONNX Runtime CUDA env candidate probe | `scripts/probe_ort_cuda_wheel_candidates.sh` | `results/inference/ort_cuda_wheel_candidates_20260514_020616.json` | `docs/reports/onnxruntime_cuda_env_candidate_probe.md` |
 | Runtime compare | `scripts/run_runtime_compare.sh` | `results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_onnxruntime_cuda_fp32_vs_onnxruntime_tensorrt_fp32_vs_tensorrt_fp16_20260514_025504.json` | `docs/reports/runtime_comparison.md` |
 | Runtime matrix summary | n/a | existing runtime/cache results | `docs/reports/resnet18_runtime_matrix_summary.md` |
+| FastAPI server smoke | `scripts/run_fastapi_server_smoke.sh` | `results/inference/fastapi_resnet18_server_20260514_142053.json` | `docs/reports/fastapi_resnet18_server_smoke.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
 ## Repository Layout
@@ -352,8 +377,10 @@ python3 -m py_compile \
   benchmarks/inference/onnxruntime_cuda_ep_attempt.py \
   benchmarks/inference/onnxruntime_tensorrt_cache_bench.py \
   benchmarks/inference/ort_cuda_wheel_candidate_probe.py \
+  benchmarks/inference/fastapi_resnet18_client_smoke.py \
   benchmarks/tensorrt/resnet18_trtexec_smoke.py \
   benchmarks/runtime_compare/build_runtime_comparison.py \
+  src/server/resnet18_app.py \
   tests/test_system_baseline_json.py \
   tests/test_cuda_compute_json.py \
   tests/test_inference_smoke_json.py \
@@ -363,7 +390,8 @@ python3 -m py_compile \
   tests/test_ort_cuda_wheel_candidate_probe_json.py \
   tests/test_tensorrt_metric_parser.py \
   tests/test_runtime_comparison.py \
-  tests/test_inferedge_export.py
+  tests/test_inferedge_export.py \
+  tests/test_fastapi_server_smoke.py
 
 bash -n scripts/*.sh
 python3 tests/test_system_baseline_json.py
@@ -376,6 +404,7 @@ python3 tests/test_ort_cuda_wheel_candidate_probe_json.py
 python3 tests/test_tensorrt_metric_parser.py
 python3 tests/test_runtime_comparison.py
 python3 tests/test_inferedge_export.py
+python3 tests/test_fastapi_server_smoke.py
 ```
 
 ## Interpretation Rules

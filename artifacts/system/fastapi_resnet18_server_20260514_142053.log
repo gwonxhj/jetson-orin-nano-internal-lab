@@ -1,0 +1,45 @@
+INFO:     Started server process [3084]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18080 (Press CTRL+C to quit)
+INFO:     127.0.0.1:37288 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37298 - "GET /v1/models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37314 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37316 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37332 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37346 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37362 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37364 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37366 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37374 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37376 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37378 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37390 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37402 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37416 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37418 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37422 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37438 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37450 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37464 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37474 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37478 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37494 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37504 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37516 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37522 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37538 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37540 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37542 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37548 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37550 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37562 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37578 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37592 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37602 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37614 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37618 - "POST /v1/infer/resnet18/synthetic HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [3084]
