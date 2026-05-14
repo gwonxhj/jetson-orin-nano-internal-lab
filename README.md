@@ -6,7 +6,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 
 ## Representative Evidence
 
-- [Portfolio evidence index](docs/reports/portfolio_evidence_index.md) — ResNet18 runtime, FastAPI serving, Whisper audio, InferEdge export 흐름을 어떤 순서로 보면 되는지 한 장으로 안내합니다.
+- [Portfolio evidence index](docs/reports/portfolio_evidence_index.md) — ResNet18 runtime, FastAPI serving, Whisper audio, LLM smoke, InferEdge export 흐름을 어떤 순서로 보면 되는지 한 장으로 안내합니다.
 - [ResNet18 runtime matrix summary](docs/reports/resnet18_runtime_matrix_summary.md) — PyTorch CUDA, ONNX Runtime CPU/CUDA/TensorRT EP, native TensorRT, TensorRT EP cache 비용을 한 장으로 요약합니다.
 - [TensorRT FP16 optimization report](docs/reports/tensorrt_optimization_report.md) — ResNet18 ONNX export, `trtexec` build/run command, model hash, input shape, precision, warmup/repeat 조건을 기록합니다.
 - [FastAPI API usage report](docs/reports/fastapi_api_usage.md) — `/health`, `/v1/models`, ResNet18 synthetic inference, Whisper speech transcription API 호출 흐름과 evidence 산출물 연결을 설명합니다.
@@ -39,6 +39,7 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 - Whisper tiny/base offline transcription smoke with separate synthetic tone and generated speech inputs
 - Whisper speech smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - Whisper isolated env candidate probe for `openai-whisper` and `faster-whisper`
+- LLM isolated env candidate probe and tiny text-generation smoke readiness evidence
 - InferEdge-compatible `metadata.json` / `result.json` export
 
 제외:
@@ -476,6 +477,37 @@ bash scripts/create_whisper_env.sh --execute
 | `openai-whisper` | `recommended_first_isolated_candidate` | cloned `yolo_env`의 Jetson PyTorch CUDA stack을 재사용하는 첫 후보 |
 | `faster-whisper` | `secondary_isolated_candidate_requires_cuda_validation` | CTranslate2 CUDA/aarch64 호환성을 별도 검증해야 하는 최적화 후보 |
 
+### 18. LLM Env Candidate Probe and Tiny Text Generation Smoke
+
+기존 `yolo_env`에 LLM package를 바로 설치하지 않고, 별도 `llm_env` 후보와 tiny text-generation smoke를 먼저 격리 검증합니다. 기본 smoke는 package 설치나 model download를 수행하지 않으며, `dependency_missing` / `model_missing`도 안전한 readiness evidence로 기록합니다.
+
+```bash
+bash scripts/create_llm_env.sh
+bash scripts/probe_llm_env_candidates.sh
+bash scripts/run_llm_smoke.sh tiny-gpt2
+```
+
+실제 env 생성은 명시적으로 실행할 때만 진행합니다.
+
+```bash
+bash scripts/create_llm_env.sh --execute
+LLM_ALLOW_DOWNLOAD=1 conda run -n llm_env bash scripts/run_llm_smoke.sh tiny-gpt2
+```
+
+주요 산출물:
+
+- `results/llm/llm_env_candidates_20260515_003908.json`
+- `results/llm/llm_tiny-gpt2_text_generation_20260515_003914.json`
+- `artifacts/system/tegrastats_llm_tiny-gpt2_20260515_003914.log`
+- `docs/reports/llm_env_candidate_probe.md`
+- `docs/reports/llm_text_generation_smoke.md`
+
+현재 LLM smoke 상태:
+
+| Model | Env | Backend | Torch CUDA available | Status | Reason |
+|---|---|---|---:|---|---|
+| `sshleifer/tiny-gpt2` | `yolo_env` | `transformers` | true | `dependency_missing` | `transformers`는 기존 env에 설치하지 않음 |
+
 ## Evidence Map
 
 | Stage | Script | Result | Report |
@@ -504,6 +536,8 @@ bash scripts/create_whisper_env.sh --execute
 | Whisper speech transcription smoke | `scripts/run_whisper_speech_smoke.sh` | `results/inference/whisper_tiny_speech_transcription_20260514_182822.json` | `docs/reports/whisper_speech_transcription_smoke.md` |
 | Whisper InferEdge export | `scripts/export_whisper_inferedge.sh` | `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json` | `docs/reports/whisper_inferedge_export.md` |
 | Whisper env candidate probe | `scripts/probe_whisper_env_candidates.sh` | `results/inference/whisper_env_candidates_20260514_175410.json` | `docs/reports/whisper_env_candidate_probe.md` |
+| LLM env candidate probe | `scripts/probe_llm_env_candidates.sh` | `results/llm/llm_env_candidates_20260515_003908.json` | `docs/reports/llm_env_candidate_probe.md` |
+| LLM text-generation smoke | `scripts/run_llm_smoke.sh` | `results/llm/llm_tiny-gpt2_text_generation_20260515_003914.json` | `docs/reports/llm_text_generation_smoke.md` |
 | InferEdge export | `scripts/export_inferedge_evidence.sh` | `results/inferedge/resnet18_runtime_compare_20260513_133100/result.json` | `docs/reports/inferedge_export.md` |
 
 ## Repository Layout
@@ -538,6 +572,8 @@ python3 -m py_compile \
   benchmarks/inference/fastapi_whisper_client_smoke.py \
   benchmarks/inference/whisper_transcription_smoke.py \
   benchmarks/inference/whisper_env_candidate_probe.py \
+  benchmarks/inference/llm_env_candidate_probe.py \
+  benchmarks/inference/llm_text_generation_smoke.py \
   benchmarks/tensorrt/resnet18_trtexec_smoke.py \
   benchmarks/runtime_compare/build_runtime_comparison.py \
   src/server/resnet18_app.py \
@@ -559,7 +595,9 @@ python3 -m py_compile \
   tests/test_fastapi_inferedge_export.py \
   tests/test_fastapi_whisper_inferedge_export.py \
   tests/test_whisper_transcription_smoke.py \
-  tests/test_whisper_env_candidate_probe.py
+  tests/test_whisper_env_candidate_probe.py \
+  tests/test_llm_env_candidate_probe.py \
+  tests/test_llm_text_generation_smoke.py
 
 bash -n scripts/*.sh
 python3 tests/test_system_baseline_json.py
@@ -579,6 +617,8 @@ python3 tests/test_fastapi_inferedge_export.py
 python3 tests/test_fastapi_whisper_inferedge_export.py
 python3 tests/test_whisper_transcription_smoke.py
 python3 tests/test_whisper_env_candidate_probe.py
+python3 tests/test_llm_env_candidate_probe.py
+python3 tests/test_llm_text_generation_smoke.py
 ```
 
 ## Interpretation Rules

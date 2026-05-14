@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "conda_env": "yolo_env",
+    "generated_at": "2026-05-15T00:39:18+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "d94b0e6"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "isolation": {
+      "download_allowed": false,
+      "existing_env_modified": false,
+      "install_command_executed": false,
+      "offline_only": true,
+      "target_env": "yolo_env"
+    },
+    "package": {
+      "torch": {
+        "available": true,
+        "cuda_available": true,
+        "cuda_version": "12.6",
+        "device_count": 1,
+        "version": "2.8.0"
+      },
+      "transformers": {
+        "available": false,
+        "version": ""
+      }
+    },
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "python_version": "3.10.12",
+    "schema_version": "llm-text-generation-smoke-v1",
+    "tegrastats_log": "artifacts/system/tegrastats_llm_tiny-gpt2_20260515_003914.log"
+  },
+  "result": {
+    "failure_reason": "transformers is not installed in the active environment",
+    "framework": "transformers",
+    "generation": {
+      "generated_token_count": 0,
+      "prompt_token_count": 0,
+      "text": ""
+    },
+    "interpretation": {
+      "deployment_ready_claim": false,
+      "path_smoke_only": true,
+      "quality_claim": false
+    },
+    "latency_ms": {},
+    "model": {
+      "alias": "tiny-gpt2",
+      "id": "sshleifer/tiny-gpt2"
+    },
+    "prompt": "Jetson edge AI",
+    "runtime": {
+      "device": "unavailable",
+      "download_allowed": false,
+      "max_new_tokens": 16,
+      "precision": "framework_default",
+      "repeat": 1,
+      "warmup": 0
+    },
+    "status": "dependency_missing",
+    "success": false,
+    "task": "llm_text_generation_smoke"
+  }
+}
