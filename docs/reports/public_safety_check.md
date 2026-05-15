@@ -8,8 +8,8 @@
 |---|---|
 | Repository | `gwonxhj/jetson-orin-nano-internal-lab` |
 | Source snapshot checked | v0.4 detection handoff evidence commit |
-| Latest release observed | [`v0.4-detection-handoff`](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.4-detection-handoff) |
-| Latest release target | `bc09365` |
+| Latest milestone tag observed | [`v0.4-detection-handoff`](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.4-detection-handoff) |
+| Latest milestone tag target | `bc09365` |
 | GitHub visibility observed | `public` |
 | Default branch | `main` |
 | Blocking public-safety issue | none found |
@@ -68,7 +68,7 @@ These files make the repository heavier, but they support the portfolio claim th
 
 ## Decision
 
-No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.4` detection handoff milestone is linked from README, the post-v0.2 `/metrics` evidence, post-v0.3 YOLO smoke artifacts, and YOLO InferEdge handoff have been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
+No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.4` detection handoff milestone tag is linked from README, the post-v0.2 `/metrics` evidence, post-v0.3 YOLO smoke artifacts, and YOLO InferEdge handoff have been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
 
 ## Follow-Up
 

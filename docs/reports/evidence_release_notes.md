@@ -12,11 +12,11 @@
 | Hardware scope | Jetson Orin Nano internal-only experiments |
 | External hardware dependency | None |
 
-`bc09365` is the evidence commit used to define the v0.4 detection handoff snapshot. The release note itself is tracked by the repository commit that contains this file, so readers should use `git rev-parse --short HEAD` after checkout to identify the exact packaging commit.
+`bc09365` is the evidence commit used to define the v0.4 detection handoff milestone tag. The release note itself is tracked by the repository commit that contains this file, so readers should use `git rev-parse --short HEAD` after checkout to identify the exact packaging commit.
 
-## Release History
+## Release / Tag History
 
-| Release | Commit | Purpose |
+| Release / Tag | Evidence Commit | Purpose |
 |---|---|---|
 | [v0.1-public-evidence-snapshot](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.1-public-evidence-snapshot) | `bc0dcc5` | Initial public evidence snapshot with environment, runtime, serving, Whisper, LLM, and InferEdge handoff reports. |
 | [v0.2-serving-soak-evidence](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.2-serving-soak-evidence) | `43c4390` | FastAPI soak/burst serving milestone with InferEdge-compatible serving export. |
