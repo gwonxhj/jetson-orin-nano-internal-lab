@@ -7,7 +7,7 @@
 | Field | Result |
 |---|---|
 | Repository | `gwonxhj/jetson-orin-nano-internal-lab` |
-| Source snapshot checked | `v0.3-observability-smoke` (`7c270c1`) |
+| Source snapshot checked | post-v0.3 YOLO optional extension commit containing this file |
 | Latest release observed | [`v0.3-observability-smoke`](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.3-observability-smoke) |
 | Latest release target | `7c270c1` |
 | GitHub visibility observed | `public` |
@@ -15,13 +15,13 @@
 | Blocking public-safety issue | none found |
 | Visibility change performed | none |
 
-The repository is already public at the time of this check. This pass covers the post-v0.2 `/metrics` follow-up evidence and the `v0.3-observability-smoke` release. No additional raw logs were added by the release promotion itself.
+The repository is already public at the time of this check. This pass covers the post-v0.2 `/metrics` follow-up evidence, the `v0.3-observability-smoke` release, and the post-v0.3 YOLOv8n file-image detection smoke artifacts.
 
 ## GitHub Repo Card
 
 | Field | Value |
 |---|---|
-| Description | Jetson Orin Nano internal edge AI evidence lab: environment baselines, PyTorch/ONNX Runtime/TensorRT comparison, FastAPI serving, Whisper audio, and InferEdge exports. |
+| Description | Jetson Orin Nano internal edge AI evidence lab: environment baselines, PyTorch/ONNX Runtime/TensorRT comparison, YOLO detection, FastAPI serving, Whisper audio, and InferEdge exports. |
 | Topics | `ai-inference`, `benchmark`, `cuda`, `edge-ai`, `embedded-ai`, `evidence`, `fastapi`, `inferedge`, `jetson`, `jetson-orin-nano`, `onnx`, `onnxruntime`, `pytorch`, `runtime-comparison`, `tensorrt`, `trtexec`, `whisper` |
 | README state | Representative evidence, evidence index, final review, release notes, baseline snapshot, latest serving milestone, and schema validation are linked. |
 | Actions state | `InferEdge Schema Validation` workflow passed on `main`. |
@@ -46,8 +46,8 @@ The safety pass scanned tracked repository content for:
 | Email / key / token markers | pass | No email, SSH key, or GitHub token marker found. |
 | Password wording | pass with context | Hits are documentation explaining that non-interactive `sudo nvpmodel -q` needs a sudo password; no password value is present. |
 | Hostname fields | pass | Evidence uses generic `jetson-orin-nano` hostname values. |
-| Raw logs | pass | Raw logs are environment, TensorRT, server, and `tegrastats` evidence; no sensitive local path, IP, token, or key markers found. The FastAPI soak/burst logs and the post-v0.2 `/metrics` FastAPI server/`tegrastats` logs were included in this pass. |
-| Large tracked files | accepted | ONNX and TensorRT engine/cache artifacts are intentional reproducibility evidence, not secrets. |
+| Raw logs | pass | Raw logs are environment, TensorRT, server, and `tegrastats` evidence; no sensitive local path, IP, token, or key markers found. The FastAPI soak/burst logs, the post-v0.2 `/metrics` FastAPI server/`tegrastats` logs, and the YOLOv8n detection `tegrastats` log were included in this pass. |
+| Large tracked files | accepted | ONNX, YOLOv8n, and TensorRT engine/cache artifacts are intentional reproducibility evidence, not secrets. |
 | InferEdge handoff schema | pass | `bash scripts/validate_inferedge_artifacts.sh` validates 7 handoff directories with strict artifact hash checks. |
 
 ## Large Artifact Review
@@ -61,12 +61,14 @@ The safety pass scanned tracked repository content for:
 | `artifacts/system/tegrastats_fastapi_soak_burst_20260515_222841.log` | 20 KB | keep: v0.2 serving soak/burst telemetry evidence |
 | `artifacts/system/fastapi_resnet18_server_20260516_001440.log` | 4 KB | keep: post-v0.2 `/metrics` serving smoke server evidence |
 | `artifacts/system/tegrastats_fastapi_resnet18_20260516_001440.log` | 10 KB | keep: post-v0.2 `/metrics` serving telemetry evidence |
+| `models/yolov8n.pt` | 6.3 MB | keep: optional YOLO detection smoke model with recorded SHA256 |
+| `artifacts/system/tegrastats_yolo_yolov8n_20260516_010734.log` | 2.3 KB | keep: YOLO detection smoke telemetry evidence |
 
 These files make the repository heavier, but they support the portfolio claim that runtime artifacts and handoff evidence are reproducible. They are acceptable for the current public snapshot.
 
 ## Decision
 
-No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.3` observability milestone is linked from README, the post-v0.2 `/metrics` evidence has been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
+No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.3` observability milestone is linked from README, the post-v0.2 `/metrics` evidence and post-v0.3 YOLO smoke artifacts have been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
 
 ## Follow-Up
 

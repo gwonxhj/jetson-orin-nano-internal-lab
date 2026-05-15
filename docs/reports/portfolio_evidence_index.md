@@ -23,6 +23,7 @@
 | Track | Question Answered | Key Result | Handoff |
 |---|---|---|---|
 | ResNet18 runtime | Which local backend/runtime path works on this Jetson, under which precision and cache conditions? | [Runtime matrix summary](resnet18_runtime_matrix_summary.md) | [Runtime result](../../results/inferedge/resnet18_runtime_compare_20260513_133100/result.json) |
+| Object detection | Can a file-image object detection model run locally without external camera/sensor input? | [YOLO detection smoke](yolo_detection_smoke.md) | Result JSON: [YOLO detection result](../../results/inference/yolo_yolov8n_detection_20260516_010734.json) |
 | FastAPI serving | Can local image and audio inference be exposed through reproducible localhost API paths, including `/metrics`, short concurrency, and longer soak/burst evidence? | [FastAPI API usage](fastapi_api_usage.md), [FastAPI concurrency smoke](fastapi_concurrency_smoke.md), [FastAPI soak/burst](fastapi_soak_burst.md), [FastAPI soak/burst InferEdge export](fastapi_soak_burst_inferedge_export.md), [FastAPI Whisper smoke](fastapi_whisper_speech_server_smoke.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md) | [ResNet18 serving](../../results/inferedge/resnet18_fastapi_serving_20260516_001440/result.json), [soak/burst serving](../../results/inferedge/fastapi_resnet18_soak_burst_20260515_222841/result.json), [Whisper serving](../../results/inferedge/fastapi_whisper_serving_20260514_202459/result.json) |
 | Whisper audio | Can a license-clear audio input exercise the local transcription path without external sensors? | [Whisper speech smoke](whisper_speech_transcription_smoke.md) | [Whisper result](../../results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json) |
 | LLM text readiness | Can local text-generation plumbing be introduced without mutating the stable benchmark env first? | [LLM env candidate probe](llm_env_candidate_probe.md), [LLM text generation smoke](llm_text_generation_smoke.md), [LLM InferEdge export](llm_inferedge_export.md) | [LLM result](../../results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/result.json) |
@@ -31,6 +32,7 @@
 
 - The Jetson environment and power/runtime conditions are recorded alongside results.
 - ResNet18 inference paths were exercised across PyTorch, ONNX Runtime, TensorRT EP, and native TensorRT evidence.
+- YOLOv8n file-image object detection runs on CUDA without external camera or sensor input.
 - A localhost FastAPI serving layer can expose `/metrics` and produce structured image, audio, short concurrency, and soak/burst result evidence without claiming production readiness.
 - Whisper tiny can run in an isolated `whisper_env` and transcribe a license-clear generated speech sample on CUDA.
 - LLM text-generation support runs in an isolated `llm_env`; current tiny-gpt2 CUDA path smoke succeeded while stable `yolo_env` remains unmodified.
@@ -44,11 +46,13 @@
 - It does not treat backend/precision changes as direct regressions.
 - It does not claim broad speech recognition accuracy from a single generated `hello world` sample.
 - It does not claim LLM text quality or deployment readiness; the current tiny-gpt2 result is path smoke evidence only.
+- It does not treat one YOLO package sample image as broad detection accuracy evidence.
 - It does not rely on external camera, microphone, sensor, motor, or robot hardware.
 
 ## Fast Links
 
 - [README Quickstart](../../README.md#portfolio-quickstart)
+- [YOLO detection smoke](yolo_detection_smoke.md)
 - [Portfolio final review](portfolio_final_review.md)
 - [Evidence release notes](evidence_release_notes.md)
 - [Public safety check](public_safety_check.md)

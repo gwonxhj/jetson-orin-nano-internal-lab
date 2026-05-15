@@ -31,6 +31,7 @@
 | Jetson resource map | [Resource map](../system/jetson_resource_map.md) | `artifacts/system/tegrastats_idle.log`, `artifacts/system/tegrastats_load_smoke.log` | Not applicable |
 | CUDA compute | [CUDA compute notes](cuda_compute_notes.md) | `results/cuda/cuda_compute_smoke_20260513_151135.json` | Not applicable |
 | ResNet18 PyTorch/ONNX/TensorRT | [ResNet18 runtime matrix summary](resnet18_runtime_matrix_summary.md), [TensorRT FP16 optimization report](tensorrt_optimization_report.md) | `results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_onnxruntime_cuda_fp32_vs_onnxruntime_tensorrt_fp32_vs_tensorrt_fp16_20260514_025504.json` | `results/inferedge/resnet18_runtime_compare_20260513_133100/` |
+| YOLOv8n object detection | [YOLO detection smoke](yolo_detection_smoke.md) | `results/inference/yolo_yolov8n_detection_20260516_010734.json`, `models/yolov8n.pt` | Not yet exported |
 | FastAPI ResNet18 serving | [FastAPI API usage](fastapi_api_usage.md), [FastAPI concurrency smoke](fastapi_concurrency_smoke.md), [Serving boundary notes](serving_boundary_notes.md) | `results/inference/fastapi_resnet18_server_20260516_001440.json`, `results/inference/fastapi_resnet18_concurrency_20260514_233246.json` | `results/inferedge/resnet18_fastapi_serving_20260516_001440/` |
 | Whisper offline transcription | [Whisper speech smoke](whisper_speech_transcription_smoke.md), [Whisper InferEdge export](whisper_inferedge_export.md) | `results/inference/whisper_tiny_speech_transcription_20260514_182822.json` | `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/` |
 | FastAPI Whisper serving | [FastAPI Whisper smoke](fastapi_whisper_speech_server_smoke.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md) | `results/inference/fastapi_whisper_speech_server_20260514_202459.json` | `results/inferedge/fastapi_whisper_serving_20260514_202459/` |
@@ -47,6 +48,7 @@ This snapshot supports the following public claim:
 This snapshot does **not** claim:
 
 - deployment readiness, production uptime, or capacity planning;
+- broad object detection accuracy from one package sample image;
 - broad speech recognition accuracy from one generated speech sample;
 - LLM output quality from `sshleifer/tiny-gpt2`;
 - direct regression conclusions across different backend, precision, provider, or power conditions;

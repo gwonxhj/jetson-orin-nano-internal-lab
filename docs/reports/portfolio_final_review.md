@@ -13,6 +13,7 @@
 | Environment and system baseline | Closed | [Day 1 environment check](day1_environment_check.md), [System baseline](system_baseline.md), [Resource map](../system/jetson_resource_map.md) |
 | CUDA and model runtime | Closed | [CUDA compute notes](cuda_compute_notes.md), [ResNet18 runtime matrix summary](resnet18_runtime_matrix_summary.md), [TensorRT FP16 report](tensorrt_optimization_report.md) |
 | Runtime provider comparison | Closed | [Runtime comparison](runtime_comparison.md), [ONNX Runtime TensorRT cache bench](onnxruntime_tensorrt_cache_bench.md) |
+| Object detection | Closed as file-image smoke | [YOLO detection smoke](yolo_detection_smoke.md) |
 | Local serving layer | Closed as localhost smoke | [FastAPI API usage](fastapi_api_usage.md), [FastAPI concurrency smoke](fastapi_concurrency_smoke.md), [Serving boundary notes](serving_boundary_notes.md) |
 | Audio inference | Closed as path/transcription smoke | [Whisper speech smoke](whisper_speech_transcription_smoke.md), [Whisper InferEdge export](whisper_inferedge_export.md) |
 | Text inference | Closed as tiny LLM path smoke | [LLM text generation smoke](llm_text_generation_smoke.md), [LLM InferEdge export](llm_inferedge_export.md) |
@@ -22,6 +23,7 @@
 
 - Jetson environment conditions are recorded before interpreting benchmark numbers.
 - ResNet18 inference was exercised across PyTorch CUDA, ONNX Runtime CPU/CUDA/TensorRT EP, and native TensorRT paths.
+- YOLOv8n file-image object detection runs locally on CUDA without external camera or sensor input.
 - TensorRT evidence records model hash, input shape, precision, warmup/repeat, build/run command, engine artifact, and raw logs.
 - FastAPI localhost serving can wrap image and audio inference and produce structured result evidence, including a short concurrency smoke.
 - Whisper audio evidence is split into synthetic path smoke and license-clear generated speech transcription smoke.
@@ -31,6 +33,7 @@
 ## What This Does Not Prove
 
 - It does not prove deployment readiness, uptime, operational observability, or production capacity.
+- It does not prove broad object detection accuracy from one Ultralytics package sample image.
 - It does not prove broad speech recognition accuracy from one generated `hello world` sample.
 - It does not prove LLM text quality or usefulness from `sshleifer/tiny-gpt2`; the LLM result is path evidence only.
 - It does not treat backend, precision, provider, or power-mode differences as direct regressions.
@@ -56,4 +59,4 @@
 
 ## Final Interpretation
 
-The project is ready to be presented as a reproducible Jetson internal edge AI evidence lab. The strongest portfolio claim is not "this device is production-ready"; it is "this repo shows how the environment, runtime comparison, local serving, audio/text inference, and InferEdge-compatible handoff evidence were built and bounded step by step."
+The project is ready to be presented as a reproducible Jetson internal edge AI evidence lab. The strongest portfolio claim is not "this device is production-ready"; it is "this repo shows how the environment, runtime comparison, object detection, local serving, audio/text inference, and InferEdge-compatible handoff evidence were built and bounded step by step."

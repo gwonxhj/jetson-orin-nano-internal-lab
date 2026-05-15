@@ -1,0 +1,199 @@
+{
+  "metadata": {
+    "conda_env": "yolo_env",
+    "generated_at": "2026-05-16T01:07:41+09:00",
+    "git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "bb5b10a"
+    },
+    "git_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "hostname": "jetson-orin-nano",
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "python_executable": "[conda-env]/bin/python3",
+    "python_version": "3.10.12",
+    "schema_version": "yolo-detection-smoke-v1",
+    "tegrastats_log": "artifacts/system/tegrastats_yolo_yolov8n_20260516_010734.log"
+  },
+  "result": {
+    "backend": "cuda",
+    "framework": "ultralytics",
+    "input": {
+      "external_sensor_dependency": false,
+      "format": "jpg",
+      "height": 1080,
+      "path": "[site-packages]/ultralytics/assets/bus.jpg",
+      "sha256": "c02019c4979c191eb739ddd944445ef408dad5679acab6fd520ef9d434bfbc63",
+      "source": "ultralytics_package_sample_image",
+      "width": 810
+    },
+    "interpretation": {
+      "accuracy_claim": false,
+      "deployment_ready_claim": false,
+      "external_camera_dependency": false,
+      "notes": "File-image object detection smoke validates local YOLO inference plumbing only."
+    },
+    "latency": {
+      "count": 20,
+      "max_ms": 61.5029,
+      "mean_ms": 59.5495,
+      "min_ms": 54.4237,
+      "p50_ms": 61.0896,
+      "p95_ms": 61.3837,
+      "p99_ms": 61.4791,
+      "samples_ms": [
+        61.2294,
+        61.3308,
+        60.5376,
+        54.4237,
+        61.1415,
+        61.0513,
+        61.1328,
+        61.1913,
+        61.3774,
+        60.6094,
+        54.4756,
+        55.6666,
+        61.2373,
+        61.1278,
+        61.0014,
+        61.5029,
+        60.3747,
+        54.7213,
+        55.6015,
+        61.2564
+      ]
+    },
+    "model": {
+      "architecture": "yolov8n",
+      "name": "yolov8n.pt",
+      "package": "ultralytics",
+      "package_version": "8.3.235",
+      "path": "models/yolov8n.pt",
+      "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+      "weights": "pretrained_yolo_smoke_model_no_accuracy_claim"
+    },
+    "output": {
+      "class_counts": {
+        "bus": 1,
+        "person": 4,
+        "stop sign": 1
+      },
+      "detection_count": 6,
+      "detections_preview": [
+        {
+          "class_id": 5,
+          "class_name": "bus",
+          "confidence": 0.873246,
+          "xyxy": [
+            22.839,
+            231.275,
+            804.992,
+            756.84
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.865758,
+          "xyxy": [
+            48.555,
+            398.551,
+            245.343,
+            902.713
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.852866,
+          "xyxy": [
+            669.471,
+            392.198,
+            809.72,
+            877.035
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.82527,
+          "xyxy": [
+            221.511,
+            405.797,
+            344.973,
+            857.538
+          ]
+        },
+        {
+          "class_id": 0,
+          "class_name": "person",
+          "confidence": 0.260886,
+          "xyxy": [
+            0.0,
+            550.52,
+            63.038,
+            873.439
+          ]
+        },
+        {
+          "class_id": 11,
+          "class_name": "stop sign",
+          "confidence": 0.25524,
+          "xyxy": [
+            0.057,
+            254.46,
+            32.559,
+            324.87
+          ]
+        }
+      ]
+    },
+    "precision": "fp32",
+    "runtime": {
+      "confidence_threshold": 0.25,
+      "cuda": {
+        "available": true,
+        "capability": [
+          8,
+          7
+        ],
+        "device_index": 0,
+        "device_name": "Orin",
+        "total_memory_bytes": 7990046720
+      },
+      "imgsz": 640,
+      "postprocessing_included": true,
+      "preprocessing_included": true,
+      "repeat": 20,
+      "torch_version": "2.8.0",
+      "warmup": 3
+    },
+    "task": "object_detection_smoke"
+  }
+}
