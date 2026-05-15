@@ -4,6 +4,8 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 
 이 repo의 포트폴리오 메시지는 단순 latency 숫자가 아니라, **환경 조건 → 실행 스크립트 → raw log → JSON result → Markdown report → InferEdge handoff**까지 이어지는 추적 가능한 evidence입니다.
 
+Public snapshot: [v0.1-public-evidence-snapshot](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.1-public-evidence-snapshot)
+
 ## Representative Evidence
 
 - [Portfolio evidence index](docs/reports/portfolio_evidence_index.md) — ResNet18 runtime, FastAPI serving, Whisper audio, LLM smoke, InferEdge export 흐름을 어떤 순서로 보면 되는지 한 장으로 안내합니다.
