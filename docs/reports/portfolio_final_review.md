@@ -13,22 +13,22 @@
 | Environment and system baseline | Closed | [Day 1 environment check](day1_environment_check.md), [System baseline](system_baseline.md), [Resource map](../system/jetson_resource_map.md) |
 | CUDA and model runtime | Closed | [CUDA compute notes](cuda_compute_notes.md), [ResNet18 runtime matrix summary](resnet18_runtime_matrix_summary.md), [TensorRT FP16 report](tensorrt_optimization_report.md) |
 | Runtime provider comparison | Closed | [Runtime comparison](runtime_comparison.md), [ONNX Runtime TensorRT cache bench](onnxruntime_tensorrt_cache_bench.md) |
-| Object detection | Closed as file-image smoke | [YOLO detection smoke](yolo_detection_smoke.md) |
+| Object detection | Closed as file-image smoke plus handoff | [YOLO detection smoke](yolo_detection_smoke.md), [YOLO InferEdge export](yolo_inferedge_export.md) |
 | Local serving layer | Closed as localhost smoke | [FastAPI API usage](fastapi_api_usage.md), [FastAPI concurrency smoke](fastapi_concurrency_smoke.md), [Serving boundary notes](serving_boundary_notes.md) |
 | Audio inference | Closed as path/transcription smoke | [Whisper speech smoke](whisper_speech_transcription_smoke.md), [Whisper InferEdge export](whisper_inferedge_export.md) |
 | Text inference | Closed as tiny LLM path smoke | [LLM text generation smoke](llm_text_generation_smoke.md), [LLM InferEdge export](llm_inferedge_export.md) |
-| InferEdge-compatible handoff | Closed for runtime, serving, audio, text | [Portfolio evidence index](portfolio_evidence_index.md) |
+| InferEdge-compatible handoff | Closed for runtime, detection, serving, audio, text | [Portfolio evidence index](portfolio_evidence_index.md) |
 
 ## What This Proves
 
 - Jetson environment conditions are recorded before interpreting benchmark numbers.
 - ResNet18 inference was exercised across PyTorch CUDA, ONNX Runtime CPU/CUDA/TensorRT EP, and native TensorRT paths.
-- YOLOv8n file-image object detection runs locally on CUDA without external camera or sensor input.
+- YOLOv8n file-image object detection runs locally on CUDA without external camera or sensor input, and its result is exported as an InferEdge-compatible object-detection handoff.
 - TensorRT evidence records model hash, input shape, precision, warmup/repeat, build/run command, engine artifact, and raw logs.
 - FastAPI localhost serving can wrap image and audio inference and produce structured result evidence, including a short concurrency smoke.
 - Whisper audio evidence is split into synthetic path smoke and license-clear generated speech transcription smoke.
 - LLM text-generation evidence runs in isolated `llm_env`; the stable `yolo_env` remains unmodified.
-- InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime comparison, FastAPI image serving, FastAPI audio serving, Whisper transcription, and LLM text-generation.
+- InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime comparison, object detection, FastAPI image serving, FastAPI audio serving, Whisper transcription, and LLM text-generation.
 
 ## What This Does Not Prove
 

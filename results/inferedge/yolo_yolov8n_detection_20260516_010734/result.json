@@ -1,0 +1,289 @@
+{
+  "backend_key": "ultralytics_cuda__jetson",
+  "batch": 1,
+  "benchmark": {
+    "message": "YOLO object detection smoke exported to InferEdge-compatible result",
+    "status": "success",
+    "success": true
+  },
+  "compare_key": "yolov8n__object_detection__cuda__imgsz640__conf0p25__fp32",
+  "comparison": {
+    "comparability": {
+      "note": "YOLO package sample-image smoke validates local object-detection plumbing only; it is not an accuracy benchmark or deployment approval",
+      "same_backend": true,
+      "same_input_shape": true,
+      "same_model_hash": true,
+      "same_precision": true
+    },
+    "comparison_name": "yolo_object_detection_smoke",
+    "ratios": {
+      "detections_per_second": 100.7565,
+      "frames_per_second": 16.7928
+    },
+    "source_json": "results/inference/yolo_yolov8n_detection_20260516_010734.json",
+    "verdict": "object_detection_smoke_not_accuracy_benchmark"
+  },
+  "device": {
+    "hostname": "jetson-orin-nano",
+    "name": "jetson"
+  },
+  "device_name": "jetson",
+  "engine": {
+    "available": true,
+    "backend": "ultralytics",
+    "name": "ultralytics",
+    "path": "python-package:ultralytics",
+    "sha256": "",
+    "status_message": "YOLO file-image object detection smoke completed.",
+    "version": "8.3.235"
+  },
+  "engine_backend": "ultralytics",
+  "engine_name": "ultralytics",
+  "extra": {
+    "accuracy_claim": false,
+    "backend_key": "ultralytics_cuda__jetson",
+    "compare_key": "yolov8n__object_detection__cuda__imgsz640__conf0p25__fp32",
+    "compare_model_name": "yolov8n.pt",
+    "compare_model_source": "repo_model_file",
+    "compare_ready": true,
+    "deployment_ready_claim": false,
+    "evidence_kind": "yolo_object_detection_smoke",
+    "export_schema_version": "inferedge-internal-lab-export-v1",
+    "external_camera_dependency": false,
+    "external_sensor_dependency": false,
+    "input_mode": "file_image",
+    "input_path": "[site-packages]/ultralytics/assets/bus.jpg",
+    "input_preprocess": "ultralytics_predict_preprocess",
+    "jetson_clocks": "unknown",
+    "json_export": "enabled",
+    "latest_path": "results/inferedge/yolo_yolov8n_detection_20260516_010734/result.json",
+    "manifest_format": "ultralytics_yolo_weights",
+    "manifest_precision": "fp32",
+    "manifest_recorded": false,
+    "object_detection_ready": true,
+    "output_mode": "explicit",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "runtime": "jetson-orin-nano-internal-lab",
+    "tegrastats_log_path": "artifacts/system/tegrastats_yolo_yolov8n_20260516_010734.log",
+    "tegrastats_status": "parsed"
+  },
+  "fps": 16.7928,
+  "fps_value": 16.7928,
+  "height": 1080,
+  "jetson_evidence": {
+    "jetson_clocks": "unknown",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "tegrastats_log_path": "artifacts/system/tegrastats_yolo_yolov8n_20260516_010734.log",
+    "tegrastats_summary": {
+      "max_temp_c": 38.062,
+      "max_temp_name": "gpu",
+      "ram_total_mb": 7620.0,
+      "ram_used_mb_avg": 1680.0,
+      "ram_used_mb_max": 1993.0,
+      "sample_count": 48,
+      "status": "parsed",
+      "vdd_in_mw_avg": 5288.0,
+      "vdd_in_mw_max": 6249.0
+    }
+  },
+  "latency_ms": {
+    "max": 61.5029,
+    "mean": 59.5495,
+    "min": 54.4237,
+    "p50": 61.0896,
+    "p90": null,
+    "p95": 61.3837,
+    "p99": 61.4791,
+    "samples": [
+      61.2294,
+      61.3308,
+      60.5376,
+      54.4237,
+      61.1415,
+      61.0513,
+      61.1328,
+      61.1913,
+      61.3774,
+      60.6094,
+      54.4756,
+      55.6666,
+      61.2373,
+      61.1278,
+      61.0014,
+      61.5029,
+      60.3747,
+      54.7213,
+      55.6015,
+      61.2564
+    ],
+    "std": null
+  },
+  "manifest_applied": false,
+  "manifest_path": "",
+  "mean_ms": 59.5495,
+  "model": {
+    "architecture": "yolov8n",
+    "name": "yolov8n.pt",
+    "path": "models/yolov8n.pt",
+    "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "weights": "pretrained_yolo_smoke_model_no_accuracy_claim"
+  },
+  "model_metadata": {
+    "inputs": [
+      {
+        "element_type": "jpg",
+        "name": "image",
+        "sha256": "c02019c4979c191eb739ddd944445ef408dad5679acab6fd520ef9d434bfbc63",
+        "shape": [
+          1,
+          1080,
+          810,
+          3
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "element_type": "bbox_xyxy_conf_class",
+        "name": "detections",
+        "shape": [
+          6,
+          6
+        ]
+      }
+    ]
+  },
+  "model_name": "yolov8n.pt",
+  "model_path": "models/yolov8n.pt",
+  "object_detection": {
+    "accuracy_claim": false,
+    "class_counts": {
+      "bus": 1,
+      "person": 4,
+      "stop sign": 1
+    },
+    "confidence_threshold": 0.25,
+    "deployment_ready_claim": false,
+    "detection_count": 6,
+    "detections_preview": [
+      {
+        "class_id": 5,
+        "class_name": "bus",
+        "confidence": 0.873246,
+        "xyxy": [
+          22.839,
+          231.275,
+          804.992,
+          756.84
+        ]
+      },
+      {
+        "class_id": 0,
+        "class_name": "person",
+        "confidence": 0.865758,
+        "xyxy": [
+          48.555,
+          398.551,
+          245.343,
+          902.713
+        ]
+      },
+      {
+        "class_id": 0,
+        "class_name": "person",
+        "confidence": 0.852866,
+        "xyxy": [
+          669.471,
+          392.198,
+          809.72,
+          877.035
+        ]
+      },
+      {
+        "class_id": 0,
+        "class_name": "person",
+        "confidence": 0.82527,
+        "xyxy": [
+          221.511,
+          405.797,
+          344.973,
+          857.538
+        ]
+      },
+      {
+        "class_id": 0,
+        "class_name": "person",
+        "confidence": 0.260886,
+        "xyxy": [
+          0.0,
+          550.52,
+          63.038,
+          873.439
+        ]
+      },
+      {
+        "class_id": 11,
+        "class_name": "stop sign",
+        "confidence": 0.25524,
+        "xyxy": [
+          0.057,
+          254.46,
+          32.559,
+          324.87
+        ]
+      }
+    ],
+    "external_camera_dependency": false,
+    "external_sensor_dependency": false,
+    "imgsz": 640,
+    "input_height": 1080,
+    "input_path": "[site-packages]/ultralytics/assets/bus.jpg",
+    "input_sha256": "c02019c4979c191eb739ddd944445ef408dad5679acab6fd520ef9d434bfbc63",
+    "input_source": "ultralytics_package_sample_image",
+    "input_width": 810,
+    "model_name": "yolov8n.pt",
+    "model_path": "models/yolov8n.pt",
+    "model_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "source_json": "results/inference/yolo_yolov8n_detection_20260516_010734.json"
+  },
+  "p50_ms": 61.0896,
+  "p95_ms": 61.3837,
+  "p99_ms": 61.4791,
+  "precision": "fp32",
+  "run_config": {
+    "batch": 1,
+    "conda_env": "yolo_env",
+    "confidence_threshold": 0.25,
+    "device": "cuda",
+    "height": 1080,
+    "imgsz": 640,
+    "jetson_clocks": "unknown",
+    "manifest_applied": false,
+    "manifest_path": "",
+    "postprocessing_included": true,
+    "power_mode": "NV Power Mode: 25W; 1",
+    "preprocessing_included": true,
+    "runs": 20,
+    "source_yolo_smoke_json": "results/inference/yolo_yolov8n_detection_20260516_010734.json",
+    "tegrastats_log_path": "artifacts/system/tegrastats_yolo_yolov8n_20260516_010734.log",
+    "warmup": 3,
+    "width": 810
+  },
+  "runs": 20,
+  "runtime_role": "object-detection-result",
+  "schema_version": "inferedge-runtime-result-v1",
+  "status": "success",
+  "success": true,
+  "system": {
+    "jetson": {
+      "jetson_clocks": "unknown",
+      "power_mode": "NV Power Mode: 25W; 1",
+      "tegrastats_log_path": "artifacts/system/tegrastats_yolo_yolov8n_20260516_010734.log"
+    },
+    "machine": "aarch64",
+    "os": "linux"
+  },
+  "timestamp": "2026-05-16T02:00:24+09:00",
+  "warmup": 3,
+  "width": 810
+}

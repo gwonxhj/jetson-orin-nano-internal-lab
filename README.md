@@ -26,6 +26,7 @@ Latest release: [v0.3-observability-smoke](https://github.com/gwonxhj/jetson-ori
 - CUDA/GPU compute smoke and host/device transfer baseline
 - PyTorch CUDA image inference smoke
 - YOLOv8n file-image object detection smoke
+- YOLOv8n detection smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - ONNX Runtime CPU provider inference smoke와 CUDA provider availability 확인
 - ONNX Runtime CUDA Execution Provider 격리 활성화 시도 기록
 - ONNX Runtime TensorRT Execution Provider 격리 활성화 시도 기록
@@ -137,12 +138,15 @@ bash scripts/run_inference_smoke.sh resnet18 cuda
 
 ```bash
 YOLO_ALLOW_DOWNLOAD=1 bash scripts/run_yolo_detection_smoke.sh yolov8n.pt cuda
+bash scripts/export_yolo_detection_inferedge.sh results/inference/yolo_yolov8n_detection_20260516_010734.json
 ```
 
 주요 산출물:
 
 - `results/inference/yolo_yolov8n_detection_20260516_010734.json`
+- `results/inferedge/yolo_yolov8n_detection_20260516_010734/result.json`
 - `docs/reports/yolo_detection_smoke.md`
+- `docs/reports/yolo_inferedge_export.md`
 - `artifacts/system/tegrastats_yolo_yolov8n_20260516_010734.log`
 - `models/yolov8n.pt`
 
@@ -568,6 +572,7 @@ InferEdge-compatible 핵심 필드:
 | CUDA compute smoke | `scripts/run_cuda_compute_smoke.sh` | `results/cuda/cuda_compute_smoke_20260513_151135.json` | `docs/reports/cuda_compute_notes.md` |
 | PyTorch smoke | `scripts/run_inference_smoke.sh` | `results/inference/pytorch_resnet18_20260513_125245.json` | `docs/reports/pytorch_inference_smoke.md` |
 | YOLOv8n detection smoke | `scripts/run_yolo_detection_smoke.sh` | `results/inference/yolo_yolov8n_detection_20260516_010734.json` | `docs/reports/yolo_detection_smoke.md` |
+| YOLOv8n InferEdge export | `scripts/export_yolo_detection_inferedge.sh` | `results/inferedge/yolo_yolov8n_detection_20260516_010734/result.json` | `docs/reports/yolo_inferedge_export.md` |
 | TensorRT FP16 | `scripts/run_tensorrt_bench.sh` | `results/tensorrt/resnet18_fp16_trtexec_20260513_125323.json` | `docs/reports/tensorrt_optimization_report.md` |
 | ONNX Runtime smoke | `scripts/run_onnxruntime_smoke.sh` | `results/inference/onnxruntime_resnet18_cpu_20260514_013723.json` | `docs/reports/onnxruntime_inference_smoke.md` |
 | ONNX Runtime CUDA EP attempt | `scripts/run_onnxruntime_cuda_ep_attempt.sh` | `results/inference/onnxruntime_cuda_ep_attempt_20260514_023545.json` | `docs/reports/onnxruntime_cuda_ep_activation_attempt.md` |

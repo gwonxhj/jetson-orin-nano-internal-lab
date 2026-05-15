@@ -25,8 +25,8 @@ GitHub Actions workflow:
 - each `results/inferedge/*/` directory has both `metadata.json` and `result.json`;
 - `metadata.json` satisfies `validate_inferedge_metadata`;
 - `result.json` satisfies `validate_inferedge_result`;
-- runtime roles remain one of `runtime-result`, `serving-result`, `audio-transcription-result`, or `text-generation-result`;
-- smoke evidence keeps its boundary verdicts, including non-quality and non-deployment claims for LLM results;
+- runtime roles remain one of `runtime-result`, `serving-result`, `audio-transcription-result`, `text-generation-result`, or `object-detection-result`;
+- smoke evidence keeps its boundary verdicts, including non-accuracy, non-quality, and non-deployment claims for detection and LLM results;
 - metadata contains exactly one `runtime_result` artifact pointing at the paired `result.json`;
 - artifact sha256 values are filled and match committed files when strict artifact validation is enabled.
 
@@ -34,7 +34,7 @@ GitHub Actions workflow:
 
 | Field | Value |
 |---|---:|
-| Handoff directories validated | 7 |
+| Handoff directories validated | 8 |
 | Strict artifact hash check | enabled |
 | Expected status | pass |
 
@@ -47,6 +47,7 @@ Current handoff directories:
 - `results/inferedge/fastapi_resnet18_soak_burst_20260515_222841/`
 - `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/`
 - `results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/`
+- `results/inferedge/yolo_yolov8n_detection_20260516_010734/`
 
 ## Boundary
 

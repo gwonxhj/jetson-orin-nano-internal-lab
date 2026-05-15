@@ -1,0 +1,126 @@
+{
+  "artifacts": [
+    {
+      "format": "json",
+      "path": "results/inferedge/yolo_yolov8n_detection_20260516_010734/result.json",
+      "role": "runtime_result",
+      "sha256": "4f8344c3201e24d51b387227eac0b0c51083802cf4016bc6e5113c1b1e9dbb62"
+    },
+    {
+      "format": "json",
+      "path": "results/inference/yolo_yolov8n_detection_20260516_010734.json",
+      "role": "yolo_smoke_result",
+      "sha256": "183d72a2a339c0dfbbbae902a5071ec27f16a7a0739aa1ae32db54c02481c2e8"
+    },
+    {
+      "format": "pt",
+      "path": "models/yolov8n.pt",
+      "role": "model_weights",
+      "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36"
+    },
+    {
+      "format": "log",
+      "path": "artifacts/system/tegrastats_yolo_yolov8n_20260516_010734.log",
+      "role": "tegrastats_log",
+      "sha256": "619cc7892061e5f90ceeea969364948fbeb08dfa58ba2f4922e77847ba55079e"
+    }
+  ],
+  "build": {
+    "backend": "ultralytics",
+    "build_id": "yolo-object-detection-20260516T020024+0900",
+    "preset_name": "yolo/jetson_yolov8n_file_image_smoke",
+    "target": "jetson",
+    "timestamp": "2026-05-16T02:00:24+09:00"
+  },
+  "export": {
+    "artifact_commit_note": "The commit containing this generated metadata is the git commit that tracks this file; it is intentionally not embedded to avoid self-referential commit hashes.",
+    "export_workspace_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "d4d3c54"
+    },
+    "export_workspace_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "## main...origin/main\n M src/common/inferedge_schema.py\n?? scripts/export_yolo_detection_inferedge.py\n?? scripts/export_yolo_detection_inferedge.sh\n?? tests/test_yolo_detection_inferedge_export.py"
+    },
+    "schema_version": "inferedge-internal-lab-export-v1",
+    "source_smoke_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "bb5b10a"
+    },
+    "source_smoke_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    },
+    "source_yolo_smoke_json": "results/inference/yolo_yolov8n_detection_20260516_010734.json"
+  },
+  "handoff": {
+    "consumer": "InferEdgeLab",
+    "ready": true
+  },
+  "lab_compat": {
+    "profile_ready": true,
+    "runtime": {
+      "device": "jetson",
+      "engine": "ultralytics",
+      "engine_path": "python-package:ultralytics",
+      "precision": "fp32",
+      "requested_batch": 1,
+      "requested_height": 1080,
+      "requested_width": 810,
+      "result_json_path": "results/inferedge/yolo_yolov8n_detection_20260516_010734/result.json",
+      "runtime_artifact_path": "models/yolov8n.pt"
+    }
+  },
+  "preset_snapshot": {
+    "backend": "ultralytics",
+    "build_options": {
+      "confidence_threshold": 0.25,
+      "image_sha256": "c02019c4979c191eb739ddd944445ef408dad5679acab6fd520ef9d434bfbc63",
+      "image_source": "ultralytics_package_sample_image",
+      "imgsz": 640,
+      "measurement": "ultralytics_predict_wall_clock_with_prepostprocess",
+      "model": "models/yolov8n.pt",
+      "precision": "fp32"
+    },
+    "metadata": {
+      "source": "jetson-orin-nano-internal-lab",
+      "validation_handoff": "inferedgelab"
+    },
+    "name": "yolo/jetson_yolov8n_file_image_smoke",
+    "target": "jetson"
+  },
+  "schema_version": "0.1.0",
+  "source_model": {
+    "format": "pytorch-weights",
+    "path": "models/yolov8n.pt",
+    "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36"
+  }
+}

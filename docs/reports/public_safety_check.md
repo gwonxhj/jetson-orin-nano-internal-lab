@@ -48,7 +48,7 @@ The safety pass scanned tracked repository content for:
 | Hostname fields | pass | Evidence uses generic `jetson-orin-nano` hostname values. |
 | Raw logs | pass | Raw logs are environment, TensorRT, server, and `tegrastats` evidence; no sensitive local path, IP, token, or key markers found. The FastAPI soak/burst logs, the post-v0.2 `/metrics` FastAPI server/`tegrastats` logs, and the YOLOv8n detection `tegrastats` log were included in this pass. |
 | Large tracked files | accepted | ONNX, YOLOv8n, and TensorRT engine/cache artifacts are intentional reproducibility evidence, not secrets. |
-| InferEdge handoff schema | pass | `bash scripts/validate_inferedge_artifacts.sh` validates 7 handoff directories with strict artifact hash checks. |
+| InferEdge handoff schema | pass | `bash scripts/validate_inferedge_artifacts.sh` validates 8 handoff directories with strict artifact hash checks, including YOLO object detection. |
 
 ## Large Artifact Review
 
@@ -68,7 +68,7 @@ These files make the repository heavier, but they support the portfolio claim th
 
 ## Decision
 
-No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.3` observability milestone is linked from README, the post-v0.2 `/metrics` evidence and post-v0.3 YOLO smoke artifacts have been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
+No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.3` observability milestone is linked from README, the post-v0.2 `/metrics` evidence, post-v0.3 YOLO smoke artifacts, and YOLO InferEdge handoff have been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
 
 ## Follow-Up
 

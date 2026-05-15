@@ -856,6 +856,8 @@ def build_inferedge_whisper_serving_export(fastapi_whisper_smoke_path: Path, out
     compare_key = f"{model_name}__fastapi_speech__{audio['sample_rate_hz']}hz__{backend}"
     backend_key = f"fastapi_openai_whisper_{backend}__jetson"
     normalized_contains_expected = bool(transcription.get("normalized_contains_expected"))
+    metrics_endpoint = serving_result["server"].get("metrics_endpoint", "")
+    metrics_snapshot = serving_result["server"].get("metrics", {})
 
     result_json = {
         "schema_version": RESULT_SCHEMA_VERSION,
@@ -1587,6 +1589,266 @@ def build_inferedge_llm_export(llm_smoke_path: Path, output_dir: Path, repo_root
     return metadata_json, result_json
 
 
+def build_inferedge_yolo_detection_export(yolo_smoke_path: Path, output_dir: Path, repo_root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Build InferEdge-compatible metadata/result pair for YOLO object detection evidence."""
+
+    smoke = read_json(yolo_smoke_path)
+    metadata = smoke["metadata"]
+    evidence = smoke["result"]
+    if evidence.get("success", True) is not True or evidence.get("status", "succeeded") != "succeeded":
+        raise ValueError(
+            "YOLO object detection smoke must be successful before InferEdge export: "
+            f"status={evidence.get('status')!r}, success={evidence.get('success')!r}"
+        )
+    if evidence.get("task") != "object_detection_smoke":
+        raise ValueError(f"unsupported YOLO smoke task: {evidence.get('task')!r}")
+
+    model = evidence["model"]
+    input_info = evidence["input"]
+    runtime = evidence["runtime"]
+    latency = evidence["latency"]
+    output = evidence["output"]
+    interpretation = evidence.get("interpretation", {})
+    timestamp = now_iso()
+    backend = evidence["backend"]
+    precision = evidence["precision"]
+    model_path_text = model["path"]
+    source_text = _relative_or_original(str(yolo_smoke_path), repo_root)
+    result_json_text = _relative_or_original(str(output_dir / "result.json"), repo_root)
+    tegrastats_text = metadata.get("tegrastats_log", "")
+    tegrastats_summary = summarize_tegrastats(_path_from_repo(tegrastats_text, repo_root)) if tegrastats_text and tegrastats_text != "not captured" else {"status": "not_provided", "sample_count": 0}
+    power_mode = metadata.get("power_mode", {}).get("stdout", "unknown").replace("\n", "; ") or "unknown"
+    height = input_info["height"]
+    width = input_info["width"]
+    detection_count = int(output.get("detection_count", 0))
+    mean_seconds = latency["mean_ms"] / 1000.0 if latency.get("mean_ms") else 0.0
+    frames_per_second = round(1.0 / mean_seconds, 4) if mean_seconds else None
+    detections_per_second = round(detection_count / mean_seconds, 4) if mean_seconds else None
+    compare_model_name = model["architecture"].replace("/", "_")
+    conf_key = str(runtime["confidence_threshold"]).replace(".", "p")
+    compare_key = f"{compare_model_name}__object_detection__{backend}__imgsz{runtime['imgsz']}__conf{conf_key}__{precision}"
+    backend_key = f"ultralytics_{backend}__jetson"
+    engine_path = "python-package:ultralytics"
+
+    result_json = {
+        "schema_version": RESULT_SCHEMA_VERSION,
+        "compare_key": compare_key,
+        "backend_key": backend_key,
+        "runtime_role": "object-detection-result",
+        "manifest_path": "",
+        "manifest_applied": False,
+        "model_name": model["name"],
+        "model_path": model_path_text,
+        "engine_name": "ultralytics",
+        "engine_backend": "ultralytics",
+        "device_name": "jetson",
+        "batch": 1,
+        "height": height,
+        "width": width,
+        "warmup": runtime["warmup"],
+        "runs": runtime["repeat"],
+        "mean_ms": latency["mean_ms"],
+        "p50_ms": latency["p50_ms"],
+        "p95_ms": latency["p95_ms"],
+        "p99_ms": latency["p99_ms"],
+        "fps_value": frames_per_second,
+        "success": True,
+        "status": "success",
+        "model": {
+            "path": model_path_text,
+            "name": model["name"],
+            "architecture": model["architecture"],
+            "sha256": model["sha256"],
+            "weights": model.get("weights", ""),
+        },
+        "engine": {
+            "name": "ultralytics",
+            "backend": "ultralytics",
+            "available": True,
+            "status_message": "YOLO file-image object detection smoke completed.",
+            "path": engine_path,
+            "version": model.get("package_version", ""),
+            "sha256": "",
+        },
+        "device": {"name": "jetson", "hostname": metadata.get("hostname", "jetson-orin-nano")},
+        "precision": precision,
+        "run_config": {
+            "batch": 1,
+            "height": height,
+            "width": width,
+            "warmup": runtime["warmup"],
+            "runs": runtime["repeat"],
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "device": backend,
+            "imgsz": runtime["imgsz"],
+            "confidence_threshold": runtime["confidence_threshold"],
+            "preprocessing_included": runtime.get("preprocessing_included", True),
+            "postprocessing_included": runtime.get("postprocessing_included", True),
+            "conda_env": metadata.get("conda_env", ""),
+            "tegrastats_log_path": tegrastats_text,
+            "manifest_path": "",
+            "manifest_applied": False,
+            "source_yolo_smoke_json": source_text,
+        },
+        "latency_ms": {
+            "mean": latency["mean_ms"],
+            "min": latency["min_ms"],
+            "max": latency["max_ms"],
+            "std": None,
+            "p50": latency["p50_ms"],
+            "p90": None,
+            "p95": latency["p95_ms"],
+            "p99": latency["p99_ms"],
+            "samples": latency["samples_ms"],
+        },
+        "fps": frames_per_second,
+        "benchmark": {"success": True, "status": "success", "message": "YOLO object detection smoke exported to InferEdge-compatible result"},
+        "timestamp": timestamp,
+        "system": {
+            "os": platform.system().lower(),
+            "machine": platform.machine(),
+            "jetson": {
+                "power_mode": power_mode,
+                "jetson_clocks": "unknown",
+                "tegrastats_log_path": tegrastats_text,
+            },
+        },
+        "jetson_evidence": {
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_summary": tegrastats_summary,
+        },
+        "model_metadata": {
+            "inputs": [{"name": "image", "element_type": input_info["format"], "shape": [1, height, width, 3], "sha256": input_info["sha256"]}],
+            "outputs": [{"name": "detections", "element_type": "bbox_xyxy_conf_class", "shape": [detection_count, 6]}],
+        },
+        "comparison": {
+            "source_json": source_text,
+            "comparison_name": "yolo_object_detection_smoke",
+            "verdict": "object_detection_smoke_not_accuracy_benchmark",
+            "comparability": {
+                "same_model_hash": True,
+                "same_input_shape": True,
+                "same_precision": True,
+                "same_backend": True,
+                "note": "YOLO package sample-image smoke validates local object-detection plumbing only; it is not an accuracy benchmark or deployment approval",
+            },
+            "ratios": {"frames_per_second": frames_per_second, "detections_per_second": detections_per_second},
+        },
+        "object_detection": {
+            "source_json": source_text,
+            "model_name": model["name"],
+            "model_path": model_path_text,
+            "model_sha256": model["sha256"],
+            "input_source": input_info["source"],
+            "input_path": input_info["path"],
+            "input_sha256": input_info["sha256"],
+            "input_width": width,
+            "input_height": height,
+            "detection_count": detection_count,
+            "class_counts": output.get("class_counts", {}),
+            "detections_preview": output.get("detections_preview", []),
+            "confidence_threshold": runtime["confidence_threshold"],
+            "imgsz": runtime["imgsz"],
+            "accuracy_claim": bool(interpretation.get("accuracy_claim", False)),
+            "deployment_ready_claim": bool(interpretation.get("deployment_ready_claim", False)),
+            "external_camera_dependency": bool(interpretation.get("external_camera_dependency", False)),
+            "external_sensor_dependency": bool(input_info.get("external_sensor_dependency", False)),
+        },
+        "extra": {
+            "runtime": "jetson-orin-nano-internal-lab",
+            "json_export": "enabled",
+            "output_mode": "explicit",
+            "latest_path": result_json_text,
+            "manifest_recorded": False,
+            "manifest_precision": precision,
+            "manifest_format": "ultralytics_yolo_weights",
+            "input_mode": "file_image",
+            "input_path": input_info["path"],
+            "input_preprocess": "ultralytics_predict_preprocess",
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_status": tegrastats_summary.get("status", "unknown"),
+            "compare_ready": True,
+            "object_detection_ready": True,
+            "compare_key": compare_key,
+            "backend_key": backend_key,
+            "compare_model_source": "repo_model_file",
+            "compare_model_name": model["name"],
+            "export_schema_version": EXPORT_SCHEMA_VERSION,
+            "evidence_kind": "yolo_object_detection_smoke",
+            "accuracy_claim": False,
+            "deployment_ready_claim": False,
+            "external_camera_dependency": False,
+            "external_sensor_dependency": False,
+        },
+    }
+
+    metadata_json = {
+        "schema_version": METADATA_SCHEMA_VERSION,
+        "source_model": {"format": "pytorch-weights", "path": model_path_text, "sha256": model["sha256"]},
+        "artifacts": [
+            {"role": "runtime_result", "format": "json", "path": result_json_text, "sha256": "__FILLED_AFTER_WRITE__"},
+            {"role": "yolo_smoke_result", "format": "json", "path": source_text, "sha256": sha256_file(yolo_smoke_path)},
+            {"role": "model_weights", "format": "pt", "path": model_path_text, "sha256": _sha256_if_exists(model_path_text, repo_root)},
+            {"role": "tegrastats_log", "format": "log", "path": tegrastats_text, "sha256": _sha256_if_exists(tegrastats_text, repo_root)},
+        ],
+        "build": {
+            "build_id": f"yolo-object-detection-{timestamp.replace(':', '').replace('-', '')}",
+            "backend": "ultralytics",
+            "target": "jetson",
+            "preset_name": "yolo/jetson_yolov8n_file_image_smoke",
+            "timestamp": timestamp,
+        },
+        "handoff": {"consumer": "InferEdgeLab", "ready": True},
+        "lab_compat": {
+            "profile_ready": True,
+            "runtime": {
+                "device": "jetson",
+                "engine": "ultralytics",
+                "engine_path": engine_path,
+                "precision": precision,
+                "requested_batch": 1,
+                "requested_height": height,
+                "requested_width": width,
+                "runtime_artifact_path": model_path_text,
+                "result_json_path": result_json_text,
+            },
+        },
+        "preset_snapshot": {
+            "name": "yolo/jetson_yolov8n_file_image_smoke",
+            "backend": "ultralytics",
+            "target": "jetson",
+            "build_options": {
+                "precision": precision,
+                "model": model_path_text,
+                "image_source": input_info["source"],
+                "image_sha256": input_info["sha256"],
+                "imgsz": runtime["imgsz"],
+                "confidence_threshold": runtime["confidence_threshold"],
+                "measurement": "ultralytics_predict_wall_clock_with_prepostprocess",
+            },
+            "metadata": {"validation_handoff": "inferedgelab", "source": "jetson-orin-nano-internal-lab"},
+        },
+        "export": {
+            "schema_version": EXPORT_SCHEMA_VERSION,
+            "source_yolo_smoke_json": source_text,
+            "source_smoke_commit": metadata.get("git_commit", {}),
+            "source_smoke_status": metadata.get("git_status", {}),
+            "export_workspace_commit": run_command(["git", "rev-parse", "--short", "HEAD"]),
+            "export_workspace_status": run_command(["git", "status", "--short", "--branch"]),
+            "artifact_commit_note": (
+                "The commit containing this generated metadata is the git commit that tracks this file; "
+                "it is intentionally not embedded to avoid self-referential commit hashes."
+            ),
+        },
+    }
+    return metadata_json, result_json
+
+
 def validate_inferedge_metadata(payload: dict[str, Any]) -> None:
     required = ["schema_version", "source_model", "artifacts", "build", "handoff", "lab_compat"]
     missing = [key for key in required if key not in payload]
@@ -1642,5 +1904,16 @@ def validate_inferedge_result(payload: dict[str, Any]) -> None:
             raise ValueError("text generation result extra.text_generation_ready must be true")
         if payload["extra"].get("quality_claim") is not False or payload["extra"].get("deployment_ready_claim") is not False:
             raise ValueError("text generation result must not claim quality or deployment readiness")
-    if runtime_role not in {"runtime-result", "serving-result", "audio-transcription-result", "text-generation-result"}:
+    if runtime_role == "object-detection-result":
+        if verdict != "object_detection_smoke_not_accuracy_benchmark":
+            raise ValueError("object detection result must preserve smoke-test semantics")
+        if "object_detection" not in payload:
+            raise ValueError("object detection result missing object_detection details")
+        if payload["extra"].get("object_detection_ready") is not True:
+            raise ValueError("object detection result extra.object_detection_ready must be true")
+        if payload["extra"].get("accuracy_claim") is not False or payload["extra"].get("deployment_ready_claim") is not False:
+            raise ValueError("object detection result must not claim accuracy or deployment readiness")
+        if payload["extra"].get("external_camera_dependency") is not False or payload["extra"].get("external_sensor_dependency") is not False:
+            raise ValueError("object detection result must remain internal-only and file-image based")
+    if runtime_role not in {"runtime-result", "serving-result", "audio-transcription-result", "text-generation-result", "object-detection-result"}:
         raise ValueError(f"unsupported runtime_role: {runtime_role}")
