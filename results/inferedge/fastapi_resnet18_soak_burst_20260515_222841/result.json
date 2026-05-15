@@ -1,0 +1,387 @@
+{
+  "backend_key": "fastapi_pytorch_cuda_soak_burst__jetson",
+  "batch": 1,
+  "benchmark": {
+    "message": "FastAPI soak/burst evidence exported to InferEdge-compatible result",
+    "status": "success",
+    "success": true
+  },
+  "compare_key": "resnet18__fastapi_soak_burst__b1__h224w224__fp32",
+  "comparison": {
+    "comparability": {
+      "note": "soak/burst result separates localhost client roundtrip, server-side PyTorch inference latency, and tegrastats side telemetry",
+      "same_backend": false,
+      "same_input_shape": true,
+      "same_model_hash": true,
+      "same_precision": true
+    },
+    "comparison_name": "fastapi_serving_layer_soak_burst",
+    "ratios": {
+      "burst_throughput_rps_by_concurrency": {
+        "1": 37.0759,
+        "2": 46.8496,
+        "4": 55.9909,
+        "8": 53.6367
+      },
+      "soak_throughput_rps": 46.2431
+    },
+    "source_json": "results/inference/fastapi_resnet18_soak_burst_20260515_222841.json",
+    "verdict": "serving_layer_evidence_not_direct_regression"
+  },
+  "device": {
+    "hostname": "jetson-orin-nano",
+    "name": "jetson"
+  },
+  "device_name": "jetson",
+  "engine": {
+    "available": true,
+    "backend": "fastapi+pytorch",
+    "name": "fastapi-soak-burst",
+    "path": "src/server/resnet18_app.py",
+    "sha256": "3ce8ace1fb8235cb3ac85089b35fafca86785ade51c2767c4ea3c01fc7448739",
+    "status_message": "FastAPI localhost ResNet18 soak/burst evidence completed."
+  },
+  "engine_backend": "fastapi+pytorch",
+  "engine_name": "fastapi-soak-burst",
+  "extra": {
+    "backend_key": "fastapi_pytorch_cuda_soak_burst__jetson",
+    "capacity_plan_claim": false,
+    "compare_key": "resnet18__fastapi_soak_burst__b1__h224w224__fp32",
+    "compare_model_name": "resnet18",
+    "compare_model_source": "fastapi_soak_burst_source_model",
+    "compare_ready": true,
+    "deployment_ready_claim": false,
+    "evidence_kind": "serving_layer_soak_burst",
+    "export_schema_version": "inferedge-internal-lab-export-v1",
+    "input_mode": "synthetic",
+    "input_path": "",
+    "input_preprocess": "synthetic_random_tensor_no_preprocess",
+    "jetson_clocks": "unknown",
+    "json_export": "enabled",
+    "latest_path": "results/inferedge/fastapi_resnet18_soak_burst_20260515_222841/result.json",
+    "manifest_format": "fastapi+pytorch",
+    "manifest_precision": "fp32",
+    "manifest_recorded": false,
+    "output_mode": "explicit",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "production_load_test_claim": false,
+    "runtime": "jetson-orin-nano-internal-lab",
+    "server_log_path": "artifacts/system/fastapi_soak_burst_server_20260515_222841.log",
+    "serving_ready": true,
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_soak_burst_20260515_222841.log",
+    "tegrastats_status": "parsed"
+  },
+  "fps": 46.2431,
+  "fps_value": 46.2431,
+  "height": 224,
+  "jetson_evidence": {
+    "jetson_clocks": "unknown",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "server_log_path": "artifacts/system/fastapi_soak_burst_server_20260515_222841.log",
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_soak_burst_20260515_222841.log",
+    "tegrastats_summary": {
+      "max_temp_c": 40.312,
+      "max_temp_name": "gpu",
+      "ram_total_mb": 7620.0,
+      "ram_used_mb_avg": 1767.391,
+      "ram_used_mb_max": 1814.0,
+      "sample_count": 414,
+      "status": "parsed",
+      "vdd_in_mw_avg": 6654.464,
+      "vdd_in_mw_max": 6931.0
+    }
+  },
+  "latency_ms": {
+    "max": 89.641,
+    "mean": 42.0217,
+    "min": 30.318,
+    "p50": 41.9947,
+    "p90": null,
+    "p95": 43.7574,
+    "p99": 46.3252,
+    "samples": [],
+    "std": null
+  },
+  "manifest_applied": false,
+  "manifest_path": "",
+  "mean_ms": 42.0217,
+  "model": {
+    "name": "resnet18",
+    "path": "generated:torchvision.models.resnet18(weights=None, seed=42)",
+    "sha256": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+    "weights": "random_seeded_weights_no_pretrained_accuracy_claim"
+  },
+  "model_metadata": {
+    "inputs": [
+      {
+        "element_type": "float32",
+        "name": "synthetic",
+        "shape": [
+          1,
+          3,
+          224,
+          224
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "element_type": "float32",
+        "name": "logits",
+        "shape": [
+          1,
+          1000
+        ]
+      }
+    ]
+  },
+  "model_name": "resnet18-random-seed42",
+  "model_path": "generated:torchvision.models.resnet18(weights=None, seed=42)",
+  "p50_ms": 41.9947,
+  "p95_ms": 43.7574,
+  "p99_ms": 46.3252,
+  "precision": "fp32",
+  "run_config": {
+    "base_url": "http://127.0.0.1:18083",
+    "batch": 1,
+    "burst_levels": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "burst_requests_per_level": 16,
+    "endpoint": "/v1/infer/resnet18/synthetic",
+    "height": 224,
+    "jetson_clocks": "unknown",
+    "manifest_applied": false,
+    "manifest_path": "",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "runs": 2776,
+    "server_log_path": "artifacts/system/fastapi_soak_burst_server_20260515_222841.log",
+    "soak_concurrency": 2,
+    "soak_duration_s": 60.0,
+    "source_fastapi_soak_burst_json": "results/inference/fastapi_resnet18_soak_burst_20260515_222841.json",
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_soak_burst_20260515_222841.log",
+    "warmup": 5,
+    "width": 224
+  },
+  "runs": 2776,
+  "runtime_role": "serving-result",
+  "schema_version": "inferedge-runtime-result-v1",
+  "serving": {
+    "asgi": "uvicorn",
+    "base_url": "http://127.0.0.1:18083",
+    "burst": [
+      {
+        "client_roundtrip_ms": {
+          "count": 16,
+          "max_ms": 26.926,
+          "mean_ms": 26.4483,
+          "min_ms": 24.6938,
+          "p50_ms": 26.5405,
+          "p95_ms": 26.8395,
+          "p99_ms": 26.9087
+        },
+        "concurrency": 1,
+        "error_count": 0,
+        "errors": [],
+        "requests": 16,
+        "server_inference_ms": {
+          "count": 16,
+          "max_ms": 17.6295,
+          "mean_ms": 17.347,
+          "min_ms": 15.1258,
+          "p50_ms": 17.5018,
+          "p95_ms": 17.596,
+          "p99_ms": 17.6228
+        },
+        "success_count": 16,
+        "throughput_rps": 37.0759,
+        "wall_ms": 431.547
+      },
+      {
+        "client_roundtrip_ms": {
+          "count": 16,
+          "max_ms": 46.4208,
+          "mean_ms": 41.2444,
+          "min_ms": 36.022,
+          "p50_ms": 41.6592,
+          "p95_ms": 44.6023,
+          "p99_ms": 46.0571
+        },
+        "concurrency": 2,
+        "error_count": 0,
+        "errors": [],
+        "requests": 16,
+        "server_inference_ms": {
+          "count": 16,
+          "max_ms": 28.9309,
+          "mean_ms": 26.3351,
+          "min_ms": 24.1096,
+          "p50_ms": 26.3353,
+          "p95_ms": 27.6746,
+          "p99_ms": 28.6796
+        },
+        "success_count": 16,
+        "throughput_rps": 46.8496,
+        "wall_ms": 341.5183
+      },
+      {
+        "client_roundtrip_ms": {
+          "count": 16,
+          "max_ms": 156.9124,
+          "mean_ms": 67.7012,
+          "min_ms": 45.7753,
+          "p50_ms": 58.8099,
+          "p95_ms": 134.1225,
+          "p99_ms": 152.3544
+        },
+        "concurrency": 4,
+        "error_count": 0,
+        "errors": [],
+        "requests": 16,
+        "server_inference_ms": {
+          "count": 16,
+          "max_ms": 129.5125,
+          "mean_ms": 49.708,
+          "min_ms": 29.3894,
+          "p50_ms": 41.2571,
+          "p95_ms": 113.6965,
+          "p99_ms": 126.3493
+        },
+        "success_count": 16,
+        "throughput_rps": 55.9909,
+        "wall_ms": 285.7606
+      },
+      {
+        "client_roundtrip_ms": {
+          "count": 16,
+          "max_ms": 246.564,
+          "mean_ms": 130.7437,
+          "min_ms": 78.9973,
+          "p50_ms": 101.6772,
+          "p95_ms": 234.0573,
+          "p99_ms": 244.0626
+        },
+        "concurrency": 8,
+        "error_count": 0,
+        "errors": [],
+        "requests": 16,
+        "server_inference_ms": {
+          "count": 16,
+          "max_ms": 206.2861,
+          "mean_ms": 99.1259,
+          "min_ms": 54.7363,
+          "p50_ms": 68.5543,
+          "p95_ms": 193.3753,
+          "p99_ms": 203.7039
+        },
+        "success_count": 16,
+        "throughput_rps": 53.6367,
+        "wall_ms": 298.3035
+      }
+    ],
+    "endpoint": "/v1/infer/resnet18/synthetic",
+    "framework": "fastapi",
+    "health": {
+      "device": "cuda",
+      "model": "resnet18",
+      "model_hash": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+      "precision": "fp32",
+      "services": {
+        "resnet18": {
+          "device": "cuda",
+          "precision": "fp32",
+          "status": "ok"
+        },
+        "whisper": {
+          "architecture": "whisper",
+          "backend": "openai-whisper",
+          "device": "cuda",
+          "id": "whisper-tiny",
+          "model_cache_present": true,
+          "package_available": false,
+          "precision": "fp32_or_fp16_by_device"
+        }
+      },
+      "status": "ok"
+    },
+    "latency_layers": {
+      "client_roundtrip_ms": {
+        "count": 2776,
+        "max_ms": 89.641,
+        "mean_ms": 42.0217,
+        "min_ms": 30.318,
+        "p50_ms": 41.9947,
+        "p95_ms": 43.7574,
+        "p99_ms": 46.3252
+      },
+      "server_inference_ms": {
+        "count": 2776,
+        "max_ms": 71.8099,
+        "mean_ms": 26.2387,
+        "min_ms": 18.8784,
+        "p50_ms": 26.237,
+        "p95_ms": 26.8632,
+        "p99_ms": 27.5486
+      }
+    },
+    "request": {
+      "dtype": "float32",
+      "seed": 42,
+      "shape": [
+        1,
+        3,
+        224,
+        224
+      ],
+      "source": "synthetic_random_tensor"
+    },
+    "server_log_path": "artifacts/system/fastapi_soak_burst_server_20260515_222841.log",
+    "soak": {
+      "client_roundtrip_ms": {
+        "count": 2776,
+        "max_ms": 89.641,
+        "mean_ms": 42.0217,
+        "min_ms": 30.318,
+        "p50_ms": 41.9947,
+        "p95_ms": 43.7574,
+        "p99_ms": 46.3252
+      },
+      "concurrency": 2,
+      "error_count": 0,
+      "errors": [],
+      "requests": 2776,
+      "server_inference_ms": {
+        "count": 2776,
+        "max_ms": 71.8099,
+        "mean_ms": 26.2387,
+        "min_ms": 18.8784,
+        "p50_ms": 26.237,
+        "p95_ms": 26.8632,
+        "p99_ms": 27.5486
+      },
+      "success_count": 2776,
+      "target_duration_s": 60.0,
+      "throughput_rps": 46.2431,
+      "wall_ms": 60030.5569
+    },
+    "source_json": "results/inference/fastapi_resnet18_soak_burst_20260515_222841.json",
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_soak_burst_20260515_222841.log"
+  },
+  "status": "success",
+  "success": true,
+  "system": {
+    "jetson": {
+      "jetson_clocks": "unknown",
+      "power_mode": "NV Power Mode: 25W; 1",
+      "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_soak_burst_20260515_222841.log"
+    },
+    "machine": "aarch64",
+    "os": "linux"
+  },
+  "timestamp": "2026-05-15T22:50:39+09:00",
+  "warmup": 5,
+  "width": 224
+}

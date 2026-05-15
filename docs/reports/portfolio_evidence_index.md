@@ -55,6 +55,7 @@
 - [Evidence Map](../../README.md#evidence-map)
 - [InferEdge runtime result](../../results/inferedge/resnet18_runtime_compare_20260513_133100/result.json)
 - [InferEdge serving result](../../results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json)
+- [InferEdge soak/burst serving result](../../results/inferedge/fastapi_resnet18_soak_burst_20260515_222841/result.json)
 - [FastAPI Whisper serving result](../../results/inference/fastapi_whisper_speech_server_20260514_202459.json)
 - [InferEdge FastAPI Whisper serving result](../../results/inferedge/fastapi_whisper_serving_20260514_202459/result.json)
 - [InferEdge Whisper result](../../results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json)
