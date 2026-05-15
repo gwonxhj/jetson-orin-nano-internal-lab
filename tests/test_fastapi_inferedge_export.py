@@ -15,7 +15,7 @@ from src.common.inferedge_schema import read_json, validate_inferedge_metadata, 
 
 def main() -> int:
     repo = Path(__file__).resolve().parents[1]
-    fastapi_smoke = repo / "results" / "inference" / "fastapi_resnet18_server_20260514_142053.json"
+    fastapi_smoke = repo / "results" / "inference" / "fastapi_resnet18_server_20260516_001440.json"
     with tempfile.TemporaryDirectory() as tmp:
         out_dir = Path(tmp) / "inferedge_serving"
         report = Path(tmp) / "fastapi_inferedge_export.md"
@@ -46,6 +46,9 @@ def main() -> int:
     assert result["extra"]["serving_ready"] is True
     assert result["comparison"]["verdict"] == "serving_layer_evidence_not_direct_regression"
     assert result["serving"]["endpoint"] == "/v1/infer/resnet18/synthetic"
+    assert result["serving"]["metrics_endpoint"] == "/metrics"
+    assert result["serving"]["metrics"]["after"]["schema_version"] == "fastapi-metrics-v1"
+    assert result["extra"]["metrics_schema_version"] == "fastapi-metrics-v1"
     assert result["serving"]["latency_layers"]["client_roundtrip_ms"]["mean_ms"] >= result["serving"]["latency_layers"]["server_inference_ms"]["mean_ms"]
     assert metadata["handoff"]["consumer"] == "InferEdgeLab"
     assert metadata["lab_compat"]["runtime"]["engine"] == "fastapi+pytorch"

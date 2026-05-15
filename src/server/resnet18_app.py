@@ -7,13 +7,15 @@ import importlib.util
 import io
 import os
 import time
+from collections import defaultdict
 from functools import lru_cache
 from pathlib import Path
+from threading import Lock
 from typing import Any
 import wave
 
 import torch
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel, Field
 from torchvision.models import resnet18
 
@@ -172,7 +174,92 @@ def whisper_status() -> dict[str, Any]:
     }
 
 
+class MetricsStore:
+    def __init__(self) -> None:
+        self.started_at = time.time()
+        self._lock = Lock()
+        self.total_requests = 0
+        self.by_path: dict[str, dict[str, Any]] = defaultdict(
+            lambda: {"count": 0, "total_ms": 0.0, "max_ms": 0.0, "last_status_code": None, "methods": set()}
+        )
+
+    def record(self, method: str, path: str, status_code: int, elapsed_ms: float) -> None:
+        with self._lock:
+            self.total_requests += 1
+            item = self.by_path[path]
+            item["count"] += 1
+            item["total_ms"] += elapsed_ms
+            item["max_ms"] = max(float(item["max_ms"]), elapsed_ms)
+            item["last_status_code"] = status_code
+            item["methods"].add(method)
+
+    def snapshot(self) -> dict[str, Any]:
+        with self._lock:
+            by_path = {}
+            for path, item in sorted(self.by_path.items()):
+                count = int(item["count"])
+                by_path[path] = {
+                    "count": count,
+                    "methods": sorted(item["methods"]),
+                    "mean_ms": round(float(item["total_ms"]) / count, 4) if count else 0.0,
+                    "max_ms": round(float(item["max_ms"]), 4),
+                    "last_status_code": item["last_status_code"],
+                }
+            total_requests = self.total_requests
+
+        process = {"pid": os.getpid()}
+        try:
+            import resource
+
+            process["max_rss_mb"] = round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0, 3)
+        except Exception as exc:
+            process["max_rss_unavailable"] = repr(exc)
+
+        cuda: dict[str, Any] = {"available": torch.cuda.is_available()}
+        if torch.cuda.is_available():
+            cuda.update(
+                {
+                    "device_count": torch.cuda.device_count(),
+                    "current_device": torch.cuda.current_device(),
+                    "memory_allocated_mb": round(torch.cuda.memory_allocated() / (1024 * 1024), 3),
+                    "memory_reserved_mb": round(torch.cuda.memory_reserved() / (1024 * 1024), 3),
+                }
+            )
+
+        return {
+            "schema_version": "fastapi-metrics-v1",
+            "status": "ok",
+            "uptime_s": round(time.time() - self.started_at, 3),
+            "process": process,
+            "requests": {"total": total_requests, "by_path": by_path},
+            "runtime": {
+                "device_default": DEFAULT_DEVICE,
+                "resnet18_loaded": get_bundle.cache_info().currsize > 0,
+                "whisper_loaded": get_whisper_bundle.cache_info().currsize > 0,
+                "torch": {"version": torch.__version__, "cuda": cuda},
+            },
+            "interpretation": {
+                "deployment_ready_claim": False,
+                "notes": "Local in-process counters for localhost smoke evidence; not a production observability stack.",
+            },
+        }
+
+
 app = FastAPI(title="Jetson Orin Nano Internal Lab Server", version="0.2.0")
+app.state.metrics = MetricsStore()
+
+
+@app.middleware("http")
+async def metrics_middleware(request: Request, call_next):  # type: ignore[no-untyped-def]
+    start = time.perf_counter()
+    status_code = 500
+    try:
+        response = await call_next(request)
+        status_code = response.status_code
+        return response
+    finally:
+        elapsed_ms = (time.perf_counter() - start) * 1000.0
+        app.state.metrics.record(request.method, request.url.path, status_code, elapsed_ms)
 
 
 @app.get("/health")
@@ -208,6 +295,11 @@ def models() -> dict[str, Any]:
             whisper_status(),
         ]
     }
+
+
+@app.get("/metrics")
+def metrics() -> dict[str, Any]:
+    return app.state.metrics.snapshot()
 
 
 @app.post("/v1/infer/resnet18/synthetic")

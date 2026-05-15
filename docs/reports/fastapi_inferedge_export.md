@@ -6,8 +6,8 @@
 
 | File | Purpose |
 |---|---|
-| `results/inferedge/resnet18_fastapi_serving_20260514_142053/metadata.json` | Forge/Lab handoff metadata envelope |
-| `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` | Lab-compatible serving result envelope |
+| `results/inferedge/resnet18_fastapi_serving_20260516_001440/metadata.json` | Forge/Lab handoff metadata envelope |
+| `results/inferedge/resnet18_fastapi_serving_20260516_001440/result.json` | Lab-compatible serving result envelope |
 
 ## Compatibility
 
@@ -26,8 +26,8 @@
 
 | Layer | Mean ms | P95 ms | P99 ms |
 |---|---:|---:|---:|
-| Client roundtrip | 28.5178 | 29.5806 | 29.6584 |
-| Server inference | 18.415 | 19.1253 | 19.2008 |
+| Client roundtrip | 31.0608 | 32.34 | 35.8785 |
+| Server inference | 19.207 | 19.8549 | 20.1371 |
 
 ## Endpoint
 
@@ -36,6 +36,7 @@
 | Framework | `fastapi` |
 | ASGI | `uvicorn` |
 | Endpoint | `/v1/infer/resnet18/synthetic` |
+| Metrics endpoint | `/metrics` |
 | Input shape | `[1, 3, 224, 224]` |
 | Precision | `fp32` |
 
@@ -44,3 +45,4 @@
 - This is localhost serving-layer evidence, not a deployment approval.
 - Client roundtrip latency includes local HTTP serialization and FastAPI routing overhead.
 - Server inference latency is the PyTorch model call measured inside the FastAPI handler.
+- `/metrics` snapshots are preserved as localhost smoke observability, not production monitoring evidence.

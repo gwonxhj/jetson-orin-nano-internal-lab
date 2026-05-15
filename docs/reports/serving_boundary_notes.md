@@ -61,6 +61,6 @@
 | Whisper server smoke report | `docs/reports/fastapi_whisper_speech_server_smoke.md` |
 | Serving InferEdge export report | `docs/reports/fastapi_inferedge_export.md` |
 | Soak/burst InferEdge export report | `docs/reports/fastapi_soak_burst_inferedge_export.md` |
-| Serving result JSON | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` |
+| Serving result JSON | `results/inferedge/resnet18_fastapi_serving_20260516_001440/result.json` |
 | Soak/burst serving result JSON | `results/inferedge/fastapi_resnet18_soak_burst_20260515_222841/result.json` |
 | Whisper serving result JSON | `results/inference/fastapi_whisper_speech_server_20260514_202459.json` |

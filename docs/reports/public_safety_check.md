@@ -1,13 +1,13 @@
 # Public Safety Check
 
-> Public portfolio sharing safety check for Jetson Orin Nano Internal Lab as of 2026-05-15 KST.
+> Public portfolio sharing safety check for Jetson Orin Nano Internal Lab as of 2026-05-16 KST.
 
 ## Summary
 
 | Field | Result |
 |---|---|
 | Repository | `gwonxhj/jetson-orin-nano-internal-lab` |
-| Source snapshot checked | `026db4c` |
+| Source snapshot checked | post-v0.2 `/metrics` follow-up commit containing this file |
 | Latest release observed | [`v0.2-serving-soak-evidence`](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.2-serving-soak-evidence) |
 | Latest release target | `43c4390` |
 | GitHub visibility observed | `public` |
@@ -15,7 +15,7 @@
 | Blocking public-safety issue | none found |
 | Visibility change performed | none |
 
-The repository is already public at the time of this check. `026db4c` is the source snapshot scanned before this report was updated, and the report itself is tracked by the commit that contains this file. The latest release target remains `43c4390` because `026db4c` only adds README release-link presentation on top of the `v0.2` serving milestone.
+The repository is already public at the time of this check. This pass covers the post-v0.2 `/metrics` follow-up evidence added after the `v0.2-serving-soak-evidence` release; the latest release target remains `43c4390` until a later milestone is tagged.
 
 ## GitHub Repo Card
 
@@ -46,9 +46,9 @@ The safety pass scanned tracked repository content for:
 | Email / key / token markers | pass | No email, SSH key, or GitHub token marker found. |
 | Password wording | pass with context | Hits are documentation explaining that non-interactive `sudo nvpmodel -q` needs a sudo password; no password value is present. |
 | Hostname fields | pass | Evidence uses generic `jetson-orin-nano` hostname values. |
-| Raw logs | pass | Raw logs are environment, TensorRT, server, and `tegrastats` evidence; no sensitive local path, IP, token, or key markers found. The new FastAPI soak/burst server and `tegrastats` logs were included in this pass. |
+| Raw logs | pass | Raw logs are environment, TensorRT, server, and `tegrastats` evidence; no sensitive local path, IP, token, or key markers found. The FastAPI soak/burst logs and the post-v0.2 `/metrics` FastAPI server/`tegrastats` logs were included in this pass. |
 | Large tracked files | accepted | ONNX and TensorRT engine/cache artifacts are intentional reproducibility evidence, not secrets. |
-| InferEdge handoff schema | pass | `bash scripts/validate_inferedge_artifacts.sh` validates 6 handoff directories with strict artifact hash checks. |
+| InferEdge handoff schema | pass | `bash scripts/validate_inferedge_artifacts.sh` validates 7 handoff directories with strict artifact hash checks. |
 
 ## Large Artifact Review
 
@@ -59,12 +59,14 @@ The safety pass scanned tracked repository content for:
 | `artifacts/tensorrt/ort_trt_engine_cache/resnet18_fp32/...engine` | 45 MB | keep: ORT TensorRT EP cache evidence |
 | `artifacts/system/fastapi_soak_burst_server_20260515_222841.log` | 228 KB | keep: v0.2 localhost serving soak/burst server evidence |
 | `artifacts/system/tegrastats_fastapi_soak_burst_20260515_222841.log` | 20 KB | keep: v0.2 serving soak/burst telemetry evidence |
+| `artifacts/system/fastapi_resnet18_server_20260516_001440.log` | 4 KB | keep: post-v0.2 `/metrics` serving smoke server evidence |
+| `artifacts/system/tegrastats_fastapi_resnet18_20260516_001440.log` | 10 KB | keep: post-v0.2 `/metrics` serving telemetry evidence |
 
 These files make the repository heavier, but they support the portfolio claim that runtime artifacts and handoff evidence are reproducible. They are acceptable for the current public snapshot.
 
 ## Decision
 
-No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.2` serving milestone is linked from README, the schema validation workflow is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
+No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.2` serving milestone is linked from README, the post-v0.2 `/metrics` evidence has been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
 
 ## Follow-Up
 

@@ -311,7 +311,7 @@ bash scripts/run_runtime_compare.sh
 
 ### 11. FastAPI Local Inference Server
 
-같은 ResNet18 random seeded model hash를 FastAPI localhost server로 감싸고, client roundtrip latency와 server-side PyTorch CUDA inference latency를 분리해 기록합니다. 같은 server app은 `whisper_env`에서 license-clear generated speech WAV를 Whisper tiny CUDA transcription endpoint로도 노출합니다.
+같은 ResNet18 random seeded model hash를 FastAPI localhost server로 감싸고, `/metrics`, client roundtrip latency와 server-side PyTorch CUDA inference latency를 분리해 기록합니다. 같은 server app은 `whisper_env`에서 license-clear generated speech WAV를 Whisper tiny CUDA transcription endpoint로도 노출합니다.
 
 ```bash
 bash scripts/run_fastapi_server_smoke.sh
@@ -322,9 +322,9 @@ bash scripts/run_fastapi_whisper_smoke.sh
 
 주요 산출물:
 
-- `results/inference/fastapi_resnet18_server_20260514_142053.json`
-- `artifacts/system/fastapi_resnet18_server_20260514_142053.log`
-- `artifacts/system/tegrastats_fastapi_resnet18_20260514_142053.log`
+- `results/inference/fastapi_resnet18_server_20260516_001440.json`
+- `artifacts/system/fastapi_resnet18_server_20260516_001440.log`
+- `artifacts/system/tegrastats_fastapi_resnet18_20260516_001440.log`
 - `docs/reports/fastapi_resnet18_server_smoke.md`
 - `results/inference/fastapi_resnet18_concurrency_20260514_233246.json`
 - `docs/reports/fastapi_concurrency_smoke.md`
@@ -339,8 +339,8 @@ bash scripts/run_fastapi_whisper_smoke.sh
 
 | Layer | Backend | Precision | Mean ms | P95 ms |
 |---|---|---|---:|---:|
-| Client roundtrip | localhost HTTP | FP32 | 28.5178 | 29.5806 |
-| Server inference | PyTorch CUDA | FP32 | 18.415 | 19.1253 |
+| Client roundtrip | localhost HTTP | FP32 | 31.0608 | 32.34 |
+| Server inference | PyTorch CUDA | FP32 | 19.207 | 19.8549 |
 
 FastAPI concurrency smoke는 같은 endpoint를 concurrency level별로 짧게 호출합니다. 이 결과는 serving path evidence이며 capacity plan이나 deployment-ready evidence가 아닙니다.
 
@@ -361,8 +361,8 @@ bash scripts/export_fastapi_whisper_serving_inferedge.sh
 
 주요 산출물:
 
-- `results/inferedge/resnet18_fastapi_serving_20260514_142053/metadata.json`
-- `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json`
+- `results/inferedge/resnet18_fastapi_serving_20260516_001440/metadata.json`
+- `results/inferedge/resnet18_fastapi_serving_20260516_001440/result.json`
 - `docs/reports/fastapi_inferedge_export.md`
 - `results/inferedge/fastapi_whisper_serving_20260514_202459/metadata.json`
 - `results/inferedge/fastapi_whisper_serving_20260514_202459/result.json`
@@ -555,12 +555,12 @@ InferEdge-compatible 핵심 필드:
 | ONNX Runtime CUDA env candidate probe | `scripts/probe_ort_cuda_wheel_candidates.sh` | `results/inference/ort_cuda_wheel_candidates_20260514_020616.json` | `docs/reports/onnxruntime_cuda_env_candidate_probe.md` |
 | Runtime compare | `scripts/run_runtime_compare.sh` | `results/runtime_compare/resnet18_pytorch_cuda_fp32_vs_onnxruntime_cpu_fp32_vs_onnxruntime_cuda_fp32_vs_onnxruntime_tensorrt_fp32_vs_tensorrt_fp16_20260514_025504.json` | `docs/reports/runtime_comparison.md` |
 | Runtime matrix summary | n/a | existing runtime/cache results | `docs/reports/resnet18_runtime_matrix_summary.md` |
-| FastAPI server smoke | `scripts/run_fastapi_server_smoke.sh` | `results/inference/fastapi_resnet18_server_20260514_142053.json` | `docs/reports/fastapi_resnet18_server_smoke.md` |
+| FastAPI server smoke | `scripts/run_fastapi_server_smoke.sh` | `results/inference/fastapi_resnet18_server_20260516_001440.json` | `docs/reports/fastapi_resnet18_server_smoke.md` |
 | FastAPI concurrency smoke | `scripts/run_fastapi_concurrency_smoke.sh` | `results/inference/fastapi_resnet18_concurrency_20260514_233246.json` | `docs/reports/fastapi_concurrency_smoke.md` |
 | FastAPI Whisper server smoke | `scripts/run_fastapi_whisper_smoke.sh` | `results/inference/fastapi_whisper_speech_server_20260514_202459.json` | `docs/reports/fastapi_whisper_speech_server_smoke.md` |
 | FastAPI API usage | n/a | existing FastAPI server smoke and serving export results | `docs/reports/fastapi_api_usage.md` |
 | FastAPI serving boundary | n/a | existing FastAPI server smoke and serving export results | `docs/reports/serving_boundary_notes.md` |
-| FastAPI serving InferEdge export | `scripts/export_fastapi_serving_inferedge.sh` | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` | `docs/reports/fastapi_inferedge_export.md` |
+| FastAPI serving InferEdge export | `scripts/export_fastapi_serving_inferedge.sh` | `results/inferedge/resnet18_fastapi_serving_20260516_001440/result.json` | `docs/reports/fastapi_inferedge_export.md` |
 | FastAPI Whisper serving InferEdge export | `scripts/export_fastapi_whisper_serving_inferedge.sh` | `results/inferedge/fastapi_whisper_serving_20260514_202459/result.json` | `docs/reports/fastapi_whisper_inferedge_export.md` |
 | Whisper transcription smoke | `scripts/run_whisper_smoke.sh` | `results/inference/whisper_tiny_transcription_20260514_180622.json` | `docs/reports/whisper_transcription_smoke.md` |
 | Whisper speech transcription smoke | `scripts/run_whisper_speech_smoke.sh` | `results/inference/whisper_tiny_speech_transcription_20260514_182822.json` | `docs/reports/whisper_speech_transcription_smoke.md` |

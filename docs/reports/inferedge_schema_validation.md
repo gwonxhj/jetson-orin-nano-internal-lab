@@ -34,7 +34,7 @@ GitHub Actions workflow:
 
 | Field | Value |
 |---|---:|
-| Handoff directories validated | 5 |
+| Handoff directories validated | 7 |
 | Strict artifact hash check | enabled |
 | Expected status | pass |
 
@@ -42,7 +42,9 @@ Current handoff directories:
 
 - `results/inferedge/resnet18_runtime_compare_20260513_133100/`
 - `results/inferedge/resnet18_fastapi_serving_20260514_142053/`
+- `results/inferedge/resnet18_fastapi_serving_20260516_001440/`
 - `results/inferedge/fastapi_whisper_serving_20260514_202459/`
+- `results/inferedge/fastapi_resnet18_soak_burst_20260515_222841/`
 - `results/inferedge/whisper_tiny_speech_transcription_20260514_182822/`
 - `results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/`
 

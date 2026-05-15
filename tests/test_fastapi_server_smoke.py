@@ -79,6 +79,12 @@ def main() -> int:
     assert payload["metadata"]["schema_version"] == "fastapi-server-smoke-v1"
     assert payload["result"]["task"] == "local_inference_api_smoke"
     assert payload["result"]["server"]["framework"] == "fastapi"
+    assert payload["result"]["server"]["metrics_endpoint"] == "/metrics"
+    metrics = payload["result"]["server"]["metrics"]["after"]
+    assert metrics["schema_version"] == "fastapi-metrics-v1"
+    assert metrics["status"] == "ok"
+    assert metrics["runtime"]["device_default"] == "cpu"
+    assert metrics["requests"]["by_path"]["/v1/infer/resnet18/synthetic"]["count"] >= 1
     assert payload["result"]["backend"] == "cpu"
     assert payload["result"]["input"]["shape"] == [1, 3, 64, 64]
     assert payload["result"]["latency"]["client_roundtrip_ms"]["count"] == 1

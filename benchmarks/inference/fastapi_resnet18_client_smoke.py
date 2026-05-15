@@ -98,6 +98,7 @@ def build_report(payload: dict[str, Any]) -> str:
         f"| Hostname | `{meta['hostname']}` |",
         f"| Base URL | `{result['server']['base_url']}` |",
         f"| Endpoint | `{result['server']['endpoint']}` |",
+        f"| Metrics endpoint | `{result['server']['metrics_endpoint']}` |",
         f"| Server log | `{meta['server_log']}` |",
         f"| Tegrastats log | `{meta['tegrastats_log']}` |", "",
         "## Model / Request", "", "| Field | Value |", "|---|---|",
@@ -114,6 +115,7 @@ def build_report(payload: dict[str, Any]) -> str:
         "## Interpretation", "",
         "- Client roundtrip includes local HTTP serialization and FastAPI routing overhead.",
         "- Server inference is measured inside the FastAPI handler around the PyTorch model call.",
+        "- `/metrics` exposes in-process localhost counters for smoke evidence, not production observability.",
         "- This does not replace TensorRT/ORT provider evidence; it adds a local serving layer evidence point.", "",
     ])
 
@@ -135,6 +137,7 @@ def main() -> int:
 
     health = wait_for_health(args.base_url, timeout_s=60.0)
     models = requests.get(f"{args.base_url}/v1/models", timeout=5).json()
+    metrics_before = requests.get(f"{args.base_url}/metrics", timeout=5).json()
     endpoint = "/v1/infer/resnet18/synthetic"
     request_payload = {"batch_size": args.batch_size, "height": args.height, "width": args.width, "seed": args.seed}
 
@@ -153,6 +156,7 @@ def main() -> int:
         server_samples.append(float(last_payload["result"]["inference_ms"]))
 
     assert last_payload is not None
+    metrics_after = requests.get(f"{args.base_url}/metrics", timeout=5).json()
     model_info = models["models"][0]
     payload = {
         "metadata": {
@@ -168,7 +172,15 @@ def main() -> int:
         },
         "result": {
             "task": "local_inference_api_smoke",
-            "server": {"framework": "fastapi", "asgi": "uvicorn", "base_url": args.base_url, "endpoint": endpoint, "health": health},
+            "server": {
+                "framework": "fastapi",
+                "asgi": "uvicorn",
+                "base_url": args.base_url,
+                "endpoint": endpoint,
+                "metrics_endpoint": "/metrics",
+                "health": health,
+                "metrics": {"before": metrics_before, "after": metrics_after},
+            },
             "framework": "pytorch",
             "backend": last_payload["backend"],
             "precision": last_payload["precision"],

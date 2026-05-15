@@ -1,6 +1,6 @@
 # FastAPI API Usage Report
 
-> FastAPI localhost server의 `/health`, `/v1/models`, `/v1/infer/resnet18/synthetic`, `/v1/infer/whisper/speech` 호출 흐름과, 호출 결과가 어떤 evidence 산출물로 이어지는지 정리한 보고서입니다.
+> FastAPI localhost server의 `/health`, `/v1/models`, `/metrics`, `/v1/infer/resnet18/synthetic`, `/v1/infer/whisper/speech` 호출 흐름과, 호출 결과가 어떤 evidence 산출물로 이어지는지 정리한 보고서입니다.
 > ResNet18은 synthetic input과 random seeded weights를 사용하고, Whisper는 license-clear generated speech sample을 사용하므로 accuracy evidence가 아니라 local serving path evidence입니다.
 
 ## Purpose
@@ -9,11 +9,12 @@
 
 1. 서버가 올라왔는지 확인합니다.
 2. 모델 id, device, precision, model hash를 확인합니다.
-3. ResNet18 synthetic inference endpoint를 호출합니다.
-4. Whisper speech transcription endpoint를 호출합니다.
-5. client/server latency smoke를 실행합니다.
-6. short localhost concurrency smoke를 실행합니다.
-7. serving smoke를 InferEdge-compatible `metadata.json` / `result.json`으로 export합니다.
+3. `/metrics`로 localhost in-process counters와 runtime 상태를 확인합니다.
+4. ResNet18 synthetic inference endpoint를 호출합니다.
+5. Whisper speech transcription endpoint를 호출합니다.
+6. client/server latency smoke를 실행합니다.
+7. short localhost concurrency smoke를 실행합니다.
+8. serving smoke를 InferEdge-compatible `metadata.json` / `result.json`으로 export합니다.
 
 ## Start Server
 
@@ -52,8 +53,9 @@ python3 -m uvicorn src.server.resnet18_app:app \
 |---|---|---|---|---|
 | 1 | `/health` | GET | Server readiness, active device, ResNet18 hash, Whisper package/cache availability | `result.server.health` |
 | 2 | `/v1/models` | GET | ResNet18 model hash and Whisper provider/cache status | `result.model` |
-| 3 | `/v1/infer/resnet18/synthetic` | POST | Synthetic ResNet18 inference through FastAPI/PyTorch | `result.output`, `serving.request` |
-| 4 | `/v1/infer/whisper/speech` | POST | License-clear generated speech transcription through FastAPI/Whisper | `result.transcription`, `result.input` |
+| 3 | `/metrics` | GET | Local request counters, process RSS, CUDA memory, model loaded state | `result.server.metrics` |
+| 4 | `/v1/infer/resnet18/synthetic` | POST | Synthetic ResNet18 inference through FastAPI/PyTorch | `result.output`, `serving.request` |
+| 5 | `/v1/infer/whisper/speech` | POST | License-clear generated speech transcription through FastAPI/Whisper | `result.transcription`, `result.input` |
 
 ### 1. Health Check
 
@@ -96,7 +98,27 @@ Expected fields:
 
 Whisper rows include `id`, `architecture`, `backend`, `package_available`, `cache_present`, `device`, and `precision`.
 
-### 3. Synthetic Inference
+### 3. Metrics Snapshot
+
+```bash
+curl -s http://127.0.0.1:18080/metrics | python3 -m json.tool
+```
+
+Expected fields:
+
+| Field | Meaning |
+|---|---|
+| `schema_version` | `fastapi-metrics-v1` JSON evidence shape |
+| `uptime_s` | In-process server uptime at call time |
+| `requests.total` | Number of requests observed by this process |
+| `requests.by_path` | Per-path count, method list, mean/max handler wall time, latest status |
+| `runtime.resnet18_loaded` | Whether the cached ResNet18 bundle has been initialized |
+| `runtime.whisper_loaded` | Whether the cached Whisper bundle has been initialized |
+| `runtime.torch.cuda` | CUDA availability and memory counters from PyTorch when CUDA is available |
+
+This endpoint is localhost smoke observability. It is not Prometheus, uptime, alerting, or production capacity evidence.
+
+### 4. Synthetic Inference
 
 ```bash
 curl -s \
@@ -127,7 +149,7 @@ Response evidence fields:
 | `result.output_shape` | ResNet18 logits shape, `[1, 1000]` for batch 1 |
 | `result.top5_indices`, `result.top5_values` | Smoke output preview, not accuracy evidence |
 
-### 4. Whisper Speech Transcription
+### 5. Whisper Speech Transcription
 
 ```bash
 curl -s \
@@ -159,7 +181,7 @@ Response evidence fields:
 
 ## Evidence Commands
 
-`scripts/run_fastapi_server_smoke.sh` starts the server, captures `tegrastats`, runs warmup/repeat calls, and writes the serving smoke JSON/report.
+`scripts/run_fastapi_server_smoke.sh` starts the server, captures `tegrastats`, calls `/metrics` before/after warmup/repeat inference, and writes the serving smoke JSON/report.
 
 ```bash
 bash scripts/run_fastapi_server_smoke.sh
@@ -169,10 +191,10 @@ Serving smoke output:
 
 | Artifact | Path |
 |---|---|
-| Result JSON | `results/inference/fastapi_resnet18_server_20260514_142053.json` |
+| Result JSON | `results/inference/fastapi_resnet18_server_20260516_001440.json` |
 | Report | `docs/reports/fastapi_resnet18_server_smoke.md` |
-| Server log | `artifacts/system/fastapi_resnet18_server_20260514_142053.log` |
-| Tegrastats log | `artifacts/system/tegrastats_fastapi_resnet18_20260514_142053.log` |
+| Server log | `artifacts/system/fastapi_resnet18_server_20260516_001440.log` |
+| Tegrastats log | `artifacts/system/tegrastats_fastapi_resnet18_20260516_001440.log` |
 
 `scripts/run_fastapi_whisper_smoke.sh` starts the same app in `whisper_env`, captures `tegrastats`, calls `/v1/infer/whisper/speech`, and writes audio serving smoke JSON/report.
 
@@ -215,8 +237,8 @@ InferEdge serving output:
 
 | Artifact | Path |
 |---|---|
-| Metadata | `results/inferedge/resnet18_fastapi_serving_20260514_142053/metadata.json` |
-| Result | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` |
+| Metadata | `results/inferedge/resnet18_fastapi_serving_20260516_001440/metadata.json` |
+| Result | `results/inferedge/resnet18_fastapi_serving_20260516_001440/result.json` |
 | Report | `docs/reports/fastapi_inferedge_export.md` |
 
 `scripts/export_fastapi_whisper_serving_inferedge.sh` converts the Whisper serving smoke JSON into a matching InferEdge-compatible serving handoff.

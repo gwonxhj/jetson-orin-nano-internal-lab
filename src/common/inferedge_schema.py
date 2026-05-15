@@ -337,6 +337,8 @@ def build_inferedge_serving_export(fastapi_smoke_path: Path, output_dir: Path, r
     input_info = serving_result["input"]
     client_latency = serving_result["latency"]["client_roundtrip_ms"]
     server_latency = serving_result["latency"]["server_inference_ms"]
+    metrics_endpoint = serving_result["server"].get("metrics_endpoint", "")
+    metrics_snapshot = serving_result["server"].get("metrics", {})
     batch, _channels, height, width = input_info["shape"]
     backend = serving_result["backend"]
     precision = serving_result["precision"]
@@ -402,6 +404,7 @@ def build_inferedge_serving_export(fastapi_smoke_path: Path, output_dir: Path, r
             "jetson_clocks": "unknown",
             "base_url": serving_result["server"]["base_url"],
             "endpoint": serving_result["server"]["endpoint"],
+            "metrics_endpoint": metrics_endpoint,
             "server_log_path": server_log_text,
             "tegrastats_log_path": tegrastats_text,
             "manifest_path": "",
@@ -461,6 +464,8 @@ def build_inferedge_serving_export(fastapi_smoke_path: Path, output_dir: Path, r
             "asgi": serving_result["server"]["asgi"],
             "base_url": serving_result["server"]["base_url"],
             "endpoint": serving_result["server"]["endpoint"],
+            "metrics_endpoint": metrics_endpoint,
+            "metrics": metrics_snapshot,
             "health": serving_result["server"]["health"],
             "request": {
                 "source": input_info["source"],
@@ -493,6 +498,7 @@ def build_inferedge_serving_export(fastapi_smoke_path: Path, output_dir: Path, r
             "tegrastats_status": tegrastats_summary.get("status", "unknown"),
             "compare_ready": True,
             "serving_ready": True,
+            "metrics_schema_version": metrics_snapshot.get("after", {}).get("schema_version", "not_captured"),
             "compare_key": compare_key,
             "backend_key": backend_key,
             "compare_model_source": "fastapi_serving_source_model",
@@ -646,6 +652,7 @@ def build_inferedge_soak_burst_serving_export(soak_burst_path: Path, output_dir:
             "jetson_clocks": "unknown",
             "base_url": serving_result["server"]["base_url"],
             "endpoint": serving_result["server"]["endpoint"],
+            "metrics_endpoint": metrics_endpoint,
             "server_log_path": server_log_text,
             "tegrastats_log_path": tegrastats_text,
             "manifest_path": "",
@@ -708,6 +715,8 @@ def build_inferedge_soak_burst_serving_export(soak_burst_path: Path, output_dir:
             "asgi": serving_result["server"]["asgi"],
             "base_url": serving_result["server"]["base_url"],
             "endpoint": serving_result["server"]["endpoint"],
+            "metrics_endpoint": metrics_endpoint,
+            "metrics": metrics_snapshot,
             "health": serving_result["server"]["health"],
             "request": {
                 "source": input_info["source"],
@@ -742,6 +751,7 @@ def build_inferedge_soak_burst_serving_export(soak_burst_path: Path, output_dir:
             "tegrastats_status": tegrastats_summary.get("status", "unknown"),
             "compare_ready": True,
             "serving_ready": True,
+            "metrics_schema_version": metrics_snapshot.get("after", {}).get("schema_version", "not_captured"),
             "compare_key": compare_key,
             "backend_key": backend_key,
             "compare_model_source": "fastapi_soak_burst_source_model",
@@ -970,6 +980,8 @@ def build_inferedge_whisper_serving_export(fastapi_whisper_smoke_path: Path, out
             "asgi": serving_result["server"]["asgi"],
             "base_url": serving_result["server"]["base_url"],
             "endpoint": serving_result["server"]["endpoint"],
+            "metrics_endpoint": metrics_endpoint,
+            "metrics": metrics_snapshot,
             "health": serving_result["server"]["health"],
             "request": {
                 "source": audio["source"],

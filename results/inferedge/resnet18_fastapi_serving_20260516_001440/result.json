@@ -1,0 +1,449 @@
+{
+  "backend_key": "fastapi_pytorch_cuda__jetson",
+  "batch": 1,
+  "benchmark": {
+    "message": "FastAPI serving smoke exported to InferEdge-compatible result",
+    "status": "success",
+    "success": true
+  },
+  "compare_key": "resnet18__fastapi__b1__h224w224__fp32",
+  "comparison": {
+    "comparability": {
+      "note": "serving result separates localhost client roundtrip and server-side PyTorch inference latency",
+      "same_backend": false,
+      "same_input_shape": true,
+      "same_model_hash": true,
+      "same_precision": true
+    },
+    "comparison_name": "fastapi_serving_layer_smoke",
+    "ratios": {},
+    "source_json": "results/inference/fastapi_resnet18_server_20260516_001440.json",
+    "verdict": "serving_layer_evidence_not_direct_regression"
+  },
+  "device": {
+    "hostname": "jetson-orin-nano",
+    "name": "jetson"
+  },
+  "device_name": "jetson",
+  "engine": {
+    "available": true,
+    "backend": "fastapi+pytorch",
+    "name": "fastapi",
+    "path": "src/server/resnet18_app.py",
+    "sha256": "7005fe42322463e806b87059d0d59bae23d1ed050ebf18f5060f8104a7268197",
+    "status_message": "FastAPI localhost ResNet18 synthetic inference smoke completed."
+  },
+  "engine_backend": "fastapi+pytorch",
+  "engine_name": "fastapi",
+  "extra": {
+    "backend_key": "fastapi_pytorch_cuda__jetson",
+    "compare_key": "resnet18__fastapi__b1__h224w224__fp32",
+    "compare_model_name": "resnet18",
+    "compare_model_source": "fastapi_serving_source_model",
+    "compare_ready": true,
+    "evidence_kind": "serving_layer_smoke",
+    "export_schema_version": "inferedge-internal-lab-export-v1",
+    "input_mode": "synthetic",
+    "input_path": "",
+    "input_preprocess": "synthetic_random_tensor_no_preprocess",
+    "jetson_clocks": "unknown",
+    "json_export": "enabled",
+    "latest_path": "results/inferedge/resnet18_fastapi_serving_20260516_001440/result.json",
+    "manifest_format": "fastapi+pytorch",
+    "manifest_precision": "fp32",
+    "manifest_recorded": false,
+    "metrics_schema_version": "fastapi-metrics-v1",
+    "output_mode": "explicit",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "runtime": "jetson-orin-nano-internal-lab",
+    "server_log_path": "artifacts/system/fastapi_resnet18_server_20260516_001440.log",
+    "serving_ready": true,
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_resnet18_20260516_001440.log",
+    "tegrastats_status": "parsed"
+  },
+  "fps": 32.1949,
+  "fps_value": 32.1949,
+  "height": 224,
+  "jetson_evidence": {
+    "jetson_clocks": "unknown",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "server_log_path": "artifacts/system/fastapi_resnet18_server_20260516_001440.log",
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_resnet18_20260516_001440.log",
+    "tegrastats_summary": {
+      "max_temp_c": 38.062,
+      "max_temp_name": "gpu",
+      "ram_total_mb": 7620.0,
+      "ram_used_mb_avg": 1578.0,
+      "ram_used_mb_max": 1834.0,
+      "sample_count": 54,
+      "status": "parsed",
+      "vdd_in_mw_avg": 5231.556,
+      "vdd_in_mw_max": 5778.0
+    }
+  },
+  "latency_ms": {
+    "max": 37.2372,
+    "mean": 31.0608,
+    "min": 28.3221,
+    "p50": 30.9674,
+    "p90": null,
+    "p95": 32.34,
+    "p99": 35.8785,
+    "samples": [
+      28.3221,
+      28.478,
+      30.1151,
+      30.8065,
+      32.081,
+      31.9147,
+      37.2372,
+      32.5519,
+      31.7374,
+      31.6119,
+      31.7312,
+      31.8381,
+      31.7232,
+      31.8652,
+      31.6939,
+      31.5239,
+      31.729,
+      31.3491,
+      31.1283,
+      30.4457,
+      30.1031,
+      30.1652,
+      30.3347,
+      30.1603,
+      30.136,
+      30.0641,
+      30.3063,
+      30.5069,
+      30.0395,
+      30.1242
+    ],
+    "std": null
+  },
+  "manifest_applied": false,
+  "manifest_path": "",
+  "mean_ms": 31.0608,
+  "model": {
+    "name": "resnet18",
+    "path": "generated:torchvision.models.resnet18(weights=None, seed=42)",
+    "sha256": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+    "weights": "random_seeded_weights_no_pretrained_accuracy_claim"
+  },
+  "model_metadata": {
+    "inputs": [
+      {
+        "element_type": "float32",
+        "name": "synthetic",
+        "shape": [
+          1,
+          3,
+          224,
+          224
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "element_type": "float32",
+        "name": "logits",
+        "shape": [
+          1,
+          1000
+        ]
+      }
+    ]
+  },
+  "model_name": "resnet18-random-seed42",
+  "model_path": "generated:torchvision.models.resnet18(weights=None, seed=42)",
+  "p50_ms": 30.9674,
+  "p95_ms": 32.34,
+  "p99_ms": 35.8785,
+  "precision": "fp32",
+  "run_config": {
+    "base_url": "http://127.0.0.1:18080",
+    "batch": 1,
+    "endpoint": "/v1/infer/resnet18/synthetic",
+    "height": 224,
+    "jetson_clocks": "unknown",
+    "manifest_applied": false,
+    "manifest_path": "",
+    "metrics_endpoint": "/metrics",
+    "power_mode": "NV Power Mode: 25W; 1",
+    "runs": 30,
+    "server_log_path": "artifacts/system/fastapi_resnet18_server_20260516_001440.log",
+    "source_fastapi_smoke_json": "results/inference/fastapi_resnet18_server_20260516_001440.json",
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_resnet18_20260516_001440.log",
+    "warmup": 5,
+    "width": 224
+  },
+  "runs": 30,
+  "runtime_role": "serving-result",
+  "schema_version": "inferedge-runtime-result-v1",
+  "serving": {
+    "asgi": "uvicorn",
+    "base_url": "http://127.0.0.1:18080",
+    "endpoint": "/v1/infer/resnet18/synthetic",
+    "framework": "fastapi",
+    "health": {
+      "device": "cuda",
+      "model": "resnet18",
+      "model_hash": "9300a6d687232af2e17af0afba72d35cfc0e828fb3cd519aa72e1bb873b72245",
+      "precision": "fp32",
+      "services": {
+        "resnet18": {
+          "device": "cuda",
+          "precision": "fp32",
+          "status": "ok"
+        },
+        "whisper": {
+          "architecture": "whisper",
+          "backend": "openai-whisper",
+          "device": "cuda",
+          "id": "whisper-tiny",
+          "model_cache_present": true,
+          "package_available": false,
+          "precision": "fp32_or_fp16_by_device"
+        }
+      },
+      "status": "ok"
+    },
+    "latency_layers": {
+      "client_roundtrip_ms": {
+        "count": 30,
+        "max_ms": 37.2372,
+        "mean_ms": 31.0608,
+        "min_ms": 28.3221,
+        "p50_ms": 30.9674,
+        "p95_ms": 32.34,
+        "p99_ms": 35.8785,
+        "samples_ms": [
+          28.3221,
+          28.478,
+          30.1151,
+          30.8065,
+          32.081,
+          31.9147,
+          37.2372,
+          32.5519,
+          31.7374,
+          31.6119,
+          31.7312,
+          31.8381,
+          31.7232,
+          31.8652,
+          31.6939,
+          31.5239,
+          31.729,
+          31.3491,
+          31.1283,
+          30.4457,
+          30.1031,
+          30.1652,
+          30.3347,
+          30.1603,
+          30.136,
+          30.0641,
+          30.3063,
+          30.5069,
+          30.0395,
+          30.1242
+        ]
+      },
+      "server_inference_ms": {
+        "count": 30,
+        "max_ms": 20.23,
+        "mean_ms": 19.207,
+        "min_ms": 17.7099,
+        "p50_ms": 19.2948,
+        "p95_ms": 19.8549,
+        "p99_ms": 20.1371,
+        "samples_ms": [
+          17.7099,
+          17.8198,
+          18.6772,
+          18.7778,
+          19.5742,
+          19.5115,
+          20.23,
+          19.9097,
+          19.3661,
+          19.3615,
+          19.4226,
+          19.4148,
+          19.5032,
+          19.6245,
+          19.3878,
+          19.4075,
+          19.2648,
+          19.5157,
+          19.788,
+          19.1355,
+          18.9011,
+          19.0384,
+          19.0999,
+          19.0111,
+          19.0597,
+          19.0327,
+          19.2813,
+          19.3082,
+          19.0117,
+          19.0627
+        ]
+      }
+    },
+    "metrics": {
+      "after": {
+        "interpretation": {
+          "deployment_ready_claim": false,
+          "notes": "Local in-process counters for localhost smoke evidence; not a production observability stack."
+        },
+        "process": {
+          "max_rss_mb": 991.246,
+          "pid": 8316
+        },
+        "requests": {
+          "by_path": {
+            "/health": {
+              "count": 1,
+              "last_status_code": 200,
+              "max_ms": 677.0026,
+              "mean_ms": 677.0026,
+              "methods": [
+                "GET"
+              ]
+            },
+            "/metrics": {
+              "count": 1,
+              "last_status_code": 200,
+              "max_ms": 5.4258,
+              "mean_ms": 5.4258,
+              "methods": [
+                "GET"
+              ]
+            },
+            "/v1/infer/resnet18/synthetic": {
+              "count": 35,
+              "last_status_code": 200,
+              "max_ms": 383.0285,
+              "mean_ms": 33.8817,
+              "methods": [
+                "POST"
+              ]
+            },
+            "/v1/models": {
+              "count": 1,
+              "last_status_code": 200,
+              "max_ms": 4.8211,
+              "mean_ms": 4.8211,
+              "methods": [
+                "GET"
+              ]
+            }
+          },
+          "total": 38
+        },
+        "runtime": {
+          "device_default": "cuda",
+          "resnet18_loaded": true,
+          "torch": {
+            "cuda": {
+              "available": true,
+              "current_device": 0,
+              "device_count": 1,
+              "memory_allocated_mb": 53.815,
+              "memory_reserved_mb": 90.0
+            },
+            "version": "2.8.0"
+          },
+          "whisper_loaded": false
+        },
+        "schema_version": "fastapi-metrics-v1",
+        "status": "ok",
+        "uptime_s": 2.376
+      },
+      "before": {
+        "interpretation": {
+          "deployment_ready_claim": false,
+          "notes": "Local in-process counters for localhost smoke evidence; not a production observability stack."
+        },
+        "process": {
+          "max_rss_mb": 748.941,
+          "pid": 8316
+        },
+        "requests": {
+          "by_path": {
+            "/health": {
+              "count": 1,
+              "last_status_code": 200,
+              "max_ms": 677.0026,
+              "mean_ms": 677.0026,
+              "methods": [
+                "GET"
+              ]
+            },
+            "/v1/models": {
+              "count": 1,
+              "last_status_code": 200,
+              "max_ms": 4.8211,
+              "mean_ms": 4.8211,
+              "methods": [
+                "GET"
+              ]
+            }
+          },
+          "total": 2
+        },
+        "runtime": {
+          "device_default": "cuda",
+          "resnet18_loaded": true,
+          "torch": {
+            "cuda": {
+              "available": true,
+              "current_device": 0,
+              "device_count": 1,
+              "memory_allocated_mb": 44.69,
+              "memory_reserved_mb": 64.0
+            },
+            "version": "2.8.0"
+          },
+          "whisper_loaded": false
+        },
+        "schema_version": "fastapi-metrics-v1",
+        "status": "ok",
+        "uptime_s": 0.923
+      }
+    },
+    "metrics_endpoint": "/metrics",
+    "request": {
+      "dtype": "float32",
+      "seed": 42,
+      "shape": [
+        1,
+        3,
+        224,
+        224
+      ],
+      "source": "synthetic_random_tensor"
+    },
+    "server_log_path": "artifacts/system/fastapi_resnet18_server_20260516_001440.log",
+    "source_json": "results/inference/fastapi_resnet18_server_20260516_001440.json",
+    "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_resnet18_20260516_001440.log"
+  },
+  "status": "success",
+  "success": true,
+  "system": {
+    "jetson": {
+      "jetson_clocks": "unknown",
+      "power_mode": "NV Power Mode: 25W; 1",
+      "tegrastats_log_path": "artifacts/system/tegrastats_fastapi_resnet18_20260516_001440.log"
+    },
+    "machine": "aarch64",
+    "os": "linux"
+  },
+  "timestamp": "2026-05-16T00:16:52+09:00",
+  "warmup": 5,
+  "width": 224
+}

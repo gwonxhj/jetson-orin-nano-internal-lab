@@ -71,6 +71,7 @@ def write_report(output_dir: Path, report_path: Path) -> None:
         f"| Framework | `{serving['framework']}` |",
         f"| ASGI | `{serving['asgi']}` |",
         f"| Endpoint | `{serving['endpoint']}` |",
+        f"| Metrics endpoint | `{serving.get('metrics_endpoint', 'not captured')}` |",
         f"| Input shape | `{serving['request']['shape']}` |",
         f"| Precision | `{result['precision']}` |",
         "",
@@ -79,6 +80,7 @@ def write_report(output_dir: Path, report_path: Path) -> None:
         "- This is localhost serving-layer evidence, not a deployment approval.",
         "- Client roundtrip latency includes local HTTP serialization and FastAPI routing overhead.",
         "- Server inference latency is the PyTorch model call measured inside the FastAPI handler.",
+        "- `/metrics` snapshots are preserved as localhost smoke observability, not production monitoring evidence.",
         "",
     ]
     report_path.parent.mkdir(parents=True, exist_ok=True)

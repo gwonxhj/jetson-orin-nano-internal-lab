@@ -7,12 +7,13 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-05-14T14:21:02+09:00 |
+| Date | 2026-05-16T00:14:49+09:00 |
 | Hostname | `jetson-orin-nano` |
 | Base URL | `http://127.0.0.1:18080` |
 | Endpoint | `/v1/infer/resnet18/synthetic` |
-| Server log | `artifacts/system/fastapi_resnet18_server_20260514_142053.log` |
-| Tegrastats log | `artifacts/system/tegrastats_fastapi_resnet18_20260514_142053.log` |
+| Metrics endpoint | `/metrics` |
+| Server log | `artifacts/system/fastapi_resnet18_server_20260516_001440.log` |
+| Tegrastats log | `artifacts/system/tegrastats_fastapi_resnet18_20260516_001440.log` |
 
 ## Model / Request
 
@@ -29,11 +30,12 @@
 
 | Metric | Mean ms | P95 ms | P99 ms |
 |---|---:|---:|---:|
-| Client roundtrip | 28.5178 | 29.5806 | 29.6584 |
-| Server inference | 18.415 | 19.1253 | 19.2008 |
+| Client roundtrip | 31.0608 | 32.34 | 35.8785 |
+| Server inference | 19.207 | 19.8549 | 20.1371 |
 
 ## Interpretation
 
 - Client roundtrip includes local HTTP serialization and FastAPI routing overhead.
 - Server inference is measured inside the FastAPI handler around the PyTorch model call.
+- `/metrics` exposes in-process localhost counters for smoke evidence, not production observability.
 - This does not replace TensorRT/ORT provider evidence; it adds a local serving layer evidence point.
