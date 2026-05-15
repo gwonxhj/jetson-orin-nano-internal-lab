@@ -8,12 +8,14 @@ Public baseline snapshot: [v0.1-public-evidence-snapshot](https://github.com/gwo
 
 Latest serving milestone: [v0.2-serving-soak-evidence](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.2-serving-soak-evidence)
 
+Latest observability milestone: [v0.3-observability-smoke](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/tree/v0.3-observability-smoke)
+
 ## Representative Evidence
 
 - [Portfolio evidence index](docs/reports/portfolio_evidence_index.md) — ResNet18 runtime, FastAPI serving, Whisper audio, LLM smoke, InferEdge export 흐름을 어떤 순서로 보면 되는지 한 장으로 안내합니다.
 - [ResNet18 runtime matrix summary](docs/reports/resnet18_runtime_matrix_summary.md) — PyTorch CUDA, ONNX Runtime CPU/CUDA/TensorRT EP, native TensorRT, TensorRT EP cache 비용을 한 장으로 요약합니다.
 - [TensorRT FP16 optimization report](docs/reports/tensorrt_optimization_report.md) — ResNet18 ONNX export, `trtexec` build/run command, model hash, input shape, precision, warmup/repeat 조건을 기록합니다.
-- [FastAPI API usage report](docs/reports/fastapi_api_usage.md) — `/health`, `/v1/models`, ResNet18 synthetic inference, Whisper speech transcription API 호출 흐름과 evidence 산출물 연결을 설명합니다.
+- [FastAPI API usage report](docs/reports/fastapi_api_usage.md) — `/health`, `/v1/models`, `/metrics`, ResNet18 synthetic inference, Whisper speech transcription API 호출 흐름과 evidence 산출물 연결을 설명합니다.
 - [Whisper / FastAPI Whisper exports](docs/reports/portfolio_evidence_index.md) — Offline transcription과 FastAPI serving 결과를 `metadata.json` / `result.json` handoff evidence로 연결합니다.
 
 전체 report map과 보조 evidence 링크는 [portfolio evidence index](docs/reports/portfolio_evidence_index.md)와 [Evidence Map](#evidence-map)에 위임합니다.
