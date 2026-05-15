@@ -7,15 +7,15 @@
 | Field | Result |
 |---|---|
 | Repository | `gwonxhj/jetson-orin-nano-internal-lab` |
-| Source snapshot checked | post-v0.2 `/metrics` follow-up commit containing this file |
-| Latest release observed | [`v0.2-serving-soak-evidence`](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.2-serving-soak-evidence) |
-| Latest release target | `43c4390` |
+| Source snapshot checked | `v0.3-observability-smoke` (`7c270c1`) |
+| Latest release observed | [`v0.3-observability-smoke`](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.3-observability-smoke) |
+| Latest release target | `7c270c1` |
 | GitHub visibility observed | `public` |
 | Default branch | `main` |
 | Blocking public-safety issue | none found |
 | Visibility change performed | none |
 
-The repository is already public at the time of this check. This pass covers the post-v0.2 `/metrics` follow-up evidence added after the `v0.2-serving-soak-evidence` release; the latest release target remains `43c4390` until a later milestone is tagged.
+The repository is already public at the time of this check. This pass covers the post-v0.2 `/metrics` follow-up evidence and the `v0.3-observability-smoke` release. No additional raw logs were added by the release promotion itself.
 
 ## GitHub Repo Card
 
@@ -66,7 +66,7 @@ These files make the repository heavier, but they support the portfolio claim th
 
 ## Decision
 
-No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.2` serving milestone is linked from README, the post-v0.2 `/metrics` evidence has been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
+No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.3` observability milestone is linked from README, the post-v0.2 `/metrics` evidence has been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
 
 ## Follow-Up
 
