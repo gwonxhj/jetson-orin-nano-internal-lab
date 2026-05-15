@@ -35,6 +35,7 @@ Public snapshot: [v0.1-public-evidence-snapshot](https://github.com/gwonxhj/jets
 - FastAPI localhost ResNet18 inference server smoke
 - FastAPI `/health`, `/v1/models`, `/v1/infer/resnet18/synthetic`, `/v1/infer/whisper/speech` API usage flow
 - FastAPI localhost ResNet18 short concurrency smoke
+- FastAPI localhost ResNet18 soak/burst follow-up with `tegrastats`
 - FastAPI localhost Whisper speech transcription server smoke
 - FastAPI localhost serving boundary notes
 - FastAPI serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export

@@ -37,11 +37,13 @@
 | FastAPI Whisper transcription | `results/inference/fastapi_whisper_speech_server_20260514_202459.json` | Whisper `model.transcribe` measured inside the handler. |
 | FastAPI client roundtrip | top-level `latency_ms` in serving `result.json` | Localhost request/response path plus server work. |
 | FastAPI concurrency smoke | `results/inference/fastapi_resnet18_concurrency_20260514_233246.json` | Client-side wall time and per-request latency grouped by concurrency level. |
+| FastAPI soak/burst follow-up | `results/inference/fastapi_resnet18_soak_burst_*.json` | Longer localhost repeated requests plus burst levels, with `tegrastats` side telemetry. |
 
 ## Interpretation Rules
 
 - Treat localhost serving smoke as **API path evidence**, not deployment approval.
 - Treat concurrency smoke as a small path check, not a capacity plan or production load test.
+- Treat soak/burst follow-up evidence as a richer localhost serving-layer comparison, still not production readiness or capacity planning.
 - Compare FastAPI client roundtrip to direct model runtimes only as a layered system comparison.
 - Interpret ResNet18 and Whisper endpoint timings separately because they exercise different model families, preprocessing, and output paths.
 - Keep backend, precision, input shape, warmup/repeat, and power mode attached to every latency number.
@@ -55,6 +57,7 @@
 | API usage report | `docs/reports/fastapi_api_usage.md` |
 | Server smoke report | `docs/reports/fastapi_resnet18_server_smoke.md` |
 | Concurrency smoke report | `docs/reports/fastapi_concurrency_smoke.md` |
+| Soak/burst report | `docs/reports/fastapi_soak_burst.md` |
 | Whisper server smoke report | `docs/reports/fastapi_whisper_speech_server_smoke.md` |
 | Serving InferEdge export report | `docs/reports/fastapi_inferedge_export.md` |
 | Serving result JSON | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` |
