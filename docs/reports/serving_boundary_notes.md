@@ -12,7 +12,7 @@
 | Whisper speech transcription path is wired into the API | `/v1/models`, `/v1/infer/whisper/speech` | A license-clear generated WAV can be transcribed through the same FastAPI app in isolated `whisper_env`. |
 | Local HTTP roundtrip can be measured | `client_roundtrip_ms` | Includes request validation, local serialization, routing, tensor generation, inference, and response serialization. |
 | Short localhost concurrency path can be measured | `results/inference/fastapi_resnet18_concurrency_20260514_233246.json` | Concurrent client requests can be issued against the ResNet18 endpoint and summarized by concurrency level. |
-| Serving output can be exported as evidence | `results/inferedge/resnet18_fastapi_serving_*/result.json` | InferEdge-compatible serving result preserves endpoint, request shape, latency layers, and Jetson telemetry. |
+| Serving output can be exported as evidence | `results/inferedge/resnet18_fastapi_serving_*/result.json`, `results/inferedge/fastapi_resnet18_soak_burst_*/result.json` | InferEdge-compatible serving result preserves endpoint, request shape, latency layers, soak/burst sections, and Jetson telemetry. |
 
 ## What This Evidence Does Not Prove
 
@@ -60,5 +60,7 @@
 | Soak/burst report | `docs/reports/fastapi_soak_burst.md` |
 | Whisper server smoke report | `docs/reports/fastapi_whisper_speech_server_smoke.md` |
 | Serving InferEdge export report | `docs/reports/fastapi_inferedge_export.md` |
+| Soak/burst InferEdge export report | `docs/reports/fastapi_soak_burst_inferedge_export.md` |
 | Serving result JSON | `results/inferedge/resnet18_fastapi_serving_20260514_142053/result.json` |
+| Soak/burst serving result JSON | `results/inferedge/fastapi_resnet18_soak_burst_20260515_222841/result.json` |
 | Whisper serving result JSON | `results/inference/fastapi_whisper_speech_server_20260514_202459.json` |

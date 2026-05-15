@@ -39,6 +39,7 @@ Public snapshot: [v0.1-public-evidence-snapshot](https://github.com/gwonxhj/jets
 - FastAPI localhost Whisper speech transcription server smoke
 - FastAPI localhost serving boundary notes
 - FastAPI serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export
+- FastAPI soak/burst serving evidence의 InferEdge-compatible `metadata.json` / `result.json` export
 - FastAPI Whisper serving smoke의 InferEdge-compatible `metadata.json` / `result.json` export
 - Whisper tiny/base offline transcription smoke with separate synthetic tone and generated speech inputs
 - Whisper speech smoke의 InferEdge-compatible `metadata.json` / `result.json` export

@@ -558,6 +558,261 @@ def build_inferedge_serving_export(fastapi_smoke_path: Path, output_dir: Path, r
     return metadata_json, result_json
 
 
+def build_inferedge_soak_burst_serving_export(soak_burst_path: Path, output_dir: Path, repo_root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Build InferEdge-compatible metadata/result pair for FastAPI soak/burst evidence."""
+
+    smoke = read_json(soak_burst_path)
+    metadata = smoke["metadata"]
+    serving_result = smoke["result"]
+    if serving_result.get("success") is not True or serving_result.get("failure_segments"):
+        raise ValueError(
+            "FastAPI soak/burst evidence must be successful before InferEdge export: "
+            f"success={serving_result.get('success')!r}, failure_segments={serving_result.get('failure_segments')!r}"
+        )
+
+    model = serving_result["model"]
+    input_info = serving_result["input"]
+    runtime = serving_result["runtime"]
+    soak = serving_result["soak"]
+    burst = serving_result["burst"]
+    client_latency = soak["client_roundtrip_ms"]
+    server_latency = soak["server_inference_ms"]
+    batch, _channels, height, width = input_info["shape"]
+    backend = serving_result["backend"]
+    precision = serving_result["precision"]
+    power_mode = metadata.get("power_mode", {}).get("stdout", "unknown").replace("\n", "; ") or "unknown"
+    timestamp = now_iso()
+    compare_key = f"resnet18__fastapi_soak_burst__b{batch}__h{height}w{width}__{precision}"
+    backend_key = f"fastapi_pytorch_{backend}_soak_burst__jetson"
+    source_text = _relative_or_original(str(soak_burst_path), repo_root)
+    result_json_text = _relative_or_original(str(output_dir / "result.json"), repo_root)
+    server_log_text = metadata.get("server_log", "")
+    tegrastats_text = metadata.get("tegrastats_log", "")
+    server_app_text = "src/server/resnet18_app.py"
+    tegrastats_summary = summarize_tegrastats(_path_from_repo(tegrastats_text, repo_root)) if tegrastats_text else {"status": "not_provided", "sample_count": 0}
+    throughput_rps = soak.get("throughput_rps")
+
+    result_json = {
+        "schema_version": RESULT_SCHEMA_VERSION,
+        "compare_key": compare_key,
+        "backend_key": backend_key,
+        "runtime_role": "serving-result",
+        "manifest_path": "",
+        "manifest_applied": False,
+        "model_name": model["id"],
+        "model_path": "generated:torchvision.models.resnet18(weights=None, seed=42)",
+        "engine_name": "fastapi-soak-burst",
+        "engine_backend": "fastapi+pytorch",
+        "device_name": "jetson",
+        "batch": batch,
+        "height": height,
+        "width": width,
+        "warmup": runtime["warmup"],
+        "runs": soak["requests"],
+        "mean_ms": client_latency["mean_ms"],
+        "p50_ms": client_latency["p50_ms"],
+        "p95_ms": client_latency["p95_ms"],
+        "p99_ms": client_latency["p99_ms"],
+        "fps_value": throughput_rps,
+        "success": True,
+        "status": "success",
+        "model": {
+            "path": "generated:torchvision.models.resnet18(weights=None, seed=42)",
+            "name": model["architecture"],
+            "sha256": model["state_dict_sha256"],
+            "weights": model["weights"],
+        },
+        "engine": {
+            "name": "fastapi-soak-burst",
+            "backend": "fastapi+pytorch",
+            "available": True,
+            "status_message": "FastAPI localhost ResNet18 soak/burst evidence completed.",
+            "path": server_app_text,
+            "sha256": _sha256_if_exists(server_app_text, repo_root),
+        },
+        "device": {"name": "jetson", "hostname": metadata.get("hostname", "jetson-orin-nano")},
+        "precision": precision,
+        "run_config": {
+            "batch": batch,
+            "height": height,
+            "width": width,
+            "warmup": runtime["warmup"],
+            "runs": soak["requests"],
+            "soak_duration_s": runtime["soak_duration_s"],
+            "soak_concurrency": runtime["soak_concurrency"],
+            "burst_levels": runtime["burst_levels"],
+            "burst_requests_per_level": runtime["burst_requests_per_level"],
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "base_url": serving_result["server"]["base_url"],
+            "endpoint": serving_result["server"]["endpoint"],
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+            "manifest_path": "",
+            "manifest_applied": False,
+            "source_fastapi_soak_burst_json": source_text,
+        },
+        "latency_ms": {
+            "mean": client_latency["mean_ms"],
+            "min": client_latency["min_ms"],
+            "max": client_latency["max_ms"],
+            "std": None,
+            "p50": client_latency["p50_ms"],
+            "p90": None,
+            "p95": client_latency["p95_ms"],
+            "p99": client_latency["p99_ms"],
+            "samples": [],
+        },
+        "fps": throughput_rps,
+        "benchmark": {"success": True, "status": "success", "message": "FastAPI soak/burst evidence exported to InferEdge-compatible result"},
+        "timestamp": timestamp,
+        "system": {
+            "os": platform.system().lower(),
+            "machine": platform.machine(),
+            "jetson": {
+                "power_mode": power_mode,
+                "jetson_clocks": "unknown",
+                "tegrastats_log_path": tegrastats_text,
+            },
+        },
+        "jetson_evidence": {
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_summary": tegrastats_summary,
+        },
+        "model_metadata": {
+            "inputs": [{"name": "synthetic", "element_type": input_info["dtype"], "shape": input_info["shape"]}],
+            "outputs": [{"name": "logits", "element_type": "float32", "shape": [batch, 1000]}],
+        },
+        "comparison": {
+            "source_json": source_text,
+            "comparison_name": "fastapi_serving_layer_soak_burst",
+            "verdict": "serving_layer_evidence_not_direct_regression",
+            "comparability": {
+                "same_model_hash": True,
+                "same_input_shape": True,
+                "same_precision": True,
+                "same_backend": False,
+                "note": "soak/burst result separates localhost client roundtrip, server-side PyTorch inference latency, and tegrastats side telemetry",
+            },
+            "ratios": {
+                "soak_throughput_rps": throughput_rps,
+                "burst_throughput_rps_by_concurrency": {str(item["concurrency"]): item["throughput_rps"] for item in burst},
+            },
+        },
+        "serving": {
+            "source_json": source_text,
+            "framework": serving_result["server"]["framework"],
+            "asgi": serving_result["server"]["asgi"],
+            "base_url": serving_result["server"]["base_url"],
+            "endpoint": serving_result["server"]["endpoint"],
+            "health": serving_result["server"]["health"],
+            "request": {
+                "source": input_info["source"],
+                "shape": input_info["shape"],
+                "dtype": input_info["dtype"],
+                "seed": input_info["seed"],
+            },
+            "latency_layers": {
+                "client_roundtrip_ms": client_latency,
+                "server_inference_ms": server_latency,
+            },
+            "soak": soak,
+            "burst": burst,
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+        },
+        "extra": {
+            "runtime": "jetson-orin-nano-internal-lab",
+            "json_export": "enabled",
+            "output_mode": "explicit",
+            "latest_path": result_json_text,
+            "manifest_recorded": False,
+            "manifest_precision": precision,
+            "manifest_format": "fastapi+pytorch",
+            "input_mode": "synthetic",
+            "input_path": "",
+            "input_preprocess": "synthetic_random_tensor_no_preprocess",
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_status": tegrastats_summary.get("status", "unknown"),
+            "compare_ready": True,
+            "serving_ready": True,
+            "compare_key": compare_key,
+            "backend_key": backend_key,
+            "compare_model_source": "fastapi_soak_burst_source_model",
+            "compare_model_name": "resnet18",
+            "export_schema_version": EXPORT_SCHEMA_VERSION,
+            "evidence_kind": "serving_layer_soak_burst",
+            "deployment_ready_claim": False,
+            "capacity_plan_claim": False,
+            "production_load_test_claim": False,
+        },
+    }
+
+    metadata_json = {
+        "schema_version": METADATA_SCHEMA_VERSION,
+        "source_model": {
+            "format": "pytorch_state_dict",
+            "path": "generated:torchvision.models.resnet18(weights=None, seed=42)",
+            "sha256": model["state_dict_sha256"],
+        },
+        "artifacts": [
+            {"role": "runtime_result", "format": "json", "path": result_json_text, "sha256": "__FILLED_AFTER_WRITE__"},
+            {"role": "serving_soak_burst_result", "format": "json", "path": source_text, "sha256": sha256_file(soak_burst_path)},
+            {"role": "server_log", "format": "log", "path": server_log_text, "sha256": _sha256_if_exists(server_log_text, repo_root)},
+            {"role": "tegrastats_log", "format": "log", "path": tegrastats_text, "sha256": _sha256_if_exists(tegrastats_text, repo_root)},
+        ],
+        "build": {
+            "build_id": f"resnet18-fastapi-soak-burst-{timestamp.replace(':', '').replace('-', '')}",
+            "backend": "fastapi+pytorch",
+            "target": "jetson",
+            "preset_name": "fastapi/jetson_resnet18_soak_burst",
+            "timestamp": timestamp,
+        },
+        "handoff": {"consumer": "InferEdgeLab", "ready": True},
+        "lab_compat": {
+            "profile_ready": True,
+            "runtime": {
+                "device": "jetson",
+                "engine": "fastapi+pytorch",
+                "engine_path": server_app_text,
+                "precision": precision,
+                "requested_batch": batch,
+                "requested_height": height,
+                "requested_width": width,
+                "runtime_artifact_path": server_app_text,
+                "result_json_path": result_json_text,
+            },
+        },
+        "preset_snapshot": {
+            "name": "fastapi/jetson_resnet18_soak_burst",
+            "backend": "fastapi+pytorch",
+            "target": "jetson",
+            "build_options": {
+                "precision": precision,
+                "input_shape": input_info["shape"],
+                "measurement": "localhost_http_soak_burst_client_roundtrip_and_server_inference",
+                "soak_duration_s": runtime["soak_duration_s"],
+                "soak_concurrency": runtime["soak_concurrency"],
+                "burst_levels": runtime["burst_levels"],
+            },
+            "metadata": {"validation_handoff": "inferedgelab", "source": "jetson-orin-nano-internal-lab"},
+        },
+        "export": {
+            "schema_version": EXPORT_SCHEMA_VERSION,
+            "source_fastapi_soak_burst_json": source_text,
+            "repo_commit": run_command(["git", "rev-parse", "--short", "HEAD"]),
+            "repo_status": run_command(["git", "status", "--short", "--branch"]),
+        },
+    }
+    return metadata_json, result_json
+
+
 def build_inferedge_whisper_serving_export(fastapi_whisper_smoke_path: Path, output_dir: Path, repo_root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     """Build InferEdge-compatible metadata/result pair for FastAPI Whisper serving evidence."""
 
