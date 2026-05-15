@@ -7,12 +7,12 @@
 | Field | Value |
 |---|---|
 | Snapshot purpose | Public portfolio evidence package |
-| Source evidence commit | `7c270c1` |
+| Source evidence commit | `bc09365` |
 | Release note location | `docs/reports/evidence_release_notes.md` |
 | Hardware scope | Jetson Orin Nano internal-only experiments |
 | External hardware dependency | None |
 
-`7c270c1` is the latest release commit used to define the v0.3 observability smoke snapshot. The release note itself is tracked by the repository commit that contains this file, so readers should use `git rev-parse --short HEAD` after checkout to identify the exact packaging commit.
+`bc09365` is the evidence commit used to define the v0.4 detection handoff snapshot. The release note itself is tracked by the repository commit that contains this file, so readers should use `git rev-parse --short HEAD` after checkout to identify the exact packaging commit.
 
 ## Release History
 
@@ -21,6 +21,7 @@
 | [v0.1-public-evidence-snapshot](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.1-public-evidence-snapshot) | `bc0dcc5` | Initial public evidence snapshot with environment, runtime, serving, Whisper, LLM, and InferEdge handoff reports. |
 | [v0.2-serving-soak-evidence](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.2-serving-soak-evidence) | `43c4390` | FastAPI soak/burst serving milestone with InferEdge-compatible serving export. |
 | [v0.3-observability-smoke](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.3-observability-smoke) | `7c270c1` | FastAPI `/metrics` localhost observability smoke and `/metrics`-aware InferEdge serving export. |
+| [v0.4-detection-handoff](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.4-detection-handoff) | `bc09365` | YOLOv8n file-image object detection smoke with InferEdge-compatible object-detection handoff export. |
 
 ## Included Evidence Package
 
@@ -92,5 +93,5 @@ LLM_ALLOW_DOWNLOAD=1 conda run -n llm_env bash scripts/run_llm_smoke.sh tiny-gpt
 ## Recommended Follow-Up After This Snapshot
 
 1. Re-run [Public safety check](public_safety_check.md) whenever new raw logs, model artifacts, or handoff directories are added.
-2. Add a longer localhost FastAPI soak or burst test with `tegrastats` telemetry.
+2. Consider a small YOLO FastAPI serving path only if it stays file-image based and keeps accuracy/deployment boundaries explicit.
 3. Try one small non-toy LLM model only after recording license, memory use, cache path, and latency conditions.
