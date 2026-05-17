@@ -4,7 +4,7 @@
 
 ## Start Here
 
-이 프로젝트의 evidence는 **환경 조건 -> runtime 비교 -> object detection -> serving layer -> audio/text inference -> multi-workload runtime interaction -> InferEdge-compatible handoff** 순서로 읽으면 가장 자연스럽습니다. 각 결과는 재현 조건과 한계를 함께 기록하며, 짧은 smoke benchmark만으로 deployment-ready를 주장하지 않습니다. 공개 포트폴리오 관점의 한 장짜리 결론은 [Portfolio final review](portfolio_final_review.md)에, 공유용 snapshot artifact 묶음은 [Evidence release notes](evidence_release_notes.md)에 정리합니다.
+이 프로젝트의 evidence는 **환경 조건 -> runtime 비교 -> object detection -> serving layer -> audio/text inference -> multi-workload runtime interaction -> InferEdge-compatible handoff** 순서로 읽으면 가장 자연스럽습니다. 각 결과는 재현 조건과 한계를 함께 기록하며, 짧은 smoke benchmark만으로 deployment-ready를 주장하지 않습니다. 공개 포트폴리오 관점의 한 장짜리 결론은 [Portfolio final review](portfolio_final_review.md)에, v1까지 남은 gap은 [V1 completion checklist](v1_completion_checklist.md)에, 공유용 snapshot artifact 묶음은 [Evidence release notes](evidence_release_notes.md)에 정리합니다.
 
 ## Recommended Reading Order
 
@@ -60,6 +60,7 @@
 - [Multi-workload sustained runtime report](multi_workload_sustained_runtime.md)
 - [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md)
 - [Portfolio final review](portfolio_final_review.md)
+- [V1 completion checklist](v1_completion_checklist.md)
 - [Evidence release notes](evidence_release_notes.md)
 - [Public safety check](public_safety_check.md)
 - [Evidence Map](../../README.md#evidence-map)

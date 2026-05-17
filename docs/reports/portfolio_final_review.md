@@ -6,7 +6,7 @@
 
 이 repo는 Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 내부 edge AI evidence lab으로 사용하는 흐름을 닫았습니다. 핵심 메시지는 단일 latency 숫자가 아니라, **환경 조건 -> 실행 스크립트 -> raw log -> JSON result -> Markdown report -> InferEdge-compatible handoff**까지 이어지는 재현 가능한 evidence chain입니다.
 
-현재 evidence는 다음 순서로 읽는 것이 가장 자연스럽습니다.
+현재 evidence는 다음 순서로 읽는 것이 가장 자연스럽습니다. v1까지 남은 gap은 [V1 completion checklist](v1_completion_checklist.md)에 별도로 고정합니다.
 
 | Stage | Status | Representative Evidence |
 |---|---|---|
@@ -52,10 +52,12 @@
 
 ## Recommended Next Extensions
 
-1. **Serving realism**: add a slightly longer FastAPI soak or burst test with resource telemetry, still labeled as localhost evidence.
-2. **LLM follow-up model**: try a small but less toy text model after recording model license, cache path, memory use, and latency conditions.
-3. **Evidence packaging**: keep [Evidence release notes](evidence_release_notes.md) updated when the public snapshot changes.
-4. **Automation**: keep `.github/workflows/inferedge-schema.yml` green and extend it if new handoff roles are added.
+1. **30-minute sustained runtime**: extend the current 10-minute multi-workload scenario before adding new models.
+2. **Timeline observability**: align workload events, latency windows, and `tegrastats` samples into a compact timeline artifact.
+3. **Runtime degradation signal**: add one opt-in overload or contention scenario, labeled as reliability evidence rather than production stress proof.
+4. **InferEdge consumer mapping**: document how Runtime, Orchestrator, AIGuard, and Lab should consume the handoff fields.
+
+The detailed completion path is tracked in [V1 completion checklist](v1_completion_checklist.md).
 
 ## Final Interpretation
 
