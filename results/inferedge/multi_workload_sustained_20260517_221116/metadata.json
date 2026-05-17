@@ -1,0 +1,140 @@
+{
+  "artifacts": [
+    {
+      "format": "json",
+      "path": "results/inferedge/multi_workload_sustained_20260517_221116/result.json",
+      "role": "runtime_result",
+      "sha256": "b8a963c1a34504b6b44a92a6f6da15a98a1fdd3233aaba68cac60099ed427d08"
+    },
+    {
+      "format": "json",
+      "path": "results/runtime_compare/multi_workload_sustained_20260517_221116.json",
+      "role": "multi_workload_result",
+      "sha256": "9cc9f0ddb59d94c01941da152f6374fb0d2e40ffb2395374bd9ffa4fce0aa2eb"
+    },
+    {
+      "format": "log",
+      "path": "artifacts/system/fastapi_multi_workload_server_20260517_221116.log",
+      "role": "server_log",
+      "sha256": "9b6dc643ef03f25f413185164fb53f68bab862d77b69655afe0364e4bd90df99"
+    },
+    {
+      "format": "log",
+      "path": "artifacts/system/tegrastats_multi_workload_20260517_221116.log",
+      "role": "tegrastats_log",
+      "sha256": "ef930a9c5dca400f19523ab45721753d83e125d39c66ef097d6846327aa6c929"
+    },
+    {
+      "format": "python",
+      "path": "benchmarks/runtime_compare/multi_workload_sustained.py",
+      "role": "orchestrator",
+      "sha256": "9e90e6db31c5183ac37d124ca5ff35b4bb419ba03a251c5de46d6af7149a4a82"
+    },
+    {
+      "format": "shell",
+      "path": "scripts/run_multi_workload_sustained.sh",
+      "role": "runner",
+      "sha256": "cec1bdd48c21a14f69373d263e3c1f31317fab9137cb3a9bd55999302720c3b0"
+    }
+  ],
+  "build": {
+    "backend": "mixed:yolo+fastapi+pytorch+openai-whisper",
+    "build_id": "multi-workload-sustained-20260517T222221+0900",
+    "preset_name": "runtime/jetson_multi_workload_sustained",
+    "target": "jetson",
+    "timestamp": "2026-05-17T22:22:21+09:00"
+  },
+  "export": {
+    "artifact_commit_note": "The commit containing this generated metadata is the git commit that tracks this file; it is intentionally not embedded to avoid self-referential commit hashes.",
+    "export_workspace_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "e88caa4"
+    },
+    "export_workspace_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "## main...origin/main\n M docs/reports/multi_workload_sustained_runtime.md\n?? artifacts/system/fastapi_multi_workload_server_20260517_221116.log\n?? artifacts/system/tegrastats_multi_workload_20260517_221116.log\n?? results/runtime_compare/multi_workload_sustained_20260517_221116.json"
+    },
+    "schema_version": "inferedge-internal-lab-export-v1",
+    "source_multi_workload_json": "results/runtime_compare/multi_workload_sustained_20260517_221116.json",
+    "source_smoke_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "e88caa4"
+    },
+    "source_smoke_status": {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "[captured during evidence generation; see committed git history for final state]"
+    }
+  },
+  "handoff": {
+    "consumer": "InferEdgeLab",
+    "ready": true
+  },
+  "lab_compat": {
+    "profile_ready": true,
+    "runtime": {
+      "device": "jetson",
+      "engine": "mixed:yolo+fastapi+pytorch+openai-whisper",
+      "engine_path": "benchmarks/runtime_compare/multi_workload_sustained.py",
+      "precision": "mixed_fp32_or_fp16_by_workload",
+      "requested_batch": 1,
+      "requested_height": 224,
+      "requested_width": 224,
+      "result_json_path": "results/inferedge/multi_workload_sustained_20260517_221116/result.json",
+      "runtime_artifact_path": "benchmarks/runtime_compare/multi_workload_sustained.py"
+    }
+  },
+  "preset_snapshot": {
+    "backend": "mixed:yolo+fastapi+pytorch+openai-whisper",
+    "build_options": {
+      "duration_s": 600.0216,
+      "fastapi_concurrency": 2,
+      "measurement": "timeline_latency_buckets_plus_tegrastats",
+      "whisper_repeat": 3,
+      "workload_mix": [
+        "yolo_detection_loop",
+        "fastapi_resnet18_concurrent_requests",
+        "fastapi_whisper_transcription_burst"
+      ]
+    },
+    "metadata": {
+      "source": "jetson-orin-nano-internal-lab",
+      "validation_handoff": "inferedgelab"
+    },
+    "name": "runtime/jetson_multi_workload_sustained",
+    "target": "jetson"
+  },
+  "schema_version": "0.1.0",
+  "source_model": {
+    "format": "mixed_workload",
+    "path": "mixed:ultralytics-yolo+torchvision-resnet18+openai-whisper",
+    "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36"
+  }
+}
