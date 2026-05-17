@@ -7,15 +7,15 @@
 | Field | Result |
 |---|---|
 | Repository | `gwonxhj/jetson-orin-nano-internal-lab` |
-| Source snapshot checked | v0.4 detection handoff evidence commit |
-| Latest milestone tag observed | [`v0.4-detection-handoff`](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.4-detection-handoff) |
-| Latest milestone tag target | `bc09365` |
+| Source snapshot checked | v0.4 detection handoff release snapshot |
+| Latest release observed | [`v0.4-detection-handoff`](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.4-detection-handoff) |
+| Latest release target | `bc09365` |
 | GitHub visibility observed | `public` |
 | Default branch | `main` |
 | Blocking public-safety issue | none found |
 | Visibility change performed | none |
 
-The repository is already public at the time of this check. This pass covers the post-v0.2 `/metrics` follow-up evidence, the `v0.3-observability-smoke` release, and the v0.4 YOLOv8n file-image detection smoke plus InferEdge handoff artifacts.
+The repository is already public at the time of this check. This pass covers the post-v0.2 `/metrics` follow-up evidence, the `v0.3-observability-smoke` release, and the `v0.4-detection-handoff` release with YOLOv8n file-image detection smoke plus InferEdge handoff artifacts.
 
 ## GitHub Repo Card
 
@@ -68,7 +68,7 @@ These files make the repository heavier, but they support the portfolio claim th
 
 ## Decision
 
-No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.4` detection handoff milestone tag is linked from README, the post-v0.2 `/metrics` evidence, post-v0.3 YOLO smoke artifacts, and YOLO InferEdge handoff have been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
+No cleanup is required before continuing to share the repo publicly. The repo is already public, the GitHub repo card is populated, the latest `v0.4` detection handoff release is linked from README, the post-v0.2 `/metrics` evidence, post-v0.3 YOLO smoke artifacts, and YOLO InferEdge handoff have been scanned, schema validation is green, and the tracked evidence does not expose obvious secrets, local absolute paths, private host/IP markers, or unnecessary raw machine context.
 
 ## Follow-Up
 
