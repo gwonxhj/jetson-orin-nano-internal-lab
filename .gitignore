@@ -8,3 +8,4 @@ default.profraw
 # Local virtual environments
 .venv/
 venv/
+AGENTS.md

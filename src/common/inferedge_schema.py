@@ -1849,6 +1849,286 @@ def build_inferedge_yolo_detection_export(yolo_smoke_path: Path, output_dir: Pat
     return metadata_json, result_json
 
 
+def _safe_ratio(numerator: float | None, denominator: float | None) -> float | None:
+    if numerator is None or denominator in (None, 0):
+        return None
+    return round(float(numerator) / float(denominator), 4)
+
+
+def build_inferedge_multi_workload_export(multi_workload_path: Path, output_dir: Path, repo_root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Build InferEdge-compatible metadata/result pair for sustained multi-workload evidence."""
+
+    evidence = read_json(multi_workload_path)
+    metadata = evidence["metadata"]
+    result = evidence["result"]
+    if result.get("success") is not True or result.get("status") != "succeeded" or result.get("error_count") != 0:
+        raise ValueError(
+            "multi-workload sustained evidence must be successful before InferEdge export: "
+            f"status={result.get('status')!r}, success={result.get('success')!r}, error_count={result.get('error_count')!r}"
+        )
+
+    scenario = result["scenario"]
+    workloads = result["workloads"]
+    summary = result["summary_by_workload"]
+    interaction = result["interaction"]
+    fastapi = summary["fastapi_resnet18"]
+    fastapi_latency = fastapi["latency_ms"]
+    yolo_latency = summary["yolo_detection"]["latency_ms"]
+    whisper_latency = summary["fastapi_whisper"]["latency_ms"]
+    input_shape = workloads["fastapi_resnet18"]["input"]["shape"]
+    batch, _channels, height, width = input_shape
+    power_mode = metadata.get("power_mode", {}).get("stdout", "unknown").replace("\n", "; ") or "unknown"
+    timestamp = now_iso()
+    source_text = _relative_or_original(str(multi_workload_path), repo_root)
+    result_json_text = _relative_or_original(str(output_dir / "result.json"), repo_root)
+    server_log_text = metadata.get("server_log", "")
+    tegrastats_text = metadata.get("tegrastats_log", "")
+    server_app_text = "src/server/resnet18_app.py"
+    orchestrator_text = "benchmarks/runtime_compare/multi_workload_sustained.py"
+    runner_text = "scripts/run_multi_workload_sustained.sh"
+    tegrastats_summary = summarize_tegrastats(_path_from_repo(tegrastats_text, repo_root)) if tegrastats_text else {"status": "not_provided", "sample_count": 0}
+    duration_s = scenario["duration_s"]
+    total_success_events = sum(item["success_count"] for item in summary.values())
+    throughput_eps = round(total_success_events / duration_s, 4) if duration_s else None
+    compare_key = f"multi_workload__yolo_whisper_fastapi__{int(round(duration_s))}s__jetson"
+    backend_key = "mixed_yolo_fastapi_whisper__jetson"
+
+    fastapi_buckets = interaction.get("fastapi_resnet18_latency_by_window", {})
+    yolo_buckets = interaction.get("yolo_latency_by_window", {})
+    fastapi_during = fastapi_buckets.get("during_whisper_ms", {})
+    fastapi_after = fastapi_buckets.get("after_whisper_ms", {})
+    yolo_during = yolo_buckets.get("during_whisper_ms", {})
+    yolo_after = yolo_buckets.get("after_whisper_ms", {})
+
+    result_json = {
+        "schema_version": RESULT_SCHEMA_VERSION,
+        "compare_key": compare_key,
+        "backend_key": backend_key,
+        "runtime_role": "multi-workload-runtime-result",
+        "manifest_path": "",
+        "manifest_applied": False,
+        "model_name": "multi-workload-yolo-whisper-fastapi",
+        "model_path": "mixed:ultralytics-yolo+torchvision-resnet18+openai-whisper",
+        "engine_name": "multi-workload-sustained",
+        "engine_backend": "mixed:yolo+fastapi+pytorch+openai-whisper",
+        "device_name": "jetson",
+        "batch": batch,
+        "height": height,
+        "width": width,
+        "warmup": 0,
+        "runs": total_success_events,
+        "mean_ms": fastapi_latency["mean_ms"],
+        "p50_ms": fastapi_latency["p50_ms"],
+        "p95_ms": fastapi_latency["p95_ms"],
+        "p99_ms": fastapi_latency["p99_ms"],
+        "fps_value": throughput_eps,
+        "success": True,
+        "status": "success",
+        "model": {
+            "path": "mixed:ultralytics-yolo+torchvision-resnet18+openai-whisper",
+            "name": "multi-workload-yolo-whisper-fastapi",
+            "sha256": workloads["yolo_detection"].get("setup", {}).get("model_sha256", ""),
+            "components": {
+                "yolo": workloads["yolo_detection"].get("setup", {}),
+                "resnet18": result["server"].get("models", {}),
+                "whisper": workloads["fastapi_whisper"],
+            },
+        },
+        "engine": {
+            "name": "multi-workload-sustained",
+            "backend": "mixed:yolo+fastapi+pytorch+openai-whisper",
+            "available": True,
+            "status_message": "YOLO detection loop, FastAPI ResNet18 concurrent requests, and FastAPI Whisper burst completed together.",
+            "path": orchestrator_text,
+            "sha256": _sha256_if_exists(orchestrator_text, repo_root),
+        },
+        "device": {"name": "jetson", "hostname": metadata.get("hostname", "jetson-orin-nano")},
+        "precision": "mixed_fp32_or_fp16_by_workload",
+        "run_config": {
+            "batch": batch,
+            "height": height,
+            "width": width,
+            "runs": total_success_events,
+            "duration_s": duration_s,
+            "target_duration_s": scenario["target_duration_s"],
+            "workload_mix": scenario["workload_mix"],
+            "fastapi_concurrency": workloads["fastapi_resnet18"]["concurrency"],
+            "whisper_start_s": workloads["fastapi_whisper"]["start_s"],
+            "whisper_repeat": workloads["fastapi_whisper"]["repeat"],
+            "yolo_interval_s": workloads["yolo_detection"]["interval_s"],
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+            "manifest_path": "",
+            "manifest_applied": False,
+            "source_multi_workload_json": source_text,
+        },
+        "latency_ms": {
+            "mean": fastapi_latency["mean_ms"],
+            "min": fastapi_latency["min_ms"],
+            "max": fastapi_latency["max_ms"],
+            "std": None,
+            "p50": fastapi_latency["p50_ms"],
+            "p90": None,
+            "p95": fastapi_latency["p95_ms"],
+            "p99": fastapi_latency["p99_ms"],
+            "samples": [],
+        },
+        "fps": throughput_eps,
+        "benchmark": {"success": True, "status": "success", "message": "multi-workload sustained runtime evidence exported to InferEdge-compatible result"},
+        "timestamp": timestamp,
+        "system": {
+            "os": platform.system().lower(),
+            "machine": platform.machine(),
+            "jetson": {"power_mode": power_mode, "jetson_clocks": "unknown", "tegrastats_log_path": tegrastats_text},
+        },
+        "jetson_evidence": {
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_summary": tegrastats_summary,
+        },
+        "model_metadata": {
+            "inputs": [
+                {"name": "resnet18_synthetic", "element_type": "float32", "shape": input_shape},
+                {"name": "yolo_file_image", "element_type": "image", "shape": [workloads["yolo_detection"]["imgsz"], workloads["yolo_detection"]["imgsz"]]},
+                {"name": "whisper_audio", "element_type": "wav_path", "shape": [1]},
+            ],
+            "outputs": [
+                {"name": "runtime_timeline", "element_type": "json_events", "shape": [len(result["timeline"])]},
+                {"name": "interaction_summary", "element_type": "json", "shape": [1]},
+            ],
+        },
+        "comparison": {
+            "source_json": source_text,
+            "comparison_name": "multi_workload_sustained_runtime_interaction",
+            "verdict": "multi_workload_runtime_interaction_evidence_not_production_stress_test",
+            "comparability": {
+                "same_model_hash": False,
+                "same_input_shape": False,
+                "same_precision": False,
+                "same_backend": False,
+                "note": "multi-workload interaction evidence compares time windows and workload behavior, not direct single-model regressions",
+            },
+            "ratios": {
+                "fastapi_during_over_after_p95": _safe_ratio(fastapi_during.get("p95_ms"), fastapi_after.get("p95_ms")),
+                "yolo_during_over_after_p95": _safe_ratio(yolo_during.get("p95_ms"), yolo_after.get("p95_ms")),
+                "total_success_events_per_second": throughput_eps,
+            },
+        },
+        "workload_interaction": {
+            "source_json": source_text,
+            "scenario": scenario,
+            "workloads": workloads,
+            "summary_by_workload": summary,
+            "interaction": interaction,
+            "timeline_event_count": len(result["timeline"]),
+            "timeline_preview": result["timeline"][:20],
+            "metrics": result.get("metrics", {}),
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+        },
+        "extra": {
+            "runtime": "jetson-orin-nano-internal-lab",
+            "json_export": "enabled",
+            "output_mode": "explicit",
+            "latest_path": result_json_text,
+            "manifest_recorded": False,
+            "manifest_precision": "mixed_fp32_or_fp16_by_workload",
+            "manifest_format": "multi-workload-runtime-interaction",
+            "input_mode": "file_image_plus_generated_audio_plus_synthetic_tensor",
+            "input_path": workloads["fastapi_whisper"]["audio_path"],
+            "input_preprocess": "workload_specific_local_inputs_no_external_sensors",
+            "power_mode": power_mode,
+            "jetson_clocks": "unknown",
+            "server_log_path": server_log_text,
+            "tegrastats_log_path": tegrastats_text,
+            "tegrastats_status": tegrastats_summary.get("status", "unknown"),
+            "compare_ready": True,
+            "runtime_reliability_ready": True,
+            "multi_workload_ready": True,
+            "workload_interaction_ready": True,
+            "compare_key": compare_key,
+            "backend_key": backend_key,
+            "compare_model_source": "multi_workload_sustained_source",
+            "compare_model_name": "yolo+whisper+fastapi",
+            "export_schema_version": EXPORT_SCHEMA_VERSION,
+            "evidence_kind": "multi_workload_runtime_interaction",
+            "deployment_ready_claim": False,
+            "production_stress_test_claim": False,
+            "accuracy_claim": False,
+            "external_sensor_dependency": False,
+        },
+    }
+
+    metadata_json = {
+        "schema_version": METADATA_SCHEMA_VERSION,
+        "source_model": {
+            "format": "mixed_workload",
+            "path": "mixed:ultralytics-yolo+torchvision-resnet18+openai-whisper",
+            "sha256": workloads["yolo_detection"].get("setup", {}).get("model_sha256", ""),
+        },
+        "artifacts": [
+            {"role": "runtime_result", "format": "json", "path": result_json_text, "sha256": "__FILLED_AFTER_WRITE__"},
+            {"role": "multi_workload_result", "format": "json", "path": source_text, "sha256": sha256_file(multi_workload_path)},
+            {"role": "server_log", "format": "log", "path": server_log_text, "sha256": _sha256_if_exists(server_log_text, repo_root)},
+            {"role": "tegrastats_log", "format": "log", "path": tegrastats_text, "sha256": _sha256_if_exists(tegrastats_text, repo_root)},
+            {"role": "orchestrator", "format": "python", "path": orchestrator_text, "sha256": _sha256_if_exists(orchestrator_text, repo_root)},
+            {"role": "runner", "format": "shell", "path": runner_text, "sha256": _sha256_if_exists(runner_text, repo_root)},
+        ],
+        "build": {
+            "build_id": f"multi-workload-sustained-{timestamp.replace(':', '').replace('-', '')}",
+            "backend": "mixed:yolo+fastapi+pytorch+openai-whisper",
+            "target": "jetson",
+            "preset_name": "runtime/jetson_multi_workload_sustained",
+            "timestamp": timestamp,
+        },
+        "handoff": {"consumer": "InferEdgeLab", "ready": True},
+        "lab_compat": {
+            "profile_ready": True,
+            "runtime": {
+                "device": "jetson",
+                "engine": "mixed:yolo+fastapi+pytorch+openai-whisper",
+                "engine_path": orchestrator_text,
+                "precision": "mixed_fp32_or_fp16_by_workload",
+                "requested_batch": batch,
+                "requested_height": height,
+                "requested_width": width,
+                "runtime_artifact_path": orchestrator_text,
+                "result_json_path": result_json_text,
+            },
+        },
+        "preset_snapshot": {
+            "name": "runtime/jetson_multi_workload_sustained",
+            "backend": "mixed:yolo+fastapi+pytorch+openai-whisper",
+            "target": "jetson",
+            "build_options": {
+                "duration_s": duration_s,
+                "workload_mix": scenario["workload_mix"],
+                "fastapi_concurrency": workloads["fastapi_resnet18"]["concurrency"],
+                "whisper_repeat": workloads["fastapi_whisper"]["repeat"],
+                "measurement": "timeline_latency_buckets_plus_tegrastats",
+            },
+            "metadata": {"validation_handoff": "inferedgelab", "source": "jetson-orin-nano-internal-lab"},
+        },
+        "export": {
+            "schema_version": EXPORT_SCHEMA_VERSION,
+            "source_multi_workload_json": source_text,
+            "source_smoke_commit": metadata.get("git_commit", {}),
+            "source_smoke_status": metadata.get("git_status", {}),
+            "export_workspace_commit": run_command(["git", "rev-parse", "--short", "HEAD"]),
+            "export_workspace_status": run_command(["git", "status", "--short", "--branch"]),
+            "artifact_commit_note": (
+                "The commit containing this generated metadata is the git commit that tracks this file; "
+                "it is intentionally not embedded to avoid self-referential commit hashes."
+            ),
+        },
+    }
+    return metadata_json, result_json
+
+
 def validate_inferedge_metadata(payload: dict[str, Any]) -> None:
     required = ["schema_version", "source_model", "artifacts", "build", "handoff", "lab_compat"]
     missing = [key for key in required if key not in payload]
@@ -1915,5 +2195,16 @@ def validate_inferedge_result(payload: dict[str, Any]) -> None:
             raise ValueError("object detection result must not claim accuracy or deployment readiness")
         if payload["extra"].get("external_camera_dependency") is not False or payload["extra"].get("external_sensor_dependency") is not False:
             raise ValueError("object detection result must remain internal-only and file-image based")
-    if runtime_role not in {"runtime-result", "serving-result", "audio-transcription-result", "text-generation-result", "object-detection-result"}:
+    if runtime_role == "multi-workload-runtime-result":
+        if verdict != "multi_workload_runtime_interaction_evidence_not_production_stress_test":
+            raise ValueError("multi-workload result must preserve runtime-interaction semantics")
+        if "workload_interaction" not in payload:
+            raise ValueError("multi-workload result missing workload_interaction details")
+        if payload["extra"].get("runtime_reliability_ready") is not True or payload["extra"].get("multi_workload_ready") is not True:
+            raise ValueError("multi-workload result readiness flags must be true")
+        if payload["extra"].get("deployment_ready_claim") is not False or payload["extra"].get("production_stress_test_claim") is not False:
+            raise ValueError("multi-workload result must not claim deployment readiness or production stress coverage")
+        if payload["extra"].get("external_sensor_dependency") is not False:
+            raise ValueError("multi-workload result must remain internal-only")
+    if runtime_role not in {"runtime-result", "serving-result", "audio-transcription-result", "text-generation-result", "object-detection-result", "multi-workload-runtime-result"}:
         raise ValueError(f"unsupported runtime_role: {runtime_role}")
