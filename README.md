@@ -4,11 +4,11 @@ Jetson Orin Nano를 외부 카메라, 센서, 로봇 부품 없이 순수 내부
 
 이 repo의 포트폴리오 메시지는 단순 latency 숫자가 아니라, **환경 조건 → 실행 스크립트 → raw log → JSON result → Markdown report → InferEdge handoff**까지 이어지는 추적 가능한 evidence입니다.
 
-Latest release: [v0.4-detection-handoff](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.4-detection-handoff)
+Latest release: [v0.5-runtime-interaction-evidence](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.5-runtime-interaction-evidence)
 
 ## Representative Evidence
 
-- [Portfolio evidence index](docs/reports/portfolio_evidence_index.md) — ResNet18 runtime, FastAPI serving, Whisper audio, LLM smoke, InferEdge export 흐름을 어떤 순서로 보면 되는지 한 장으로 안내합니다.
+- [Portfolio evidence index](docs/reports/portfolio_evidence_index.md) — ResNet18 runtime, FastAPI serving, Whisper audio, LLM smoke, multi-workload runtime interaction, InferEdge export 흐름을 어떤 순서로 보면 되는지 한 장으로 안내합니다.
 - [ResNet18 runtime matrix summary](docs/reports/resnet18_runtime_matrix_summary.md) — PyTorch CUDA, ONNX Runtime CPU/CUDA/TensorRT EP, native TensorRT, TensorRT EP cache 비용을 한 장으로 요약합니다.
 - [TensorRT FP16 optimization report](docs/reports/tensorrt_optimization_report.md) — ResNet18 ONNX export, `trtexec` build/run command, model hash, input shape, precision, warmup/repeat 조건을 기록합니다.
 - [FastAPI API usage report](docs/reports/fastapi_api_usage.md) — `/health`, `/v1/models`, `/metrics`, ResNet18 synthetic inference, Whisper speech transcription API 호출 흐름과 evidence 산출물 연결을 설명합니다.
