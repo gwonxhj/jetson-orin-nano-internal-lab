@@ -7,8 +7,8 @@
 
 | File | Purpose |
 |---|---|
-| `results/inferedge/multi_workload_sustained_20260517_221116/metadata.json` | Forge/Lab handoff metadata envelope |
-| `results/inferedge/multi_workload_sustained_20260517_221116/result.json` | Lab-compatible multi-workload runtime result envelope |
+| `results/inferedge/multi_workload_sustained_20260518_002910/metadata.json` | Forge/Lab handoff metadata envelope |
+| `results/inferedge/multi_workload_sustained_20260518_002910/result.json` | Lab-compatible multi-workload runtime result envelope |
 
 ## Compatibility
 
@@ -17,7 +17,7 @@
 | metadata schema | `0.1.0` |
 | result schema | `inferedge-runtime-result-v1` |
 | runtime role | `multi-workload-runtime-result` |
-| compare key | `multi_workload__yolo_whisper_fastapi__600s__jetson` |
+| compare key | `multi_workload__yolo_whisper_fastapi__1800s__jetson` |
 | backend key | `mixed_yolo_fastapi_whisper__jetson` |
 | handoff ready | True |
 | runtime reliability ready | True |
@@ -27,22 +27,22 @@
 
 | Workload | Events | Success | Errors | Mean ms | P95 ms | Max ms |
 |---|---:|---:|---:|---:|---:|---:|
-| fastapi_resnet18 | 11388 | 11388 | 0 | 54.7348 | 67.6168 | 696.8211 |
-| fastapi_whisper | 3 | 3 | 0 | 1709.1628 | 3604.4617 | 3934.7886 |
-| yolo_detection | 533 | 533 | 0 | 118.0908 | 143.6312 | 1331.9266 |
+| fastapi_resnet18 | 34324 | 34324 | 0 | 54.2977 | 68.0591 | 785.0608 |
+| fastapi_whisper | 5 | 5 | 0 | 1313.5877 | 3521.1574 | 4243.5182 |
+| yolo_detection | 1606 | 1606 | 0 | 117.7534 | 144.4643 | 1341.9493 |
 
 ## Interaction Window
 
-- Whisper window: 120.0324s -> 365.3563s
-- FastAPI during/after p95 ratio: `1.0108`
-- YOLO during/after p95 ratio: `1.0086`
-- Total success events/sec: `19.8726`
+- Whisper window: 300.0338s -> 1506.832s
+- FastAPI during/after p95 ratio: `0.9824`
+- YOLO during/after p95 ratio: `1.0025`
+- Total success events/sec: `19.9629`
 
 ## Evidence Paths
 
-- Source result: `results/runtime_compare/multi_workload_sustained_20260517_221116.json`
-- Server log: `artifacts/system/fastapi_multi_workload_server_20260517_221116.log`
-- Tegrastats log: `artifacts/system/tegrastats_multi_workload_20260517_221116.log`
+- Source result: `results/runtime_compare/multi_workload_sustained_20260518_002910.json`
+- Server log: `artifacts/system/fastapi_multi_workload_server_20260518_002910.log`
+- Tegrastats log: `artifacts/system/tegrastats_multi_workload_20260518_002910.log`
 
 ## Notes
 

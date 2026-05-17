@@ -7,41 +7,41 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-05-17T22:21:24+09:00 |
+| Date | 2026-05-18T00:59:18+09:00 |
 | Hostname | `jetson-orin-nano` |
 | Base URL | `http://127.0.0.1:18085` |
-| Duration | 600.0216 s |
-| Server log | `artifacts/system/fastapi_multi_workload_server_20260517_221116.log` |
-| Tegrastats log | `artifacts/system/tegrastats_multi_workload_20260517_221116.log` |
+| Duration | 1800.0892 s |
+| Server log | `artifacts/system/fastapi_multi_workload_server_20260518_002910.log` |
+| Tegrastats log | `artifacts/system/tegrastats_multi_workload_20260518_002910.log` |
 | Mock workloads | False |
 
 ## Workload Summary
 
 | Workload | Events | Success | Errors | Mean ms | P95 ms | Max ms |
 |---|---:|---:|---:|---:|---:|---:|
-| fastapi_resnet18 | 11388 | 11388 | 0 | 54.7348 | 67.6168 | 696.8211 |
-| fastapi_whisper | 3 | 3 | 0 | 1709.1628 | 3604.4617 | 3934.7886 |
-| yolo_detection | 533 | 533 | 0 | 118.0908 | 143.6312 | 1331.9266 |
+| fastapi_resnet18 | 34324 | 34324 | 0 | 54.2977 | 68.0591 | 785.0608 |
+| fastapi_whisper | 5 | 5 | 0 | 1313.5877 | 3521.1574 | 4243.5182 |
+| yolo_detection | 1606 | 1606 | 0 | 117.7534 | 144.4643 | 1341.9493 |
 
 ## Interaction Window
 
-- Whisper burst window: 120.0324s -> 365.3563s
+- Whisper burst window: 300.0338s -> 1506.832s
 
 ### YOLO
 
 | Window | Count | Mean ms | P95 ms | Max ms |
 |---|---:|---:|---:|---:|
-| Before Whisper | 103 | 129.3904 | 143.5295 | 1331.9266 |
-| During Whisper | 220 | 114.6859 | 144.3394 | 149.0473 |
-| After Whisper | 210 | 116.1157 | 143.113 | 148.9029 |
+| Before Whisper | 264 | 123.133 | 146.4491 | 1341.9493 |
+| During Whisper | 1080 | 116.3743 | 144.2472 | 255.9929 |
+| After Whisper | 262 | 118.0177 | 143.8846 | 347.2609 |
 
 ### FastAPI ResNet18
 
 | Window | Count | Mean ms | P95 ms | Max ms |
 |---|---:|---:|---:|---:|
-| Before Whisper | 2272 | 55.0199 | 69.6106 | 696.8211 |
-| During Whisper | 4639 | 55.1439 | 67.6024 | 694.1111 |
-| After Whisper | 4477 | 54.1661 | 66.8783 | 98.7794 |
+| Before Whisper | 5688 | 54.8157 | 69.4149 | 678.3729 |
+| During Whisper | 23054 | 54.1282 | 67.3912 | 785.0608 |
+| After Whisper | 5582 | 54.4698 | 68.5984 | 340.3874 |
 
 ## Boundary
 
