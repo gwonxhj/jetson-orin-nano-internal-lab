@@ -4,7 +4,7 @@
 
 ## Start Here
 
-이 프로젝트의 evidence는 **환경 조건 -> runtime 비교 -> object detection -> serving layer -> audio/text inference -> InferEdge-compatible handoff** 순서로 읽으면 가장 자연스럽습니다. 각 결과는 재현 조건과 한계를 함께 기록하며, 짧은 smoke benchmark만으로 deployment-ready를 주장하지 않습니다. 공개 포트폴리오 관점의 한 장짜리 결론은 [Portfolio final review](portfolio_final_review.md)에, 공유용 snapshot artifact 묶음은 [Evidence release notes](evidence_release_notes.md)에 정리합니다.
+이 프로젝트의 evidence는 **환경 조건 -> runtime 비교 -> object detection -> serving layer -> audio/text inference -> multi-workload runtime interaction -> InferEdge-compatible handoff** 순서로 읽으면 가장 자연스럽습니다. 각 결과는 재현 조건과 한계를 함께 기록하며, 짧은 smoke benchmark만으로 deployment-ready를 주장하지 않습니다. 공개 포트폴리오 관점의 한 장짜리 결론은 [Portfolio final review](portfolio_final_review.md)에, 공유용 snapshot artifact 묶음은 [Evidence release notes](evidence_release_notes.md)에 정리합니다.
 
 ## Recommended Reading Order
 
@@ -16,7 +16,8 @@
 | 4 | Serving layer | ResNet18 inference와 Whisper speech transcription을 localhost FastAPI API로 감싸 `/metrics`, client/server latency, short concurrency smoke, soak/burst follow-up, API 사용 흐름을 확인합니다. | [FastAPI server smoke](fastapi_resnet18_server_smoke.md), [FastAPI concurrency smoke](fastapi_concurrency_smoke.md), [FastAPI soak/burst](fastapi_soak_burst.md), [FastAPI Whisper smoke](fastapi_whisper_speech_server_smoke.md), [API usage](fastapi_api_usage.md), [Serving boundary](serving_boundary_notes.md) |
 | 5 | Audio inference | Whisper synthetic tone path smoke와 license-clear generated speech transcription smoke를 분리합니다. | [Whisper synthetic path smoke](whisper_transcription_smoke.md), [Whisper speech smoke](whisper_speech_transcription_smoke.md) |
 | 6 | Text inference readiness | 기존 `yolo_env`를 변경하지 않고 LLM 후보 env와 tiny text-generation smoke readiness를 기록합니다. | [LLM env candidate probe](llm_env_candidate_probe.md), [LLM text generation smoke](llm_text_generation_smoke.md) |
-| 7 | InferEdge handoff | ResNet18 runtime, YOLO object detection, FastAPI image/audio serving, FastAPI soak/burst, Whisper speech, LLM text-generation 결과를 `metadata.json` / `result.json` handoff evidence로 변환하고 schema validation으로 drift를 확인합니다. | [Runtime InferEdge export](inferedge_export.md), [YOLO InferEdge export](yolo_inferedge_export.md), [FastAPI InferEdge export](fastapi_inferedge_export.md), [FastAPI soak/burst InferEdge export](fastapi_soak_burst_inferedge_export.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md), [Whisper InferEdge export](whisper_inferedge_export.md), [LLM InferEdge export](llm_inferedge_export.md), [InferEdge schema validation](inferedge_schema_validation.md) |
+| 7 | Multi-workload runtime interaction | YOLO detection loop, FastAPI ResNet18 concurrent requests, FastAPI Whisper burst, `tegrastats` telemetry를 함께 실행해 sustained runtime/resource interaction을 기록합니다. | [Multi-workload sustained runtime](multi_workload_sustained_runtime.md), [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md) |
+| 8 | InferEdge handoff | ResNet18 runtime, YOLO object detection, FastAPI image/audio serving, FastAPI soak/burst, multi-workload interaction, Whisper speech, LLM text-generation 결과를 `metadata.json` / `result.json` handoff evidence로 변환하고 schema validation으로 drift를 확인합니다. | [Runtime InferEdge export](inferedge_export.md), [YOLO InferEdge export](yolo_inferedge_export.md), [FastAPI InferEdge export](fastapi_inferedge_export.md), [FastAPI soak/burst InferEdge export](fastapi_soak_burst_inferedge_export.md), [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md), [Whisper InferEdge export](whisper_inferedge_export.md), [LLM InferEdge export](llm_inferedge_export.md), [InferEdge schema validation](inferedge_schema_validation.md) |
 
 ## Evidence Tracks
 
@@ -25,6 +26,7 @@
 | ResNet18 runtime | Which local backend/runtime path works on this Jetson, under which precision and cache conditions? | [Runtime matrix summary](resnet18_runtime_matrix_summary.md) | [Runtime result](../../results/inferedge/resnet18_runtime_compare_20260513_133100/result.json) |
 | Object detection | Can a file-image object detection model run locally without external camera/sensor input? | [YOLO detection smoke](yolo_detection_smoke.md), [YOLO InferEdge export](yolo_inferedge_export.md) | [YOLO result](../../results/inferedge/yolo_yolov8n_detection_20260516_010734/result.json) |
 | FastAPI serving | Can local image and audio inference be exposed through reproducible localhost API paths, including `/metrics`, short concurrency, and longer soak/burst evidence? | [FastAPI API usage](fastapi_api_usage.md), [FastAPI concurrency smoke](fastapi_concurrency_smoke.md), [FastAPI soak/burst](fastapi_soak_burst.md), [FastAPI soak/burst InferEdge export](fastapi_soak_burst_inferedge_export.md), [FastAPI Whisper smoke](fastapi_whisper_speech_server_smoke.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md) | [ResNet18 serving](../../results/inferedge/resnet18_fastapi_serving_20260516_001440/result.json), [soak/burst serving](../../results/inferedge/fastapi_resnet18_soak_burst_20260515_222841/result.json), [Whisper serving](../../results/inferedge/fastapi_whisper_serving_20260514_202459/result.json) |
+| Multi-workload runtime interaction | What happens when lightweight vision, audio, and serving workloads run together on the same Jetson under sustained telemetry capture? | [Multi-workload sustained runtime](multi_workload_sustained_runtime.md), [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md) | [30s interaction result](../../results/inferedge/multi_workload_sustained_20260517_213947/result.json), [10m interaction result](../../results/inferedge/multi_workload_sustained_20260517_221116/result.json) |
 | Whisper audio | Can a license-clear audio input exercise the local transcription path without external sensors? | [Whisper speech smoke](whisper_speech_transcription_smoke.md) | [Whisper result](../../results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json) |
 | LLM text readiness | Can local text-generation plumbing be introduced without mutating the stable benchmark env first? | [LLM env candidate probe](llm_env_candidate_probe.md), [LLM text generation smoke](llm_text_generation_smoke.md), [LLM InferEdge export](llm_inferedge_export.md) | [LLM result](../../results/inferedge/llm_tiny-gpt2_text_generation_20260515_005755/result.json) |
 
@@ -34,15 +36,16 @@
 - ResNet18 inference paths were exercised across PyTorch, ONNX Runtime, TensorRT EP, and native TensorRT evidence.
 - YOLOv8n file-image object detection runs on CUDA without external camera or sensor input.
 - A localhost FastAPI serving layer can expose `/metrics` and produce structured image, audio, short concurrency, and soak/burst result evidence without claiming production readiness.
+- A 30-second probe and 10-minute sustained run record YOLO detection, FastAPI ResNet18 concurrency, FastAPI Whisper burst, and `tegrastats` telemetry as runtime interaction evidence.
 - Whisper tiny can run in an isolated `whisper_env` and transcribe a license-clear generated speech sample on CUDA.
 - LLM text-generation support runs in an isolated `llm_env`; current tiny-gpt2 CUDA path smoke succeeded while stable `yolo_env` remains unmodified.
-- InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime, object detection, FastAPI image serving, FastAPI audio serving, audio transcription, and LLM text-generation tracks.
+- InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime, object detection, FastAPI image serving, FastAPI audio serving, multi-workload runtime interaction, audio transcription, and LLM text-generation tracks.
 - CI-style schema validation now checks all committed InferEdge handoff pairs for schema semantics and artifact sha256 drift.
 
 ## What This Does Not Prove
 
 - It does not prove deployment readiness, uptime, production concurrency behavior, or production observability; `/metrics` is an in-process smoke endpoint only.
-- The concurrency and soak/burst evidence is localhost-only; it is not a capacity plan or production load test.
+- The concurrency, soak/burst, and 10-minute multi-workload evidence is localhost/internal workload evidence; it is not a capacity plan or production load test.
 - It does not treat backend/precision changes as direct regressions.
 - It does not claim broad speech recognition accuracy from a single generated `hello world` sample.
 - It does not claim LLM text quality or deployment readiness; the current tiny-gpt2 result is path smoke evidence only.
@@ -54,6 +57,8 @@
 - [README Quickstart](../../README.md#portfolio-quickstart)
 - [YOLO detection smoke](yolo_detection_smoke.md)
 - [YOLO InferEdge export](yolo_inferedge_export.md)
+- [Multi-workload sustained runtime report](multi_workload_sustained_runtime.md)
+- [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md)
 - [Portfolio final review](portfolio_final_review.md)
 - [Evidence release notes](evidence_release_notes.md)
 - [Public safety check](public_safety_check.md)
@@ -62,6 +67,7 @@
 - [InferEdge YOLO result](../../results/inferedge/yolo_yolov8n_detection_20260516_010734/result.json)
 - [InferEdge serving result](../../results/inferedge/resnet18_fastapi_serving_20260516_001440/result.json)
 - [InferEdge soak/burst serving result](../../results/inferedge/fastapi_resnet18_soak_burst_20260515_222841/result.json)
+- [InferEdge 10m multi-workload result](../../results/inferedge/multi_workload_sustained_20260517_221116/result.json)
 - [FastAPI Whisper serving result](../../results/inference/fastapi_whisper_speech_server_20260514_202459.json)
 - [InferEdge FastAPI Whisper serving result](../../results/inferedge/fastapi_whisper_serving_20260514_202459/result.json)
 - [InferEdge Whisper result](../../results/inferedge/whisper_tiny_speech_transcription_20260514_182822/result.json)
