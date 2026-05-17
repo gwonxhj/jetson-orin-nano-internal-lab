@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "burst_windows_json": "results/runtime_compare/multi_workload_degradation_burst_windows_20260518_013625.json",
+    "burst_windows_sha256": "1b7579f20ab1def34db22b65aef4b0987bc42f88e05b297272949dae1681ecaa",
+    "export_workspace_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "feec289"
+    },
+    "generated_at": "2026-05-18T01:45:31+09:00",
+    "hostname": "jetson-orin-nano",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "schema_version": "multi-workload-degradation-signal-v1",
+    "source_git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "feec289"
+    },
+    "source_json": "results/runtime_compare/multi_workload_degradation_20260518_013625.json",
+    "source_sha256": "9cdf040856eaecd3f52b3f89f279cb18a51ecf3fddf20266ca92004b0d5f61af",
+    "timeline_json": "results/runtime_compare/multi_workload_degradation_timeline_20260518_013625.json",
+    "timeline_sha256": "e3eccea6ed6dff65e88e08238e58a5a99b21734d49eada3eac1514f05f00736a"
+  },
+  "result": {
+    "degradation_signal_observed": true,
+    "duration_s": 300.08,
+    "event_summary": {
+      "fastapi_resnet18": {
+        "errors": 0,
+        "events": 15472,
+        "max_ms": 883.8447,
+        "p95_ms": 173.0672,
+        "p99_ms": 226.3634,
+        "success": 15472
+      },
+      "fastapi_whisper": {
+        "errors": 0,
+        "events": 3,
+        "max_ms": 9437.4952,
+        "p95_ms": 8787.4625,
+        "p99_ms": 9307.4887,
+        "success": 3
+      },
+      "yolo_detection": {
+        "errors": 0,
+        "events": 751,
+        "max_ms": 1690.4935,
+        "p95_ms": 173.2865,
+        "p99_ms": 184.0366,
+        "success": 751
+      }
+    },
+    "interpretation": {
+      "accuracy_claim": false,
+      "capacity_plan_claim": false,
+      "deployment_ready_claim": false,
+      "notes": [
+        "This scenario intentionally raises local concurrency and shorter request intervals to preserve bounded contention evidence.",
+        "A degradation signal can be latency spike, resource pressure, request error, backlog proxy, or fallback behavior.",
+        "This artifact records a reliability signal for analysis, not production readiness or capacity planning."
+      ],
+      "production_stress_test_claim": false,
+      "runtime_reliability_signal": true
+    },
+    "overload_config": {
+      "fastapi_concurrency": 8,
+      "fastapi_interval_s": 0.01,
+      "whisper_interval_s": 60.0,
+      "whisper_repeat": 3,
+      "yolo_interval_s": 0.25
+    },
+    "signal_kind": "bounded_opt_in_runtime_degradation",
+    "signals": {
+      "during_minus_before_fastapi_max_ms": 389.0388,
+      "during_minus_before_fastapi_p99_ms": 578.9529,
+      "during_minus_before_telemetry": {
+        "cpu_busy_pct_avg": 0.007,
+        "cpu_busy_pct_max": 0.0,
+        "gpu_temp_c_max": -0.281,
+        "gr3d_freq_pct_avg": 1.743,
+        "gr3d_freq_pct_max": 1.0,
+        "ram_used_mb_avg": 84.282,
+        "ram_used_mb_max": 0.0,
+        "vdd_in_mw_avg": -200.52,
+        "vdd_in_mw_max": 0.0
+      },
+      "fastapi_resnet18_max_spike": true,
+      "fastapi_resnet18_p99_spike": true,
+      "resource_pressure_delta": true,
+      "runtime_errors_observed": false
+    },
+    "source_reports": {
+      "burst_count": 3,
+      "burst_window_report": "results/runtime_compare/multi_workload_degradation_burst_windows_20260518_013625.json",
+      "timeline_bucket_count": 61
+    },
+    "status": "succeeded",
+    "success": true,
+    "target_duration_s": 300.0,
+    "task": "multi_workload_bounded_degradation_signal",
+    "workload_mix": [
+      "yolo_detection_loop",
+      "fastapi_resnet18_concurrent_requests",
+      "fastapi_whisper_transcription_burst"
+    ]
+  }
+}

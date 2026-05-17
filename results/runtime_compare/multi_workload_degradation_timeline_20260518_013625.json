@@ -1,0 +1,3945 @@
+{
+  "metadata": {
+    "bucket_sec": 5.0,
+    "export_workspace_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "feec289"
+    },
+    "generated_at": "2026-05-18T01:44:59+09:00",
+    "hostname": "jetson-orin-nano",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "schema_version": "multi-workload-runtime-timeline-v1",
+    "server_log": "artifacts/system/fastapi_multi_workload_degradation_server_20260518_013625.log",
+    "source_git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "feec289"
+    },
+    "source_json": "results/runtime_compare/multi_workload_degradation_20260518_013625.json",
+    "source_sha256": "9cdf040856eaecd3f52b3f89f279cb18a51ecf3fddf20266ca92004b0d5f61af",
+    "tegrastats_log": "artifacts/system/tegrastats_multi_workload_degradation_20260518_013625.log"
+  },
+  "result": {
+    "bucket_count": 61,
+    "buckets": [
+      {
+        "end_s": 5.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 0,
+        "start_s": 0.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 41.533,
+          "cpu_busy_pct_max": 74.0,
+          "gpu_temp_c_max": 43.0,
+          "gr3d_freq_pct_avg": 59.4,
+          "gr3d_freq_pct_max": 99.0,
+          "max_temp_c": 43.0,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2426.0,
+          "ram_used_mb_max": 2467.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7386.0,
+          "vdd_in_mw_max": 8027.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 205,
+            "latency_ms": {
+              "count": 205,
+              "max": 825.2628,
+              "mean": 183.3844,
+              "min": 66.8604,
+              "p50": 151.0348,
+              "p95": 267.9037,
+              "p99": 820.3626
+            },
+            "operations": {
+              "concurrent_request": 205
+            },
+            "success_count": 205
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 1,
+            "latency_ms": {
+              "count": 1,
+              "max": 1690.4935,
+              "mean": 1690.4935,
+              "min": 1690.4935,
+              "p50": 1690.4935,
+              "p95": 1690.4935,
+              "p99": 1690.4935
+            },
+            "operations": {
+              "file_image_detection": 1
+            },
+            "success_count": 1
+          }
+        }
+      },
+      {
+        "end_s": 10.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 1,
+        "start_s": 5.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 44.167,
+          "cpu_busy_pct_max": 70.0,
+          "gpu_temp_c_max": 43.468,
+          "gr3d_freq_pct_avg": 51.0,
+          "gr3d_freq_pct_max": 90.0,
+          "max_temp_c": 43.468,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2874.6,
+          "ram_used_mb_max": 2936.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8351.4,
+          "vdd_in_mw_max": 9050.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 267,
+            "latency_ms": {
+              "count": 267,
+              "max": 184.524,
+              "mean": 138.0744,
+              "min": 66.3891,
+              "p50": 138.8303,
+              "p95": 166.2903,
+              "p99": 178.0196
+            },
+            "operations": {
+              "concurrent_request": 267
+            },
+            "success_count": 267
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 9,
+            "latency_ms": {
+              "count": 9,
+              "max": 181.6049,
+              "mean": 135.0289,
+              "min": 113.566,
+              "p50": 130.211,
+              "p95": 167.1131,
+              "p99": 178.7065
+            },
+            "operations": {
+              "file_image_detection": 9
+            },
+            "success_count": 9
+          }
+        }
+      },
+      {
+        "end_s": 15.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 2,
+        "start_s": 10.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.4,
+          "cpu_busy_pct_max": 46.0,
+          "gpu_temp_c_max": 43.625,
+          "gr3d_freq_pct_avg": 49.8,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 43.625,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2937.0,
+          "ram_used_mb_max": 2937.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7994.8,
+          "vdd_in_mw_max": 8186.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 193.7342,
+              "mean": 142.7508,
+              "min": 64.1048,
+              "p50": 141.9583,
+              "p95": 170.5848,
+              "p99": 183.1397
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 184.186,
+              "mean": 141.4145,
+              "min": 130.3286,
+              "p50": 139.3397,
+              "p95": 164.166,
+              "p99": 180.182
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 20.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 3,
+        "start_s": 15.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.467,
+          "cpu_busy_pct_max": 46.0,
+          "gpu_temp_c_max": 43.968,
+          "gr3d_freq_pct_avg": 64.8,
+          "gr3d_freq_pct_max": 87.0,
+          "max_temp_c": 43.968,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2937.0,
+          "ram_used_mb_max": 2937.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8162.2,
+          "vdd_in_mw_max": 8346.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 184.2421,
+              "mean": 140.9762,
+              "min": 75.9487,
+              "p50": 141.5747,
+              "p95": 166.7437,
+              "p99": 174.3431
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 185.6071,
+              "mean": 142.9801,
+              "min": 117.8577,
+              "p50": 143.3064,
+              "p95": 171.5662,
+              "p99": 182.7989
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 25.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 4,
+        "start_s": 20.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.233,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 44.312,
+          "gr3d_freq_pct_avg": 59.2,
+          "gr3d_freq_pct_max": 91.0,
+          "max_temp_c": 44.312,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2937.8,
+          "ram_used_mb_max": 2938.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8162.4,
+          "vdd_in_mw_max": 8266.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 188.4335,
+              "mean": 138.6325,
+              "min": 60.9275,
+              "p50": 139.1748,
+              "p95": 160.7259,
+              "p99": 173.1586
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 168.8482,
+              "mean": 138.3891,
+              "min": 119.0863,
+              "p50": 136.4819,
+              "p95": 162.6675,
+              "p99": 167.6121
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 30.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 5,
+        "start_s": 25.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 38.267,
+          "cpu_busy_pct_max": 54.0,
+          "gpu_temp_c_max": 44.625,
+          "gr3d_freq_pct_avg": 51.2,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 44.625,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2938.4,
+          "ram_used_mb_max": 2939.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7946.8,
+          "vdd_in_mw_max": 8186.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 250,
+            "latency_ms": {
+              "count": 250,
+              "max": 415.6646,
+              "mean": 148.4558,
+              "min": 60.1257,
+              "p50": 140.669,
+              "p95": 175.6974,
+              "p99": 410.4735
+            },
+            "operations": {
+              "concurrent_request": 250
+            },
+            "success_count": 250
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 170.7137,
+              "mean": 136.7966,
+              "min": 118.0529,
+              "p50": 133.2564,
+              "p95": 163.6739,
+              "p99": 169.3057
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 35.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 6,
+        "start_s": 30.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.533,
+          "cpu_busy_pct_max": 49.0,
+          "gpu_temp_c_max": 44.906,
+          "gr3d_freq_pct_avg": 61.0,
+          "gr3d_freq_pct_max": 86.0,
+          "max_temp_c": 44.906,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2939.8,
+          "ram_used_mb_max": 2940.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8098.6,
+          "vdd_in_mw_max": 8266.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 270,
+            "latency_ms": {
+              "count": 270,
+              "max": 176.6306,
+              "mean": 139.1116,
+              "min": 91.8199,
+              "p50": 138.6652,
+              "p95": 160.2704,
+              "p99": 168.7079
+            },
+            "operations": {
+              "concurrent_request": 270
+            },
+            "success_count": 270
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 163.666,
+              "mean": 138.8195,
+              "min": 123.3645,
+              "p50": 133.895,
+              "p95": 160.7333,
+              "p99": 163.0795
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 40.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 7,
+        "start_s": 35.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.567,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 45.218,
+          "gr3d_freq_pct_avg": 46.4,
+          "gr3d_freq_pct_max": 97.0,
+          "max_temp_c": 45.218,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2940.4,
+          "ram_used_mb_max": 2941.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8186.4,
+          "vdd_in_mw_max": 8346.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 173.1622,
+              "mean": 138.7623,
+              "min": 107.4367,
+              "p50": 138.8504,
+              "p95": 162.1679,
+              "p99": 169.0475
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 158.1979,
+              "mean": 144.2335,
+              "min": 127.406,
+              "p50": 144.9022,
+              "p95": 158.0814,
+              "p99": 158.1746
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 45.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 8,
+        "start_s": 40.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.1,
+          "cpu_busy_pct_max": 45.0,
+          "gpu_temp_c_max": 45.156,
+          "gr3d_freq_pct_avg": 76.8,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 45.156,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2941.0,
+          "ram_used_mb_max": 2941.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8090.6,
+          "vdd_in_mw_max": 8226.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 269,
+            "latency_ms": {
+              "count": 269,
+              "max": 180.332,
+              "mean": 138.691,
+              "min": 94.7144,
+              "p50": 137.1349,
+              "p95": 166.2251,
+              "p99": 172.7525
+            },
+            "operations": {
+              "concurrent_request": 269
+            },
+            "success_count": 269
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 170.2804,
+              "mean": 146.0005,
+              "min": 123.7077,
+              "p50": 141.6161,
+              "p95": 167.369,
+              "p99": 169.6981
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 50.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 9,
+        "start_s": 45.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 38.9,
+          "cpu_busy_pct_max": 45.0,
+          "gpu_temp_c_max": 45.5,
+          "gr3d_freq_pct_avg": 65.0,
+          "gr3d_freq_pct_max": 95.0,
+          "max_temp_c": 45.5,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2940.4,
+          "ram_used_mb_max": 2941.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8194.4,
+          "vdd_in_mw_max": 8346.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 265,
+            "latency_ms": {
+              "count": 265,
+              "max": 183.6195,
+              "mean": 138.484,
+              "min": 93.8626,
+              "p50": 136.8591,
+              "p95": 164.8017,
+              "p99": 179.5498
+            },
+            "operations": {
+              "concurrent_request": 265
+            },
+            "success_count": 265
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 175.9135,
+              "mean": 150.3898,
+              "min": 120.3804,
+              "p50": 150.9353,
+              "p95": 173.8251,
+              "p99": 175.4958
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 55.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 10,
+        "start_s": 50.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.9,
+          "cpu_busy_pct_max": 46.0,
+          "gpu_temp_c_max": 45.843,
+          "gr3d_freq_pct_avg": 54.6,
+          "gr3d_freq_pct_max": 97.0,
+          "max_temp_c": 45.843,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2941.0,
+          "ram_used_mb_max": 2941.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8154.6,
+          "vdd_in_mw_max": 8346.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 268,
+            "latency_ms": {
+              "count": 268,
+              "max": 190.2545,
+              "mean": 139.6457,
+              "min": 83.8561,
+              "p50": 138.5419,
+              "p95": 162.7475,
+              "p99": 182.9994
+            },
+            "operations": {
+              "concurrent_request": 268
+            },
+            "success_count": 268
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 184.8861,
+              "mean": 149.3745,
+              "min": 132.9509,
+              "p50": 144.4998,
+              "p95": 173.7299,
+              "p99": 182.6549
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 60.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 11,
+        "start_s": 55.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.867,
+          "cpu_busy_pct_max": 46.0,
+          "gpu_temp_c_max": 45.937,
+          "gr3d_freq_pct_avg": 48.6,
+          "gr3d_freq_pct_max": 74.0,
+          "max_temp_c": 45.937,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 2941.6,
+          "ram_used_mb_max": 2942.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8106.8,
+          "vdd_in_mw_max": 8506.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 268,
+            "latency_ms": {
+              "count": 268,
+              "max": 199.5664,
+              "mean": 138.551,
+              "min": 84.7597,
+              "p50": 138.7802,
+              "p95": 167.7896,
+              "p99": 183.5796
+            },
+            "operations": {
+              "concurrent_request": 268
+            },
+            "success_count": 268
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 183.8872,
+              "mean": 143.2924,
+              "min": 124.6527,
+              "p50": 141.8154,
+              "p95": 172.6005,
+              "p99": 181.6299
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 65.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": true
+        },
+        "index": 12,
+        "start_s": 60.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 41.333,
+          "cpu_busy_pct_max": 71.0,
+          "gpu_temp_c_max": 46.218,
+          "gr3d_freq_pct_avg": 30.6,
+          "gr3d_freq_pct_max": 73.0,
+          "max_temp_c": 46.218,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3062.2,
+          "ram_used_mb_max": 3217.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7570.4,
+          "vdd_in_mw_max": 8386.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 201,
+            "latency_ms": {
+              "count": 201,
+              "max": 534.4199,
+              "mean": 197.9799,
+              "min": 51.933,
+              "p50": 185.3889,
+              "p95": 409.5704,
+              "p99": 483.5622
+            },
+            "operations": {
+              "concurrent_request": 201
+            },
+            "success_count": 201
+          },
+          "fastapi_whisper": {
+            "error_count": 0,
+            "event_count": 1,
+            "latency_ms": {
+              "count": 1,
+              "max": 9437.4952,
+              "mean": 9437.4952,
+              "min": 9437.4952,
+              "p50": 9437.4952,
+              "p95": 9437.4952,
+              "p99": 9437.4952
+            },
+            "operations": {
+              "transcription_burst": 1
+            },
+            "success_count": 1
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 152.344,
+              "mean": 118.912,
+              "min": 67.993,
+              "p50": 120.4211,
+              "p95": 148.1682,
+              "p99": 151.5088
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 70.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 13,
+        "start_s": 65.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 36.042,
+          "cpu_busy_pct_max": 53.0,
+          "gpu_temp_c_max": 46.218,
+          "gr3d_freq_pct_avg": 76.25,
+          "gr3d_freq_pct_max": 99.0,
+          "max_temp_c": 46.218,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3479.0,
+          "ram_used_mb_max": 3615.0,
+          "sample_count": 4,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7470.25,
+          "vdd_in_mw_max": 8107.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 186,
+            "latency_ms": {
+              "count": 186,
+              "max": 883.8447,
+              "mean": 195.7271,
+              "min": 77.9083,
+              "p50": 158.6361,
+              "p95": 305.9445,
+              "p99": 792.3198
+            },
+            "operations": {
+              "concurrent_request": 186
+            },
+            "success_count": 186
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 171.2616,
+              "mean": 124.5807,
+              "min": 62.5449,
+              "p50": 127.7513,
+              "p95": 168.8719,
+              "p99": 170.7837
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 75.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 14,
+        "start_s": 70.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 37.767,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 46.343,
+          "gr3d_freq_pct_avg": 48.0,
+          "gr3d_freq_pct_max": 62.0,
+          "max_temp_c": 46.343,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3611.4,
+          "ram_used_mb_max": 3613.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7890.8,
+          "vdd_in_mw_max": 8146.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 248,
+            "latency_ms": {
+              "count": 248,
+              "max": 347.0701,
+              "mean": 148.3633,
+              "min": 84.625,
+              "p50": 142.8563,
+              "p95": 193.5088,
+              "p99": 330.1015
+            },
+            "operations": {
+              "concurrent_request": 248
+            },
+            "success_count": 248
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 186.5689,
+              "mean": 149.8331,
+              "min": 125.7337,
+              "p50": 144.0045,
+              "p95": 182.874,
+              "p99": 185.8299
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 80.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 15,
+        "start_s": 75.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.133,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 46.625,
+          "gr3d_freq_pct_avg": 46.8,
+          "gr3d_freq_pct_max": 85.0,
+          "max_temp_c": 46.625,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3611.2,
+          "ram_used_mb_max": 3612.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8146.2,
+          "vdd_in_mw_max": 8186.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 269,
+            "latency_ms": {
+              "count": 269,
+              "max": 188.219,
+              "mean": 138.5562,
+              "min": 95.9236,
+              "p50": 138.385,
+              "p95": 164.4055,
+              "p99": 176.5083
+            },
+            "operations": {
+              "concurrent_request": 269
+            },
+            "success_count": 269
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 174.7679,
+              "mean": 142.0399,
+              "min": 106.5743,
+              "p50": 138.2371,
+              "p95": 170.7544,
+              "p99": 173.9652
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 85.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 16,
+        "start_s": 80.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 38.667,
+          "cpu_busy_pct_max": 45.0,
+          "gpu_temp_c_max": 46.625,
+          "gr3d_freq_pct_avg": 70.2,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 46.625,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3612.0,
+          "ram_used_mb_max": 3612.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8138.4,
+          "vdd_in_mw_max": 8386.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 259,
+            "latency_ms": {
+              "count": 259,
+              "max": 199.6039,
+              "mean": 142.9937,
+              "min": 94.7531,
+              "p50": 143.2658,
+              "p95": 169.5946,
+              "p99": 188.4791
+            },
+            "operations": {
+              "concurrent_request": 259
+            },
+            "success_count": 259
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 179.0071,
+              "mean": 142.1525,
+              "min": 115.0088,
+              "p50": 139.3352,
+              "p95": 175.3751,
+              "p99": 178.2807
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 90.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 17,
+        "start_s": 85.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.767,
+          "cpu_busy_pct_max": 52.0,
+          "gpu_temp_c_max": 46.718,
+          "gr3d_freq_pct_avg": 56.2,
+          "gr3d_freq_pct_max": 99.0,
+          "max_temp_c": 46.718,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3612.8,
+          "ram_used_mb_max": 3613.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8162.2,
+          "vdd_in_mw_max": 8346.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 205.2634,
+              "mean": 139.5913,
+              "min": 93.5513,
+              "p50": 137.9617,
+              "p95": 169.1369,
+              "p99": 186.0888
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 169.3268,
+              "mean": 137.8951,
+              "min": 114.3654,
+              "p50": 134.4651,
+              "p95": 163.5429,
+              "p99": 168.17
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 95.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 18,
+        "start_s": 90.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.6,
+          "cpu_busy_pct_max": 50.0,
+          "gpu_temp_c_max": 46.937,
+          "gr3d_freq_pct_avg": 77.8,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 46.937,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3613.6,
+          "ram_used_mb_max": 3614.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8146.4,
+          "vdd_in_mw_max": 8306.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 185.9719,
+              "mean": 140.913,
+              "min": 103.6058,
+              "p50": 140.5598,
+              "p95": 168.4505,
+              "p99": 176.7752
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 169.7106,
+              "mean": 134.6078,
+              "min": 110.2364,
+              "p50": 136.2231,
+              "p95": 158.5169,
+              "p99": 167.4719
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 100.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 19,
+        "start_s": 95.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.967,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 47.093,
+          "gr3d_freq_pct_avg": 59.2,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 47.093,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3614.4,
+          "ram_used_mb_max": 3615.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8130.8,
+          "vdd_in_mw_max": 8546.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 191.483,
+              "mean": 140.0841,
+              "min": 92.4527,
+              "p50": 140.9613,
+              "p95": 164.1057,
+              "p99": 173.8603
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 176.7291,
+              "mean": 146.7583,
+              "min": 124.0262,
+              "p50": 144.1092,
+              "p95": 176.0467,
+              "p99": 176.5926
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 105.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 20,
+        "start_s": 100.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.5,
+          "cpu_busy_pct_max": 49.0,
+          "gpu_temp_c_max": 47.281,
+          "gr3d_freq_pct_avg": 59.2,
+          "gr3d_freq_pct_max": 87.0,
+          "max_temp_c": 47.281,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3615.0,
+          "ram_used_mb_max": 3615.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8146.6,
+          "vdd_in_mw_max": 8386.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 270,
+            "latency_ms": {
+              "count": 270,
+              "max": 179.2606,
+              "mean": 138.7862,
+              "min": 102.4287,
+              "p50": 138.9255,
+              "p95": 161.1048,
+              "p99": 174.917
+            },
+            "operations": {
+              "concurrent_request": 270
+            },
+            "success_count": 270
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 170.5944,
+              "mean": 140.367,
+              "min": 121.6,
+              "p50": 137.8318,
+              "p95": 160.6557,
+              "p99": 168.6067
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 110.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 21,
+        "start_s": 105.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 37.867,
+          "cpu_busy_pct_max": 53.0,
+          "gpu_temp_c_max": 47.468,
+          "gr3d_freq_pct_avg": 50.6,
+          "gr3d_freq_pct_max": 97.0,
+          "max_temp_c": 47.468,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3615.6,
+          "ram_used_mb_max": 3616.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7917.2,
+          "vdd_in_mw_max": 8226.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 246,
+            "latency_ms": {
+              "count": 246,
+              "max": 494.8059,
+              "mean": 151.0114,
+              "min": 83.9816,
+              "p50": 141.151,
+              "p95": 174.0409,
+              "p99": 489.3531
+            },
+            "operations": {
+              "concurrent_request": 246
+            },
+            "success_count": 246
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 172.9768,
+              "mean": 143.1704,
+              "min": 118.6409,
+              "p50": 141.0846,
+              "p95": 167.28,
+              "p99": 171.8374
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 115.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 22,
+        "start_s": 110.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.6,
+          "cpu_busy_pct_max": 48.0,
+          "gpu_temp_c_max": 47.625,
+          "gr3d_freq_pct_avg": 45.6,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 47.625,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3616.2,
+          "ram_used_mb_max": 3617.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8138.4,
+          "vdd_in_mw_max": 8306.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 189.0682,
+              "mean": 140.4264,
+              "min": 88.3817,
+              "p50": 139.385,
+              "p95": 167.2043,
+              "p99": 177.1265
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 166.7979,
+              "mean": 141.0648,
+              "min": 119.2986,
+              "p50": 139.9322,
+              "p95": 163.4426,
+              "p99": 166.1268
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 120.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 23,
+        "start_s": 115.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.133,
+          "cpu_busy_pct_max": 49.0,
+          "gpu_temp_c_max": 47.437,
+          "gr3d_freq_pct_avg": 48.4,
+          "gr3d_freq_pct_max": 94.0,
+          "max_temp_c": 47.437,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3617.0,
+          "ram_used_mb_max": 3617.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8178.4,
+          "vdd_in_mw_max": 8466.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 180.764,
+              "mean": 141.1127,
+              "min": 61.4344,
+              "p50": 139.8992,
+              "p95": 171.1484,
+              "p99": 179.8995
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 180.8137,
+              "mean": 138.0037,
+              "min": 116.3566,
+              "p50": 133.9766,
+              "p95": 172.5053,
+              "p99": 179.152
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 125.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 24,
+        "start_s": 120.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.967,
+          "cpu_busy_pct_max": 48.0,
+          "gpu_temp_c_max": 47.687,
+          "gr3d_freq_pct_avg": 49.8,
+          "gr3d_freq_pct_max": 95.0,
+          "max_temp_c": 47.687,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3617.0,
+          "ram_used_mb_max": 3617.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8098.6,
+          "vdd_in_mw_max": 8266.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 259,
+            "latency_ms": {
+              "count": 259,
+              "max": 189.6493,
+              "mean": 143.6152,
+              "min": 91.8387,
+              "p50": 144.2365,
+              "p95": 169.2822,
+              "p99": 185.4279
+            },
+            "operations": {
+              "concurrent_request": 259
+            },
+            "success_count": 259
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 149.9731,
+              "mean": 135.5315,
+              "min": 116.6221,
+              "p50": 137.2984,
+              "p95": 149.5854,
+              "p99": 149.8956
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 130.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": true
+        },
+        "index": 25,
+        "start_s": 125.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.267,
+          "cpu_busy_pct_max": 48.0,
+          "gpu_temp_c_max": 47.781,
+          "gr3d_freq_pct_avg": 47.0,
+          "gr3d_freq_pct_max": 85.0,
+          "max_temp_c": 47.781,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3617.6,
+          "ram_used_mb_max": 3618.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8226.4,
+          "vdd_in_mw_max": 8466.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 206.4026,
+              "mean": 140.3829,
+              "min": 84.5278,
+              "p50": 139.3672,
+              "p95": 177.0503,
+              "p99": 199.0144
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "fastapi_whisper": {
+            "error_count": 0,
+            "event_count": 1,
+            "latency_ms": {
+              "count": 1,
+              "max": 2937.1685,
+              "mean": 2937.1685,
+              "min": 2937.1685,
+              "p50": 2937.1685,
+              "p95": 2937.1685,
+              "p99": 2937.1685
+            },
+            "operations": {
+              "transcription_burst": 1
+            },
+            "success_count": 1
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 175.3463,
+              "mean": 126.1853,
+              "min": 90.6493,
+              "p50": 123.9172,
+              "p95": 167.6068,
+              "p99": 173.7984
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 135.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 26,
+        "start_s": 130.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 42.233,
+          "cpu_busy_pct_max": 58.0,
+          "gpu_temp_c_max": 47.968,
+          "gr3d_freq_pct_avg": 62.8,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 47.968,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3639.4,
+          "ram_used_mb_max": 3641.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8218.4,
+          "vdd_in_mw_max": 8466.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 252,
+            "latency_ms": {
+              "count": 252,
+              "max": 257.2117,
+              "mean": 147.0809,
+              "min": 76.9997,
+              "p50": 146.2685,
+              "p95": 179.1105,
+              "p99": 201.2287
+            },
+            "operations": {
+              "concurrent_request": 252
+            },
+            "success_count": 252
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 158.1003,
+              "mean": 133.5431,
+              "min": 112.7295,
+              "p50": 126.7008,
+              "p95": 156.4542,
+              "p99": 157.7711
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 140.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 27,
+        "start_s": 135.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.433,
+          "cpu_busy_pct_max": 53.0,
+          "gpu_temp_c_max": 48.093,
+          "gr3d_freq_pct_avg": 35.8,
+          "gr3d_freq_pct_max": 80.0,
+          "max_temp_c": 48.093,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3639.2,
+          "ram_used_mb_max": 3640.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8106.6,
+          "vdd_in_mw_max": 8226.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 265,
+            "latency_ms": {
+              "count": 265,
+              "max": 189.8311,
+              "mean": 139.9283,
+              "min": 71.9144,
+              "p50": 140.7862,
+              "p95": 166.4772,
+              "p99": 179.3614
+            },
+            "operations": {
+              "concurrent_request": 265
+            },
+            "success_count": 265
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 160.9513,
+              "mean": 140.5502,
+              "min": 106.7816,
+              "p50": 143.708,
+              "p95": 157.8672,
+              "p99": 160.3345
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 145.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 28,
+        "start_s": 140.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 37.967,
+          "cpu_busy_pct_max": 49.0,
+          "gpu_temp_c_max": 48.218,
+          "gr3d_freq_pct_avg": 62.2,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 48.218,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3640.0,
+          "ram_used_mb_max": 3640.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8154.2,
+          "vdd_in_mw_max": 8266.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 260,
+            "latency_ms": {
+              "count": 260,
+              "max": 184.2189,
+              "mean": 142.3119,
+              "min": 80.3226,
+              "p50": 142.7059,
+              "p95": 168.9037,
+              "p99": 178.7577
+            },
+            "operations": {
+              "concurrent_request": 260
+            },
+            "success_count": 260
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 179.514,
+              "mean": 147.1876,
+              "min": 127.9742,
+              "p50": 143.0781,
+              "p95": 175.1255,
+              "p99": 178.6363
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 150.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 29,
+        "start_s": 145.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 38.333,
+          "cpu_busy_pct_max": 55.0,
+          "gpu_temp_c_max": 48.125,
+          "gr3d_freq_pct_avg": 50.0,
+          "gr3d_freq_pct_max": 99.0,
+          "max_temp_c": 48.125,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3640.0,
+          "ram_used_mb_max": 3640.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7899.0,
+          "vdd_in_mw_max": 8226.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 245,
+            "latency_ms": {
+              "count": 245,
+              "max": 478.9289,
+              "mean": 151.9067,
+              "min": 97.6148,
+              "p50": 142.9083,
+              "p95": 182.4207,
+              "p99": 462.5904
+            },
+            "operations": {
+              "concurrent_request": 245
+            },
+            "success_count": 245
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 164.9928,
+              "mean": 138.3003,
+              "min": 105.9708,
+              "p50": 143.6812,
+              "p95": 162.6872,
+              "p99": 164.5317
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 155.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 30,
+        "start_s": 150.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.933,
+          "cpu_busy_pct_max": 44.0,
+          "gpu_temp_c_max": 48.187,
+          "gr3d_freq_pct_avg": 47.2,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 48.187,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3640.6,
+          "ram_used_mb_max": 3641.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8162.4,
+          "vdd_in_mw_max": 8466.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 268,
+            "latency_ms": {
+              "count": 268,
+              "max": 197.8586,
+              "mean": 139.6893,
+              "min": 62.6209,
+              "p50": 138.4232,
+              "p95": 168.3466,
+              "p99": 178.5729
+            },
+            "operations": {
+              "concurrent_request": 268
+            },
+            "success_count": 268
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 181.4768,
+              "mean": 141.9936,
+              "min": 116.4941,
+              "p50": 142.1161,
+              "p95": 164.038,
+              "p99": 177.989
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 160.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 31,
+        "start_s": 155.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.367,
+          "cpu_busy_pct_max": 48.0,
+          "gpu_temp_c_max": 48.312,
+          "gr3d_freq_pct_avg": 54.4,
+          "gr3d_freq_pct_max": 73.0,
+          "max_temp_c": 48.312,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3641.0,
+          "ram_used_mb_max": 3641.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8154.4,
+          "vdd_in_mw_max": 8266.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 261,
+            "latency_ms": {
+              "count": 261,
+              "max": 198.6045,
+              "mean": 142.1053,
+              "min": 63.4587,
+              "p50": 143.5846,
+              "p95": 169.2828,
+              "p99": 178.8915
+            },
+            "operations": {
+              "concurrent_request": 261
+            },
+            "success_count": 261
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 179.5731,
+              "mean": 144.0996,
+              "min": 113.6799,
+              "p50": 139.6088,
+              "p95": 175.5761,
+              "p99": 178.7737
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 165.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 32,
+        "start_s": 160.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.033,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 48.312,
+          "gr3d_freq_pct_avg": 38.6,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 48.312,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3641.0,
+          "ram_used_mb_max": 3641.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8122.2,
+          "vdd_in_mw_max": 8186.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 263,
+            "latency_ms": {
+              "count": 263,
+              "max": 184.5749,
+              "mean": 141.4601,
+              "min": 84.2632,
+              "p50": 141.6833,
+              "p95": 167.367,
+              "p99": 178.9632
+            },
+            "operations": {
+              "concurrent_request": 263
+            },
+            "success_count": 263
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 162.6637,
+              "mean": 138.6699,
+              "min": 115.6409,
+              "p50": 140.1978,
+              "p95": 157.5577,
+              "p99": 161.6425
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 170.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 33,
+        "start_s": 165.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.233,
+          "cpu_busy_pct_max": 50.0,
+          "gpu_temp_c_max": 48.531,
+          "gr3d_freq_pct_avg": 48.0,
+          "gr3d_freq_pct_max": 65.0,
+          "max_temp_c": 48.531,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3641.0,
+          "ram_used_mb_max": 3641.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8218.2,
+          "vdd_in_mw_max": 8386.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 263,
+            "latency_ms": {
+              "count": 263,
+              "max": 185.6873,
+              "mean": 140.854,
+              "min": 97.5855,
+              "p50": 139.4785,
+              "p95": 165.8927,
+              "p99": 170.907
+            },
+            "operations": {
+              "concurrent_request": 263
+            },
+            "success_count": 263
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 159.5294,
+              "mean": 134.6275,
+              "min": 111.1795,
+              "p50": 128.7942,
+              "p95": 157.6896,
+              "p99": 159.1614
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 175.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 34,
+        "start_s": 170.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.367,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 48.531,
+          "gr3d_freq_pct_avg": 53.0,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 48.531,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3641.8,
+          "ram_used_mb_max": 3642.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8074.8,
+          "vdd_in_mw_max": 8226.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 259,
+            "latency_ms": {
+              "count": 259,
+              "max": 195.0617,
+              "mean": 142.6783,
+              "min": 79.8949,
+              "p50": 141.9436,
+              "p95": 168.7556,
+              "p99": 178.4108
+            },
+            "operations": {
+              "concurrent_request": 259
+            },
+            "success_count": 259
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 177.0256,
+              "mean": 140.2042,
+              "min": 119.3893,
+              "p50": 141.2019,
+              "p95": 173.9904,
+              "p99": 176.4186
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 180.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 35,
+        "start_s": 175.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.333,
+          "cpu_busy_pct_max": 44.0,
+          "gpu_temp_c_max": 48.75,
+          "gr3d_freq_pct_avg": 39.2,
+          "gr3d_freq_pct_max": 84.0,
+          "max_temp_c": 48.75,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3642.4,
+          "ram_used_mb_max": 3644.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8058.6,
+          "vdd_in_mw_max": 8186.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 265,
+            "latency_ms": {
+              "count": 265,
+              "max": 194.6274,
+              "mean": 141.9497,
+              "min": 75.1048,
+              "p50": 140.3254,
+              "p95": 176.9072,
+              "p99": 189.5857
+            },
+            "operations": {
+              "concurrent_request": 265
+            },
+            "success_count": 265
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 170.7614,
+              "mean": 138.6384,
+              "min": 116.6827,
+              "p50": 129.7939,
+              "p95": 169.5808,
+              "p99": 170.5253
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 185.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 36,
+        "start_s": 180.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.033,
+          "cpu_busy_pct_max": 50.0,
+          "gpu_temp_c_max": 48.843,
+          "gr3d_freq_pct_avg": 58.2,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 48.843,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3644.0,
+          "ram_used_mb_max": 3644.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8122.6,
+          "vdd_in_mw_max": 8306.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 261,
+            "latency_ms": {
+              "count": 261,
+              "max": 183.5337,
+              "mean": 140.3156,
+              "min": 88.4689,
+              "p50": 138.3198,
+              "p95": 168.4724,
+              "p99": 180.3892
+            },
+            "operations": {
+              "concurrent_request": 261
+            },
+            "success_count": 261
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 175.7357,
+              "mean": 146.8121,
+              "min": 120.4829,
+              "p50": 142.4068,
+              "p95": 173.495,
+              "p99": 175.2876
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 190.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 37,
+        "start_s": 185.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.433,
+          "cpu_busy_pct_max": 46.0,
+          "gpu_temp_c_max": 48.562,
+          "gr3d_freq_pct_avg": 67.6,
+          "gr3d_freq_pct_max": 84.0,
+          "max_temp_c": 48.562,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3644.0,
+          "ram_used_mb_max": 3644.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8138.4,
+          "vdd_in_mw_max": 8426.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 204.4763,
+              "mean": 141.2865,
+              "min": 86.939,
+              "p50": 141.4835,
+              "p95": 176.4854,
+              "p99": 199.5122
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 161.169,
+              "mean": 131.9779,
+              "min": 106.35,
+              "p50": 135.3202,
+              "p95": 154.8068,
+              "p99": 159.8966
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 195.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": true
+        },
+        "index": 38,
+        "start_s": 190.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.5,
+          "cpu_busy_pct_max": 59.0,
+          "gpu_temp_c_max": 48.562,
+          "gr3d_freq_pct_avg": 54.4,
+          "gr3d_freq_pct_max": 75.0,
+          "max_temp_c": 48.562,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3653.4,
+          "ram_used_mb_max": 3667.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7976.0,
+          "vdd_in_mw_max": 8771.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 237,
+            "latency_ms": {
+              "count": 237,
+              "max": 457.1652,
+              "mean": 157.4686,
+              "min": 62.1589,
+              "p50": 149.6885,
+              "p95": 189.9481,
+              "p99": 440.3267
+            },
+            "operations": {
+              "concurrent_request": 237
+            },
+            "success_count": 237
+          },
+          "fastapi_whisper": {
+            "error_count": 0,
+            "event_count": 1,
+            "latency_ms": {
+              "count": 1,
+              "max": 2177.9319,
+              "mean": 2177.9319,
+              "min": 2177.9319,
+              "p50": 2177.9319,
+              "p95": 2177.9319,
+              "p99": 2177.9319
+            },
+            "operations": {
+              "transcription_burst": 1
+            },
+            "success_count": 1
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 156.4671,
+              "mean": 135.704,
+              "min": 108.0541,
+              "p50": 138.8338,
+              "p95": 149.2091,
+              "p99": 155.0155
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 200.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 39,
+        "start_s": 195.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.8,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 48.562,
+          "gr3d_freq_pct_avg": 59.0,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 48.562,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3645.2,
+          "ram_used_mb_max": 3647.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8122.6,
+          "vdd_in_mw_max": 8306.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 260,
+            "latency_ms": {
+              "count": 260,
+              "max": 193.551,
+              "mean": 141.6886,
+              "min": 93.2692,
+              "p50": 140.5653,
+              "p95": 173.4849,
+              "p99": 182.6103
+            },
+            "operations": {
+              "concurrent_request": 260
+            },
+            "success_count": 260
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 178.0798,
+              "mean": 143.9383,
+              "min": 115.6092,
+              "p50": 141.0308,
+              "p95": 177.4686,
+              "p99": 177.9576
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 205.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 40,
+        "start_s": 200.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.167,
+          "cpu_busy_pct_max": 49.0,
+          "gpu_temp_c_max": 48.656,
+          "gr3d_freq_pct_avg": 64.4,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 48.75,
+          "max_temp_name": "tj",
+          "ram_used_mb_avg": 3644.8,
+          "ram_used_mb_max": 3645.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8146.6,
+          "vdd_in_mw_max": 8386.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 263,
+            "latency_ms": {
+              "count": 263,
+              "max": 176.7086,
+              "mean": 141.1165,
+              "min": 67.6543,
+              "p50": 141.3308,
+              "p95": 161.2494,
+              "p99": 169.0088
+            },
+            "operations": {
+              "concurrent_request": 263
+            },
+            "success_count": 263
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 189.2701,
+              "mean": 144.5158,
+              "min": 130.3367,
+              "p50": 138.4196,
+              "p95": 179.8484,
+              "p99": 187.3858
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 210.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 41,
+        "start_s": 205.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.067,
+          "cpu_busy_pct_max": 46.0,
+          "gpu_temp_c_max": 48.781,
+          "gr3d_freq_pct_avg": 56.2,
+          "gr3d_freq_pct_max": 71.0,
+          "max_temp_c": 48.781,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3645.0,
+          "ram_used_mb_max": 3645.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8034.8,
+          "vdd_in_mw_max": 8146.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 260,
+            "latency_ms": {
+              "count": 260,
+              "max": 187.5694,
+              "mean": 143.5146,
+              "min": 99.5647,
+              "p50": 142.5652,
+              "p95": 170.8254,
+              "p99": 181.2212
+            },
+            "operations": {
+              "concurrent_request": 260
+            },
+            "success_count": 260
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 175.9115,
+              "mean": 137.2093,
+              "min": 114.7472,
+              "p50": 130.6013,
+              "p95": 171.3583,
+              "p99": 175.0009
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 215.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 42,
+        "start_s": 210.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.125,
+          "cpu_busy_pct_max": 46.0,
+          "gpu_temp_c_max": 48.812,
+          "gr3d_freq_pct_avg": 53.5,
+          "gr3d_freq_pct_max": 93.0,
+          "max_temp_c": 48.812,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3645.0,
+          "ram_used_mb_max": 3645.0,
+          "sample_count": 4,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8116.25,
+          "vdd_in_mw_max": 8226.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 180.3005,
+              "mean": 141.0529,
+              "min": 90.1788,
+              "p50": 140.5547,
+              "p95": 164.2513,
+              "p99": 176.3188
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 189.2076,
+              "mean": 143.9493,
+              "min": 120.3153,
+              "p50": 140.7466,
+              "p95": 179.4314,
+              "p99": 187.2524
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 220.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 43,
+        "start_s": 215.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.733,
+          "cpu_busy_pct_max": 51.0,
+          "gpu_temp_c_max": 49.093,
+          "gr3d_freq_pct_avg": 55.8,
+          "gr3d_freq_pct_max": 81.0,
+          "max_temp_c": 49.093,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3645.0,
+          "ram_used_mb_max": 3645.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8114.6,
+          "vdd_in_mw_max": 8306.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 261,
+            "latency_ms": {
+              "count": 261,
+              "max": 191.9937,
+              "mean": 142.8337,
+              "min": 51.7189,
+              "p50": 143.6196,
+              "p95": 169.857,
+              "p99": 180.3383
+            },
+            "operations": {
+              "concurrent_request": 261
+            },
+            "success_count": 261
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 169.2327,
+              "mean": 144.8429,
+              "min": 120.1284,
+              "p50": 142.8806,
+              "p95": 167.1038,
+              "p99": 168.8069
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 225.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 44,
+        "start_s": 220.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.033,
+          "cpu_busy_pct_max": 53.0,
+          "gpu_temp_c_max": 49.156,
+          "gr3d_freq_pct_avg": 44.8,
+          "gr3d_freq_pct_max": 66.0,
+          "max_temp_c": 49.156,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3645.4,
+          "ram_used_mb_max": 3646.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8239.6,
+          "vdd_in_mw_max": 8612.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 271,
+            "latency_ms": {
+              "count": 271,
+              "max": 182.8268,
+              "mean": 135.6956,
+              "min": 76.2238,
+              "p50": 137.8173,
+              "p95": 162.3136,
+              "p99": 173.7278
+            },
+            "operations": {
+              "concurrent_request": 271
+            },
+            "success_count": 271
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 175.6086,
+              "mean": 147.3424,
+              "min": 122.4896,
+              "p50": 141.9272,
+              "p95": 174.0469,
+              "p99": 175.2963
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 230.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 45,
+        "start_s": 225.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 38.833,
+          "cpu_busy_pct_max": 51.0,
+          "gpu_temp_c_max": 48.812,
+          "gr3d_freq_pct_avg": 54.8,
+          "gr3d_freq_pct_max": 91.0,
+          "max_temp_c": 48.812,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3646.0,
+          "ram_used_mb_max": 3646.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8090.8,
+          "vdd_in_mw_max": 8186.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 198.2031,
+              "mean": 139.8916,
+              "min": 73.0268,
+              "p50": 138.7464,
+              "p95": 170.0014,
+              "p99": 182.666
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 155.9113,
+              "mean": 138.4562,
+              "min": 117.2349,
+              "p50": 139.1693,
+              "p95": 154.4529,
+              "p99": 155.6196
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 235.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 46,
+        "start_s": 230.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.333,
+          "cpu_busy_pct_max": 57.0,
+          "gpu_temp_c_max": 48.875,
+          "gr3d_freq_pct_avg": 40.2,
+          "gr3d_freq_pct_max": 70.0,
+          "max_temp_c": 48.875,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3646.4,
+          "ram_used_mb_max": 3647.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7869.4,
+          "vdd_in_mw_max": 8306.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 246,
+            "latency_ms": {
+              "count": 246,
+              "max": 506.1573,
+              "mean": 151.8947,
+              "min": 86.6551,
+              "p50": 140.8879,
+              "p95": 181.2463,
+              "p99": 466.357
+            },
+            "operations": {
+              "concurrent_request": 246
+            },
+            "success_count": 246
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 157.0758,
+              "mean": 133.753,
+              "min": 114.9588,
+              "p50": 133.0437,
+              "p95": 153.141,
+              "p99": 156.2888
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 240.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 47,
+        "start_s": 235.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 36.6,
+          "cpu_busy_pct_max": 49.0,
+          "gpu_temp_c_max": 48.843,
+          "gr3d_freq_pct_avg": 66.2,
+          "gr3d_freq_pct_max": 94.0,
+          "max_temp_c": 48.843,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3647.6,
+          "ram_used_mb_max": 3648.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7938.8,
+          "vdd_in_mw_max": 8226.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 251,
+            "latency_ms": {
+              "count": 251,
+              "max": 356.1736,
+              "mean": 148.1474,
+              "min": 77.6017,
+              "p50": 144.2408,
+              "p95": 185.0739,
+              "p99": 349.4817
+            },
+            "operations": {
+              "concurrent_request": 251
+            },
+            "success_count": 251
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 170.8099,
+              "mean": 141.8487,
+              "min": 114.5096,
+              "p50": 137.9,
+              "p95": 167.0798,
+              "p99": 170.0639
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 245.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 48,
+        "start_s": 240.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.867,
+          "cpu_busy_pct_max": 48.0,
+          "gpu_temp_c_max": 49.125,
+          "gr3d_freq_pct_avg": 57.0,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 49.125,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3648.0,
+          "ram_used_mb_max": 3648.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8234.2,
+          "vdd_in_mw_max": 8426.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 266,
+            "latency_ms": {
+              "count": 266,
+              "max": 171.9403,
+              "mean": 139.652,
+              "min": 82.5402,
+              "p50": 139.2078,
+              "p95": 160.7403,
+              "p99": 168.1857
+            },
+            "operations": {
+              "concurrent_request": 266
+            },
+            "success_count": 266
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 163.0006,
+              "mean": 137.7381,
+              "min": 110.7832,
+              "p50": 136.2582,
+              "p95": 162.4647,
+              "p99": 162.8934
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 250.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 49,
+        "start_s": 245.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.367,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 49.093,
+          "gr3d_freq_pct_avg": 54.2,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 49.093,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3648.0,
+          "ram_used_mb_max": 3648.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8127.8,
+          "vdd_in_mw_max": 8452.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 263,
+            "latency_ms": {
+              "count": 263,
+              "max": 194.5686,
+              "mean": 141.8323,
+              "min": 89.472,
+              "p50": 140.3293,
+              "p95": 168.4985,
+              "p99": 186.6394
+            },
+            "operations": {
+              "concurrent_request": 263
+            },
+            "success_count": 263
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 173.7361,
+              "mean": 143.0805,
+              "min": 119.812,
+              "p50": 137.3787,
+              "p95": 173.0175,
+              "p99": 173.5924
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 255.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 50,
+        "start_s": 250.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.733,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 49.187,
+          "gr3d_freq_pct_avg": 30.0,
+          "gr3d_freq_pct_max": 47.0,
+          "max_temp_c": 49.187,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3648.0,
+          "ram_used_mb_max": 3648.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8146.2,
+          "vdd_in_mw_max": 8266.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 261,
+            "latency_ms": {
+              "count": 261,
+              "max": 185.1987,
+              "mean": 142.1014,
+              "min": 99.2002,
+              "p50": 141.5192,
+              "p95": 172.4426,
+              "p99": 178.6937
+            },
+            "operations": {
+              "concurrent_request": 261
+            },
+            "success_count": 261
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 178.0866,
+              "mean": 147.6411,
+              "min": 113.7957,
+              "p50": 146.4075,
+              "p95": 174.8485,
+              "p99": 177.439
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 260.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 51,
+        "start_s": 255.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.1,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 49.218,
+          "gr3d_freq_pct_avg": 37.0,
+          "gr3d_freq_pct_max": 71.0,
+          "max_temp_c": 49.218,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3648.0,
+          "ram_used_mb_max": 3648.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8106.4,
+          "vdd_in_mw_max": 8266.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 259,
+            "latency_ms": {
+              "count": 259,
+              "max": 188.1931,
+              "mean": 141.4717,
+              "min": 96.4924,
+              "p50": 140.8378,
+              "p95": 165.5837,
+              "p99": 177.6603
+            },
+            "operations": {
+              "concurrent_request": 259
+            },
+            "success_count": 259
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 181.0214,
+              "mean": 142.0982,
+              "min": 117.3567,
+              "p50": 134.8482,
+              "p95": 173.896,
+              "p99": 179.5963
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 265.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 52,
+        "start_s": 260.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.333,
+          "cpu_busy_pct_max": 44.0,
+          "gpu_temp_c_max": 49.125,
+          "gr3d_freq_pct_avg": 65.2,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 49.125,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3648.4,
+          "ram_used_mb_max": 3649.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8082.4,
+          "vdd_in_mw_max": 8306.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 263,
+            "latency_ms": {
+              "count": 263,
+              "max": 178.4981,
+              "mean": 142.3906,
+              "min": 88.5971,
+              "p50": 143.0172,
+              "p95": 164.2544,
+              "p99": 173.354
+            },
+            "operations": {
+              "concurrent_request": 263
+            },
+            "success_count": 263
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 176.2571,
+              "mean": 149.0354,
+              "min": 121.7138,
+              "p50": 149.9125,
+              "p95": 176.0555,
+              "p99": 176.2168
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 270.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 53,
+        "start_s": 265.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.9,
+          "cpu_busy_pct_max": 49.0,
+          "gpu_temp_c_max": 49.125,
+          "gr3d_freq_pct_avg": 64.2,
+          "gr3d_freq_pct_max": 90.0,
+          "max_temp_c": 49.125,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3649.0,
+          "ram_used_mb_max": 3649.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8122.6,
+          "vdd_in_mw_max": 8226.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 263,
+            "latency_ms": {
+              "count": 263,
+              "max": 191.1658,
+              "mean": 142.4819,
+              "min": 85.6442,
+              "p50": 141.981,
+              "p95": 175.3027,
+              "p99": 183.093
+            },
+            "operations": {
+              "concurrent_request": 263
+            },
+            "success_count": 263
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 176.1169,
+              "mean": 138.511,
+              "min": 113.3696,
+              "p50": 137.3934,
+              "p95": 168.6326,
+              "p99": 174.62
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 275.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 54,
+        "start_s": 270.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.233,
+          "cpu_busy_pct_max": 49.0,
+          "gpu_temp_c_max": 49.187,
+          "gr3d_freq_pct_avg": 57.6,
+          "gr3d_freq_pct_max": 81.0,
+          "max_temp_c": 49.187,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3649.0,
+          "ram_used_mb_max": 3649.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8050.8,
+          "vdd_in_mw_max": 8146.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 256,
+            "latency_ms": {
+              "count": 256,
+              "max": 186.0322,
+              "mean": 143.2709,
+              "min": 96.6435,
+              "p50": 142.9627,
+              "p95": 167.1893,
+              "p99": 182.8329
+            },
+            "operations": {
+              "concurrent_request": 256
+            },
+            "success_count": 256
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 170.9561,
+              "mean": 139.7305,
+              "min": 120.9468,
+              "p50": 132.5788,
+              "p95": 167.3412,
+              "p99": 170.2331
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 280.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 55,
+        "start_s": 275.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.333,
+          "cpu_busy_pct_max": 48.0,
+          "gpu_temp_c_max": 49.281,
+          "gr3d_freq_pct_avg": 38.4,
+          "gr3d_freq_pct_max": 77.0,
+          "max_temp_c": 49.281,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3649.4,
+          "ram_used_mb_max": 3650.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 7986.6,
+          "vdd_in_mw_max": 8346.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 249,
+            "latency_ms": {
+              "count": 249,
+              "max": 456.8007,
+              "mean": 150.5813,
+              "min": 85.7011,
+              "p50": 141.0498,
+              "p95": 168.8194,
+              "p99": 448.4338
+            },
+            "operations": {
+              "concurrent_request": 249
+            },
+            "success_count": 249
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 167.108,
+              "mean": 136.1369,
+              "min": 87.6079,
+              "p50": 139.1557,
+              "p95": 164.7892,
+              "p99": 166.6442
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 285.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 56,
+        "start_s": 280.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 38.633,
+          "cpu_busy_pct_max": 46.0,
+          "gpu_temp_c_max": 49.343,
+          "gr3d_freq_pct_avg": 64.0,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 49.343,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3651.0,
+          "ram_used_mb_max": 3651.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8058.8,
+          "vdd_in_mw_max": 8146.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 261,
+            "latency_ms": {
+              "count": 261,
+              "max": 192.5195,
+              "mean": 143.4055,
+              "min": 53.5231,
+              "p50": 145.5046,
+              "p95": 168.0608,
+              "p99": 179.0768
+            },
+            "operations": {
+              "concurrent_request": 261
+            },
+            "success_count": 261
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 12,
+            "latency_ms": {
+              "count": 12,
+              "max": 188.7093,
+              "mean": 147.4641,
+              "min": 121.5221,
+              "p50": 141.8685,
+              "p95": 183.5345,
+              "p99": 187.6743
+            },
+            "operations": {
+              "file_image_detection": 12
+            },
+            "success_count": 12
+          }
+        }
+      },
+      {
+        "end_s": 290.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 57,
+        "start_s": 285.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.167,
+          "cpu_busy_pct_max": 47.0,
+          "gpu_temp_c_max": 49.468,
+          "gr3d_freq_pct_avg": 65.4,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 49.468,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3651.0,
+          "ram_used_mb_max": 3651.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8130.6,
+          "vdd_in_mw_max": 8266.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 258,
+            "latency_ms": {
+              "count": 258,
+              "max": 196.1163,
+              "mean": 141.4671,
+              "min": 83.3687,
+              "p50": 142.3575,
+              "p95": 168.566,
+              "p99": 179.4108
+            },
+            "operations": {
+              "concurrent_request": 258
+            },
+            "success_count": 258
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 165.1982,
+              "mean": 139.8159,
+              "min": 116.0278,
+              "p50": 141.3875,
+              "p95": 162.3815,
+              "p99": 164.6349
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 295.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 58,
+        "start_s": 290.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 39.267,
+          "cpu_busy_pct_max": 46.0,
+          "gpu_temp_c_max": 49.75,
+          "gr3d_freq_pct_avg": 49.2,
+          "gr3d_freq_pct_max": 97.0,
+          "max_temp_c": 49.75,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3651.0,
+          "ram_used_mb_max": 3651.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8151.6,
+          "vdd_in_mw_max": 8452.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 264,
+            "latency_ms": {
+              "count": 264,
+              "max": 195.8974,
+              "mean": 142.5305,
+              "min": 88.6388,
+              "p50": 142.6703,
+              "p95": 173.1836,
+              "p99": 190.0101
+            },
+            "operations": {
+              "concurrent_request": 264
+            },
+            "success_count": 264
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 175.1583,
+              "mean": 143.6257,
+              "min": 116.4969,
+              "p50": 139.4694,
+              "p95": 174.5114,
+              "p99": 175.0289
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 300.0,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 59,
+        "start_s": 295.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 40.733,
+          "cpu_busy_pct_max": 50.0,
+          "gpu_temp_c_max": 49.468,
+          "gr3d_freq_pct_avg": 73.6,
+          "gr3d_freq_pct_max": 98.0,
+          "max_temp_c": 49.468,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3651.0,
+          "ram_used_mb_max": 3651.0,
+          "sample_count": 5,
+          "status": "parsed",
+          "vdd_in_mw_avg": 8237.0,
+          "vdd_in_mw_max": 8492.0
+        },
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 266,
+            "latency_ms": {
+              "count": 266,
+              "max": 183.794,
+              "mean": 139.1947,
+              "min": 83.2051,
+              "p50": 138.9677,
+              "p95": 166.3794,
+              "p99": 174.4485
+            },
+            "operations": {
+              "concurrent_request": 266
+            },
+            "success_count": 266
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 13,
+            "latency_ms": {
+              "count": 13,
+              "max": 169.536,
+              "mean": 138.7578,
+              "min": 124.0622,
+              "p50": 132.0642,
+              "p95": 159.001,
+              "p99": 167.429
+            },
+            "operations": {
+              "file_image_detection": 13
+            },
+            "success_count": 13
+          }
+        }
+      },
+      {
+        "end_s": 300.08,
+        "flags": {
+          "event_errors": 0,
+          "telemetry_present": true,
+          "whisper_active": false
+        },
+        "index": 60,
+        "start_s": 300.0,
+        "telemetry": {
+          "cpu_busy_pct_avg": 18.792,
+          "cpu_busy_pct_max": 100.0,
+          "gpu_temp_c_max": 48.781,
+          "gr3d_freq_pct_avg": 0.0,
+          "gr3d_freq_pct_max": 0.0,
+          "max_temp_c": 48.781,
+          "max_temp_name": "gpu",
+          "ram_used_mb_avg": 3014.0,
+          "ram_used_mb_max": 3671.0,
+          "sample_count": 4,
+          "status": "parsed",
+          "vdd_in_mw_avg": 5338.0,
+          "vdd_in_mw_max": 5840.0
+        },
+        "workloads": {}
+      }
+    ],
+    "duration_s": 300.08,
+    "interpretation": {
+      "accuracy_claim": false,
+      "deployment_ready_claim": false,
+      "notes": [
+        "Timeline buckets align workload events and tegrastats telemetry for runtime interaction analysis.",
+        "Bucket summaries are not a production capacity plan or direct regression comparison."
+      ],
+      "production_stress_test_claim": false
+    },
+    "run_finished_at": "2026-05-18T01:41:33+09:00",
+    "run_start_estimated_at": "2026-05-18T01:36:32+09:00",
+    "source_event_count": 16226,
+    "status": "succeeded",
+    "success": true,
+    "task": "multi_workload_runtime_timeline_export",
+    "telemetry_sample_count": 309,
+    "telemetry_summary": {
+      "cpu_busy_pct_avg": 39.083,
+      "cpu_busy_pct_max": 100.0,
+      "gpu_temp_c_max": 49.75,
+      "gr3d_freq_pct_avg": 52.612,
+      "gr3d_freq_pct_max": 99.0,
+      "max_temp_c": 49.75,
+      "max_temp_name": "gpu",
+      "ram_used_mb_avg": 3433.589,
+      "ram_used_mb_max": 3671.0,
+      "sample_count": 309,
+      "status": "parsed",
+      "vdd_in_mw_avg": 7978.372,
+      "vdd_in_mw_max": 9050.0
+    },
+    "top_latency_buckets": [
+      {
+        "bucket_index": 12,
+        "max_ms": 9437.4952,
+        "workload": "fastapi_whisper"
+      },
+      {
+        "bucket_index": 25,
+        "max_ms": 2937.1685,
+        "workload": "fastapi_whisper"
+      },
+      {
+        "bucket_index": 38,
+        "max_ms": 2177.9319,
+        "workload": "fastapi_whisper"
+      },
+      {
+        "bucket_index": 0,
+        "max_ms": 1690.4935,
+        "workload": "yolo_detection"
+      },
+      {
+        "bucket_index": 13,
+        "max_ms": 883.8447,
+        "workload": "fastapi_resnet18"
+      },
+      {
+        "bucket_index": 0,
+        "max_ms": 825.2628,
+        "workload": "fastapi_resnet18"
+      },
+      {
+        "bucket_index": 12,
+        "max_ms": 534.4199,
+        "workload": "fastapi_resnet18"
+      },
+      {
+        "bucket_index": 46,
+        "max_ms": 506.1573,
+        "workload": "fastapi_resnet18"
+      },
+      {
+        "bucket_index": 21,
+        "max_ms": 494.8059,
+        "workload": "fastapi_resnet18"
+      },
+      {
+        "bucket_index": 29,
+        "max_ms": 478.9289,
+        "workload": "fastapi_resnet18"
+      }
+    ],
+    "whisper_bursts": [
+      {
+        "burst_index": 0,
+        "duration_ms": 9437.4952,
+        "ended_at_s": 69.4856,
+        "ok": true,
+        "started_at_s": 60.0481
+      },
+      {
+        "burst_index": 1,
+        "duration_ms": 2937.1685,
+        "ended_at_s": 132.4806,
+        "ok": true,
+        "started_at_s": 129.5435
+      },
+      {
+        "burst_index": 2,
+        "duration_ms": 2177.9319,
+        "ended_at_s": 194.7179,
+        "ok": true,
+        "started_at_s": 192.54
+      }
+    ],
+    "workload_totals": {
+      "fastapi_resnet18": {
+        "error_count": 0,
+        "event_count": 15472,
+        "latency_ms": {
+          "count": 15472,
+          "max": 883.8447,
+          "mean": 144.1454,
+          "min": 51.7189,
+          "p50": 141.2258,
+          "p95": 173.0672,
+          "p99": 226.3634
+        },
+        "operations": {
+          "concurrent_request": 15472
+        },
+        "success_count": 15472
+      },
+      "fastapi_whisper": {
+        "error_count": 0,
+        "event_count": 3,
+        "latency_ms": {
+          "count": 3,
+          "max": 9437.4952,
+          "mean": 4850.8652,
+          "min": 2177.9319,
+          "p50": 2937.1685,
+          "p95": 8787.4625,
+          "p99": 9307.4887
+        },
+        "operations": {
+          "transcription_burst": 3
+        },
+        "success_count": 3
+      },
+      "yolo_detection": {
+        "error_count": 0,
+        "event_count": 751,
+        "latency_ms": {
+          "count": 751,
+          "max": 1690.4935,
+          "mean": 142.3628,
+          "min": 62.5449,
+          "p50": 139.257,
+          "p95": 173.2865,
+          "p99": 184.0366
+        },
+        "operations": {
+          "file_image_detection": 751
+        },
+        "success_count": 751
+      }
+    }
+  }
+}

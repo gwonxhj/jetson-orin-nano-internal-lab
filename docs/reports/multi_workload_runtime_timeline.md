@@ -1,6 +1,6 @@
 # Multi-Workload Runtime Timeline Export
 
-> 30-minute sustained multi-workload evidence를 workload event + `tegrastats` bucket timeline으로 정리한 보고서입니다.
+> multi-workload evidence를 workload event + `tegrastats` bucket timeline으로 정리한 보고서입니다.
 > 이 timeline은 runtime interaction 분석용 evidence이며 production capacity plan이 아닙니다.
 
 ## Source
