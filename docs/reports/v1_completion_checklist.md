@@ -10,7 +10,7 @@
 | Runtime/provider comparison | Closed as bounded runtime comparison | [ResNet18 runtime matrix summary](resnet18_runtime_matrix_summary.md), [Runtime comparison](runtime_comparison.md) |
 | Lightweight workloads | Closed as individual path evidence | [YOLO detection smoke](yolo_detection_smoke.md), [Whisper speech smoke](whisper_speech_transcription_smoke.md), [LLM text generation smoke](llm_text_generation_smoke.md) |
 | Serving layer | Closed as localhost serving evidence | [FastAPI API usage](fastapi_api_usage.md), [FastAPI soak/burst](fastapi_soak_burst.md), [Serving boundary notes](serving_boundary_notes.md) |
-| Multi-workload interaction | Closed as 30-second probe, 10-minute sustained run, 30-minute V1 gap run, and compact runtime timeline export | [Multi-workload sustained runtime](multi_workload_sustained_runtime.md), [Multi-workload runtime timeline](multi_workload_runtime_timeline.md), [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md) |
+| Multi-workload interaction | Closed as 30-second probe, 10-minute sustained run, 30-minute V1 gap run, compact runtime timeline export, and p99/burst-window report | [Multi-workload sustained runtime](multi_workload_sustained_runtime.md), [Multi-workload runtime timeline](multi_workload_runtime_timeline.md), [Multi-workload burst window report](multi_workload_burst_window_report.md), [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md) |
 | InferEdge handoff | Closed for current evidence roles | [InferEdge schema validation](inferedge_schema_validation.md), [Portfolio evidence index](portfolio_evidence_index.md) |
 
 ## V1 Definition
@@ -25,7 +25,7 @@ V1 does not mean production serving, robotics readiness, high accuracy, high ava
 |---:|---|---|---|---|
 | 1 | Longer sustained runtime | One 30-minute multi-workload run with YOLO loop, FastAPI ResNet18 concurrency, FastAPI Whisper burst, and `tegrastats` telemetry. | Closed by `multi_workload_sustained_20260518_002910`: 1800.0892s, 0 errors, raw logs, JSON result, Markdown report, and InferEdge export preserved. | Proceed to runtime timeline export. |
 | 2 | Runtime timeline export | A compact timeline file that aligns workload events, latency windows, and `tegrastats` samples by timestamp. | Closed by `multi_workload_timeline_20260518_002910`: 181 buckets, 35,935 workload events, 1,799 `tegrastats` samples. | Proceed to p99 and burst-window reporting. |
-| 3 | Latency distribution detail | Per-workload p50/p95/p99/max and before/during/after burst windows are reported in a way that can be compared across runs. | Current summaries include core latency stats and during/after ratios. | Extend the report/export with p99 and explicit burst-window tables. |
+| 3 | Latency distribution detail | Per-workload p50/p95/p99/max and before/during/after burst windows are reported in a way that can be compared across runs. | Closed by `multi_workload_burst_windows_20260518_002910`: 5 Whisper bursts, event-level p50/p95/p99/max, and telemetry deltas across before/during/after windows. | Proceed to bounded runtime degradation signal. |
 | 4 | Runtime degradation signal | At least one bounded overload or contention scenario records latency spike, resource pressure, queue buildup, dropped request, or fallback behavior. | No deliberate overload/degradation scenario yet. | Add an opt-in overload mode; label it as reliability signal evidence, not production stress proof. |
 | 5 | Queue/serving observability | Serving evidence includes request counts, error counts, queue/backlog proxy, and dropped/failed request count. | `/metrics` and request counts exist; queue depth/backlog is not explicit. | Add lightweight in-process counters or client-side outstanding-request timeline. |
 | 6 | InferEdge consumer handoff | Multi-workload artifacts have a documented handoff path for InferEdge Runtime/Orchestrator/AIGuard/Lab. | `metadata.json` / `result.json` exist; ecosystem consumer mapping is not fully documented. | Add a short mapping report that explains which fields each InferEdge component should consume. |
@@ -36,8 +36,8 @@ V1 does not mean production serving, robotics readiness, high accuracy, high ava
 
 1. Done: produce a 30-minute sustained multi-workload run.
 2. Done: add timeline export for that run.
-3. Next: add p99/burst-window reporting.
-4. Add one opt-in overload/degradation scenario.
+3. Done: add p99/burst-window reporting.
+4. Next: add one opt-in overload/degradation scenario.
 5. Export the new results through the existing InferEdge-compatible handoff path.
 6. Document InferEdge ecosystem consumer mapping.
 7. Cut a V1 release only after schema validation and public-safety checks pass.

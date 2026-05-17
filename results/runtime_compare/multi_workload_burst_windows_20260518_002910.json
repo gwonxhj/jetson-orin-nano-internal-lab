@@ -1,0 +1,1736 @@
+{
+  "metadata": {
+    "after_window_sec": 60.0,
+    "before_window_sec": 60.0,
+    "export_workspace_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "2bfa9a5"
+    },
+    "generated_at": "2026-05-18T01:23:58+09:00",
+    "hostname": "jetson-orin-nano",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "schema_version": "multi-workload-burst-window-report-v1",
+    "source_git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "4cda9bd"
+    },
+    "source_json": "results/runtime_compare/multi_workload_sustained_20260518_002910.json",
+    "source_sha256": "877d5861fb9b4e0e33c2730bfb83f9940effeb93ed740d953db376639af206d8",
+    "timeline_json": "results/runtime_compare/multi_workload_timeline_20260518_002910.json",
+    "timeline_sha256": "85214b9ac4e6a5c8655bcfc75dbf480e9f02fa2746b8311825127100a546514f"
+  },
+  "result": {
+    "aggregate_by_phase": {
+      "after": {
+        "phase": "after",
+        "telemetry": {
+          "bucket_count": 35,
+          "cpu_busy_pct_avg": 12.937,
+          "cpu_busy_pct_max": 71.0,
+          "gpu_temp_c_max": 45.406,
+          "gr3d_freq_pct_avg": 35.467,
+          "gr3d_freq_pct_max": 99.0,
+          "ram_used_mb_avg": 3561.281,
+          "ram_used_mb_max": 3741.0,
+          "sample_count": 348,
+          "status": "parsed",
+          "vdd_in_mw_avg": 5639.692,
+          "vdd_in_mw_max": 6690.0
+        },
+        "window_count": 5,
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 5818,
+            "latency_ms": {
+              "count": 5818,
+              "max": 102.0006,
+              "mean": 52.5921,
+              "min": 24.7786,
+              "p50": 53.3284,
+              "p95": 65.5952,
+              "p99": 82.7925
+            },
+            "operations": {
+              "concurrent_request": 5818
+            },
+            "success_count": 5818
+          },
+          "fastapi_whisper": {
+            "error_count": 0,
+            "event_count": 0,
+            "latency_ms": {
+              "count": 0,
+              "max": null,
+              "mean": null,
+              "min": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "operations": {},
+            "success_count": 0
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 268,
+            "latency_ms": {
+              "count": 268,
+              "max": 148.596,
+              "mean": 116.2763,
+              "min": 65.675,
+              "p50": 115.5403,
+              "p95": 143.8211,
+              "p99": 146.7603
+            },
+            "operations": {
+              "file_image_detection": 268
+            },
+            "success_count": 268
+          }
+        }
+      },
+      "before": {
+        "phase": "before",
+        "telemetry": {
+          "bucket_count": 35,
+          "cpu_busy_pct_avg": 12.868,
+          "cpu_busy_pct_max": 71.0,
+          "gpu_temp_c_max": 45.343,
+          "gr3d_freq_pct_avg": 34.384,
+          "gr3d_freq_pct_max": 99.0,
+          "ram_used_mb_avg": 3444.917,
+          "ram_used_mb_max": 3705.0,
+          "sample_count": 347,
+          "status": "parsed",
+          "vdd_in_mw_avg": 5626.243,
+          "vdd_in_mw_max": 6690.0
+        },
+        "window_count": 5,
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 5702,
+            "latency_ms": {
+              "count": 5702,
+              "max": 94.8332,
+              "mean": 54.6079,
+              "min": 44.4333,
+              "p50": 53.5299,
+              "p95": 68.0136,
+              "p99": 83.7897
+            },
+            "operations": {
+              "concurrent_request": 5702
+            },
+            "success_count": 5702
+          },
+          "fastapi_whisper": {
+            "error_count": 0,
+            "event_count": 0,
+            "latency_ms": {
+              "count": 0,
+              "max": null,
+              "mean": null,
+              "min": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "operations": {},
+            "success_count": 0
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 268,
+            "latency_ms": {
+              "count": 268,
+              "max": 149.413,
+              "mean": 115.5925,
+              "min": 64.4289,
+              "p50": 115.5444,
+              "p95": 143.8888,
+              "p99": 147.3715
+            },
+            "operations": {
+              "file_image_detection": 268
+            },
+            "success_count": 268
+          }
+        }
+      },
+      "during": {
+        "phase": "during",
+        "telemetry": {
+          "bucket_count": 5,
+          "cpu_busy_pct_avg": 15.373,
+          "cpu_busy_pct_max": 71.0,
+          "gpu_temp_c_max": 45.281,
+          "gr3d_freq_pct_avg": 35.573,
+          "gr3d_freq_pct_max": 99.0,
+          "ram_used_mb_avg": 3515.489,
+          "ram_used_mb_max": 3705.0,
+          "sample_count": 49,
+          "status": "parsed",
+          "vdd_in_mw_avg": 5758.698,
+          "vdd_in_mw_max": 6690.0
+        },
+        "window_count": 5,
+        "workloads": {
+          "fastapi_resnet18": {
+            "error_count": 0,
+            "event_count": 102,
+            "latency_ms": {
+              "count": 102,
+              "max": 785.0608,
+              "mean": 77.377,
+              "min": 24.7308,
+              "p50": 49.001,
+              "p95": 177.8823,
+              "p99": 432.8287
+            },
+            "operations": {
+              "concurrent_request": 102
+            },
+            "success_count": 102
+          },
+          "fastapi_whisper": {
+            "error_count": 0,
+            "event_count": 5,
+            "latency_ms": {
+              "count": 5,
+              "max": 4243.5182,
+              "mean": 1313.5877,
+              "min": 539.4265,
+              "p50": 598.1001,
+              "p95": 3521.1574,
+              "p99": 4099.046
+            },
+            "operations": {
+              "transcription_burst": 5
+            },
+            "success_count": 5
+          },
+          "yolo_detection": {
+            "error_count": 0,
+            "event_count": 7,
+            "latency_ms": {
+              "count": 7,
+              "max": 114.2308,
+              "mean": 103.1943,
+              "min": 73.2315,
+              "p50": 109.0663,
+              "p95": 114.1083,
+              "p99": 114.2063
+            },
+            "operations": {
+              "file_image_detection": 7
+            },
+            "success_count": 7
+          }
+        }
+      }
+    },
+    "aggregate_deltas": {
+      "after_minus_before_latency_ms": {
+        "fastapi_resnet18": {
+          "max": 7.1674,
+          "p50": -0.2015,
+          "p95": -2.4184,
+          "p99": -0.9972
+        },
+        "fastapi_whisper": {
+          "max": null,
+          "p50": null,
+          "p95": null,
+          "p99": null
+        },
+        "yolo_detection": {
+          "max": -0.817,
+          "p50": -0.0041,
+          "p95": -0.0677,
+          "p99": -0.6112
+        }
+      },
+      "after_minus_before_telemetry": {
+        "cpu_busy_pct_avg": 0.069,
+        "cpu_busy_pct_max": 0.0,
+        "gpu_temp_c_max": 0.063,
+        "gr3d_freq_pct_avg": 1.083,
+        "gr3d_freq_pct_max": 0.0,
+        "ram_used_mb_avg": 116.364,
+        "ram_used_mb_max": 36.0,
+        "vdd_in_mw_avg": 13.449,
+        "vdd_in_mw_max": 0.0
+      },
+      "during_minus_before_latency_ms": {
+        "fastapi_resnet18": {
+          "max": 690.2276,
+          "p50": -4.5289,
+          "p95": 109.8687,
+          "p99": 349.039
+        },
+        "fastapi_whisper": {
+          "max": null,
+          "p50": null,
+          "p95": null,
+          "p99": null
+        },
+        "yolo_detection": {
+          "max": -35.1822,
+          "p50": -6.4781,
+          "p95": -29.7805,
+          "p99": -33.1652
+        }
+      },
+      "during_minus_before_telemetry": {
+        "cpu_busy_pct_avg": 2.505,
+        "cpu_busy_pct_max": 0.0,
+        "gpu_temp_c_max": -0.062,
+        "gr3d_freq_pct_avg": 1.189,
+        "gr3d_freq_pct_max": 0.0,
+        "ram_used_mb_avg": 70.572,
+        "ram_used_mb_max": 0.0,
+        "vdd_in_mw_avg": 132.455,
+        "vdd_in_mw_max": 0.0
+      }
+    },
+    "burst_count": 5,
+    "duration_s": 1800.0892,
+    "interpretation": {
+      "accuracy_claim": false,
+      "deployment_ready_claim": false,
+      "notes": [
+        "Burst-window reporting compares before/during/after windows around Whisper requests.",
+        "Latency statistics are event-level; telemetry summaries are timeline-bucket-level.",
+        "This is runtime reliability evidence, not a production stress or capacity result."
+      ],
+      "production_stress_test_claim": false
+    },
+    "status": "succeeded",
+    "success": true,
+    "task": "multi_workload_burst_window_report",
+    "windows": [
+      {
+        "after": {
+          "duration_s": 60.0,
+          "end_s": 364.2774,
+          "start_s": 304.2774,
+          "telemetry": {
+            "bucket_count": 7,
+            "cpu_busy_pct_avg": 13.375,
+            "cpu_busy_pct_max": 71.0,
+            "gpu_temp_c_max": 45.125,
+            "gr3d_freq_pct_avg": 34.841,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3363.825,
+            "ram_used_mb_max": 3393.0,
+            "sample_count": 69,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5636.732,
+            "vdd_in_mw_max": 6440.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 1146,
+              "latency_ms": {
+                "count": 1146,
+                "max": 89.4253,
+                "mean": 54.2841,
+                "min": 45.6713,
+                "p50": 53.4144,
+                "p95": 66.4,
+                "p99": 78.9757
+              },
+              "operations": {
+                "concurrent_request": 1146
+              },
+              "success_count": 1146
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 53,
+              "latency_ms": {
+                "count": 53,
+                "max": 146.9744,
+                "mean": 117.993,
+                "min": 92.8992,
+                "p50": 120.969,
+                "p95": 140.5695,
+                "p99": 144.9735
+              },
+              "operations": {
+                "file_image_detection": 53
+              },
+              "success_count": 53
+            }
+          }
+        },
+        "before": {
+          "duration_s": 60.0,
+          "end_s": 300.0338,
+          "start_s": 240.0338,
+          "telemetry": {
+            "bucket_count": 7,
+            "cpu_busy_pct_avg": 13.379,
+            "cpu_busy_pct_max": 71.0,
+            "gpu_temp_c_max": 44.906,
+            "gr3d_freq_pct_avg": 37.114,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 2916.9,
+            "ram_used_mb_max": 3391.0,
+            "sample_count": 70,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5629.171,
+            "vdd_in_mw_max": 6440.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 1140,
+              "latency_ms": {
+                "count": 1140,
+                "max": 94.1244,
+                "mean": 54.5949,
+                "min": 45.8968,
+                "p50": 53.4279,
+                "p95": 70.1765,
+                "p99": 84.5087
+              },
+              "operations": {
+                "concurrent_request": 1140
+              },
+              "success_count": 1140
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 54,
+              "latency_ms": {
+                "count": 54,
+                "max": 147.3641,
+                "mean": 119.2031,
+                "min": 95.053,
+                "p50": 115.3097,
+                "p95": 146.8374,
+                "p99": 147.3498
+              },
+              "operations": {
+                "file_image_detection": 54
+              },
+              "success_count": 54
+            }
+          }
+        },
+        "burst_duration_ms": 4243.5182,
+        "burst_index": 0,
+        "deltas": {
+          "after_minus_before_latency_ms": {
+            "fastapi_resnet18": {
+              "max": -4.6991,
+              "p50": -0.0135,
+              "p95": -3.7765,
+              "p99": -5.533
+            },
+            "fastapi_whisper": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "yolo_detection": {
+              "max": -0.3897,
+              "p50": 5.6593,
+              "p95": -6.2679,
+              "p99": -2.3763
+            }
+          },
+          "after_minus_before_telemetry": {
+            "cpu_busy_pct_avg": -0.004,
+            "cpu_busy_pct_max": 0.0,
+            "gpu_temp_c_max": 0.219,
+            "gr3d_freq_pct_avg": -2.273,
+            "gr3d_freq_pct_max": 0.0,
+            "ram_used_mb_avg": 446.925,
+            "ram_used_mb_max": 2.0,
+            "vdd_in_mw_avg": 7.561,
+            "vdd_in_mw_max": 0.0
+          },
+          "during_minus_before_latency_ms": {
+            "fastapi_resnet18": {
+              "max": 690.9364,
+              "p50": -0.0092,
+              "p95": 318.0766,
+              "p99": 503.5223
+            },
+            "fastapi_whisper": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "yolo_detection": {
+              "max": -33.1333,
+              "p50": -3.8653,
+              "p95": -32.6678,
+              "p99": -33.1312
+            }
+          },
+          "during_minus_before_telemetry": {
+            "cpu_busy_pct_avg": 5.588,
+            "cpu_busy_pct_max": 0.0,
+            "gpu_temp_c_max": -0.031,
+            "gr3d_freq_pct_avg": 1.086,
+            "gr3d_freq_pct_max": 0.0,
+            "ram_used_mb_avg": 297.5,
+            "ram_used_mb_max": 0.0,
+            "vdd_in_mw_avg": 175.329,
+            "vdd_in_mw_max": 0.0
+          }
+        },
+        "during": {
+          "duration_s": 4.2436,
+          "end_s": 304.2774,
+          "start_s": 300.0338,
+          "telemetry": {
+            "bucket_count": 1,
+            "cpu_busy_pct_avg": 18.967,
+            "cpu_busy_pct_max": 71.0,
+            "gpu_temp_c_max": 44.875,
+            "gr3d_freq_pct_avg": 38.2,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3214.4,
+            "ram_used_mb_max": 3391.0,
+            "sample_count": 10,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5804.5,
+            "vdd_in_mw_max": 6440.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 57,
+              "latency_ms": {
+                "count": 57,
+                "max": 785.0608,
+                "mean": 99.2442,
+                "min": 25.6129,
+                "p50": 53.4187,
+                "p95": 388.2531,
+                "p99": 588.031
+              },
+              "operations": {
+                "concurrent_request": 57
+              },
+              "success_count": 57
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 1,
+              "latency_ms": {
+                "count": 1,
+                "max": 4243.5182,
+                "mean": 4243.5182,
+                "min": 4243.5182,
+                "p50": 4243.5182,
+                "p95": 4243.5182,
+                "p99": 4243.5182
+              },
+              "operations": {
+                "transcription_burst": 1
+              },
+              "success_count": 1
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 4,
+              "latency_ms": {
+                "count": 4,
+                "max": 114.2308,
+                "mean": 102.5878,
+                "min": 73.2315,
+                "p50": 111.4444,
+                "p95": 114.1696,
+                "p99": 114.2186
+              },
+              "operations": {
+                "file_image_detection": 4
+              },
+              "success_count": 4
+            }
+          }
+        }
+      },
+      {
+        "after": {
+          "duration_s": 60.0,
+          "end_s": 664.9748,
+          "start_s": 604.9748,
+          "telemetry": {
+            "bucket_count": 7,
+            "cpu_busy_pct_avg": 13.045,
+            "cpu_busy_pct_max": 53.0,
+            "gpu_temp_c_max": 45.187,
+            "gr3d_freq_pct_avg": 33.643,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3449.371,
+            "ram_used_mb_max": 3469.0,
+            "sample_count": 70,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5658.057,
+            "vdd_in_mw_max": 6099.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 1208,
+              "latency_ms": {
+                "count": 1208,
+                "max": 102.0006,
+                "mean": 48.8194,
+                "min": 24.7786,
+                "p50": 52.9506,
+                "p95": 62.2566,
+                "p99": 79.1864
+              },
+              "operations": {
+                "concurrent_request": 1208
+              },
+              "success_count": 1208
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 54,
+              "latency_ms": {
+                "count": 54,
+                "max": 143.607,
+                "mean": 114.7018,
+                "min": 92.8085,
+                "p50": 111.8264,
+                "p95": 139.7926,
+                "p99": 142.8203
+              },
+              "operations": {
+                "file_image_detection": 54
+              },
+              "success_count": 54
+            }
+          }
+        },
+        "before": {
+          "duration_s": 60.0,
+          "end_s": 604.3767,
+          "start_s": 544.3767,
+          "telemetry": {
+            "bucket_count": 7,
+            "cpu_busy_pct_avg": 12.838,
+            "cpu_busy_pct_max": 53.0,
+            "gpu_temp_c_max": 45.125,
+            "gr3d_freq_pct_avg": 37.543,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3397.2,
+            "ram_used_mb_max": 3452.0,
+            "sample_count": 70,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5623.186,
+            "vdd_in_mw_max": 6099.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 1140,
+              "latency_ms": {
+                "count": 1140,
+                "max": 90.2608,
+                "mean": 54.691,
+                "min": 47.5594,
+                "p50": 53.606,
+                "p95": 66.7897,
+                "p99": 83.8251
+              },
+              "operations": {
+                "concurrent_request": 1140
+              },
+              "success_count": 1140
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 54,
+              "latency_ms": {
+                "count": 54,
+                "max": 149.413,
+                "mean": 117.8352,
+                "min": 91.8949,
+                "p50": 116.4416,
+                "p95": 146.7593,
+                "p99": 148.339
+              },
+              "operations": {
+                "file_image_detection": 54
+              },
+              "success_count": 54
+            }
+          }
+        },
+        "burst_duration_ms": 598.1001,
+        "burst_index": 1,
+        "deltas": {
+          "after_minus_before_latency_ms": {
+            "fastapi_resnet18": {
+              "max": 11.7398,
+              "p50": -0.6554,
+              "p95": -4.5331,
+              "p99": -4.6387
+            },
+            "fastapi_whisper": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "yolo_detection": {
+              "max": -5.806,
+              "p50": -4.6152,
+              "p95": -6.9667,
+              "p99": -5.5187
+            }
+          },
+          "after_minus_before_telemetry": {
+            "cpu_busy_pct_avg": 0.207,
+            "cpu_busy_pct_max": 0.0,
+            "gpu_temp_c_max": 0.062,
+            "gr3d_freq_pct_avg": -3.9,
+            "gr3d_freq_pct_max": 0.0,
+            "ram_used_mb_avg": 52.171,
+            "ram_used_mb_max": 17.0,
+            "vdd_in_mw_avg": 34.871,
+            "vdd_in_mw_max": 0.0
+          },
+          "during_minus_before_latency_ms": {
+            "fastapi_resnet18": {
+              "max": -19.0074,
+              "p50": 6.2502,
+              "p95": 3.087,
+              "p99": -12.847
+            },
+            "fastapi_whisper": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "yolo_detection": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            }
+          },
+          "during_minus_before_telemetry": {
+            "cpu_busy_pct_avg": 2.062,
+            "cpu_busy_pct_max": 0.0,
+            "gpu_temp_c_max": -0.125,
+            "gr3d_freq_pct_avg": -16.543,
+            "gr3d_freq_pct_max": 0.0,
+            "ram_used_mb_avg": 24.3,
+            "ram_used_mb_max": 0.0,
+            "vdd_in_mw_avg": 136.514,
+            "vdd_in_mw_max": 0.0
+          }
+        },
+        "during": {
+          "duration_s": 0.5981,
+          "end_s": 604.9748,
+          "start_s": 604.3767,
+          "telemetry": {
+            "bucket_count": 1,
+            "cpu_busy_pct_avg": 14.9,
+            "cpu_busy_pct_max": 53.0,
+            "gpu_temp_c_max": 45.0,
+            "gr3d_freq_pct_avg": 21.0,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3421.5,
+            "ram_used_mb_max": 3452.0,
+            "sample_count": 10,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5759.7,
+            "vdd_in_mw_max": 6099.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 10,
+              "latency_ms": {
+                "count": 10,
+                "max": 71.2534,
+                "mean": 59.0361,
+                "min": 45.7402,
+                "p50": 59.8562,
+                "p95": 69.8767,
+                "p99": 70.9781
+              },
+              "operations": {
+                "concurrent_request": 10
+              },
+              "success_count": 10
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 1,
+              "latency_ms": {
+                "count": 1,
+                "max": 598.1001,
+                "mean": 598.1001,
+                "min": 598.1001,
+                "p50": 598.1001,
+                "p95": 598.1001,
+                "p99": 598.1001
+              },
+              "operations": {
+                "transcription_burst": 1
+              },
+              "success_count": 1
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            }
+          }
+        }
+      },
+      {
+        "after": {
+          "duration_s": 60.0,
+          "end_s": 965.543,
+          "start_s": 905.543,
+          "telemetry": {
+            "bucket_count": 7,
+            "cpu_busy_pct_avg": 12.793,
+            "cpu_busy_pct_max": 48.0,
+            "gpu_temp_c_max": 45.406,
+            "gr3d_freq_pct_avg": 35.814,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3622.971,
+            "ram_used_mb_max": 3643.0,
+            "sample_count": 70,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5643.086,
+            "vdd_in_mw_max": 6019.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 1172,
+              "latency_ms": {
+                "count": 1172,
+                "max": 91.8835,
+                "mean": 51.9173,
+                "min": 26.6249,
+                "p50": 53.3364,
+                "p95": 65.38,
+                "p99": 80.2698
+              },
+              "operations": {
+                "concurrent_request": 1172
+              },
+              "success_count": 1172
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 53,
+              "latency_ms": {
+                "count": 53,
+                "max": 146.3733,
+                "mean": 116.0551,
+                "min": 91.9392,
+                "p50": 113.7165,
+                "p95": 142.2686,
+                "p99": 146.238
+              },
+              "operations": {
+                "file_image_detection": 53
+              },
+              "success_count": 53
+            }
+          }
+        },
+        "before": {
+          "duration_s": 60.0,
+          "end_s": 905.0036,
+          "start_s": 845.0036,
+          "telemetry": {
+            "bucket_count": 7,
+            "cpu_busy_pct_avg": 12.768,
+            "cpu_busy_pct_max": 48.0,
+            "gpu_temp_c_max": 45.343,
+            "gr3d_freq_pct_avg": 31.159,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3577.576,
+            "ram_used_mb_max": 3606.0,
+            "sample_count": 69,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5626.465,
+            "vdd_in_mw_max": 6019.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 1140,
+              "latency_ms": {
+                "count": 1140,
+                "max": 91.9135,
+                "mean": 54.6613,
+                "min": 44.4333,
+                "p50": 53.6055,
+                "p95": 68.5986,
+                "p99": 84.0626
+              },
+              "operations": {
+                "concurrent_request": 1140
+              },
+              "success_count": 1140
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 54,
+              "latency_ms": {
+                "count": 54,
+                "max": 147.6594,
+                "mean": 114.2914,
+                "min": 64.4289,
+                "p50": 116.3314,
+                "p95": 142.7444,
+                "p99": 145.7428
+              },
+              "operations": {
+                "file_image_detection": 54
+              },
+              "success_count": 54
+            }
+          }
+        },
+        "burst_duration_ms": 539.4265,
+        "burst_index": 2,
+        "deltas": {
+          "after_minus_before_latency_ms": {
+            "fastapi_resnet18": {
+              "max": -0.03,
+              "p50": -0.2691,
+              "p95": -3.2186,
+              "p99": -3.7928
+            },
+            "fastapi_whisper": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "yolo_detection": {
+              "max": -1.2861,
+              "p50": -2.6149,
+              "p95": -0.4758,
+              "p99": 0.4952
+            }
+          },
+          "after_minus_before_telemetry": {
+            "cpu_busy_pct_avg": 0.025,
+            "cpu_busy_pct_max": 0.0,
+            "gpu_temp_c_max": 0.063,
+            "gr3d_freq_pct_avg": 4.655,
+            "gr3d_freq_pct_max": 0.0,
+            "ram_used_mb_avg": 45.395,
+            "ram_used_mb_max": 37.0,
+            "vdd_in_mw_avg": 16.621,
+            "vdd_in_mw_max": 0.0
+          },
+          "during_minus_before_latency_ms": {
+            "fastapi_resnet18": {
+              "max": -6.1132,
+              "p50": 12.5135,
+              "p95": 16.4393,
+              "p99": 1.5852
+            },
+            "fastapi_whisper": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "yolo_detection": {
+              "max": -45.0748,
+              "p50": -13.7468,
+              "p95": -40.1598,
+              "p99": -43.1582
+            }
+          },
+          "during_minus_before_telemetry": {
+            "cpu_busy_pct_avg": 1.515,
+            "cpu_busy_pct_max": 0.0,
+            "gpu_temp_c_max": -0.062,
+            "gr3d_freq_pct_avg": 1.441,
+            "gr3d_freq_pct_max": -17.0,
+            "ram_used_mb_avg": 15.924,
+            "ram_used_mb_max": 0.0,
+            "vdd_in_mw_avg": 128.435,
+            "vdd_in_mw_max": 0.0
+          }
+        },
+        "during": {
+          "duration_s": 0.5394,
+          "end_s": 905.543,
+          "start_s": 905.0036,
+          "telemetry": {
+            "bucket_count": 1,
+            "cpu_busy_pct_avg": 14.283,
+            "cpu_busy_pct_max": 48.0,
+            "gpu_temp_c_max": 45.281,
+            "gr3d_freq_pct_avg": 32.6,
+            "gr3d_freq_pct_max": 82.0,
+            "ram_used_mb_avg": 3593.5,
+            "ram_used_mb_max": 3606.0,
+            "sample_count": 10,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5754.9,
+            "vdd_in_mw_max": 6019.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 8,
+              "latency_ms": {
+                "count": 8,
+                "max": 85.8003,
+                "mean": 66.5037,
+                "min": 46.4767,
+                "p50": 66.119,
+                "p95": 85.0379,
+                "p99": 85.6478
+              },
+              "operations": {
+                "concurrent_request": 8
+              },
+              "success_count": 8
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 1,
+              "latency_ms": {
+                "count": 1,
+                "max": 539.4265,
+                "mean": 539.4265,
+                "min": 539.4265,
+                "p50": 539.4265,
+                "p95": 539.4265,
+                "p99": 539.4265
+              },
+              "operations": {
+                "transcription_burst": 1
+              },
+              "success_count": 1
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 1,
+              "latency_ms": {
+                "count": 1,
+                "max": 102.5846,
+                "mean": 102.5846,
+                "min": 102.5846,
+                "p50": 102.5846,
+                "p95": 102.5846,
+                "p99": 102.5846
+              },
+              "operations": {
+                "file_image_detection": 1
+              },
+              "success_count": 1
+            }
+          }
+        }
+      },
+      {
+        "after": {
+          "duration_s": 60.0,
+          "end_s": 1266.2636,
+          "start_s": 1206.2636,
+          "telemetry": {
+            "bucket_count": 7,
+            "cpu_busy_pct_avg": 12.757,
+            "cpu_busy_pct_max": 42.0,
+            "gpu_temp_c_max": 45.093,
+            "gr3d_freq_pct_avg": 41.971,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3647.829,
+            "ram_used_mb_max": 3652.0,
+            "sample_count": 70,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5638.0,
+            "vdd_in_mw_max": 6690.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 1150,
+              "latency_ms": {
+                "count": 1150,
+                "max": 92.7341,
+                "mean": 53.7971,
+                "min": 30.5669,
+                "p50": 53.4173,
+                "p95": 63.7444,
+                "p99": 86.7585
+              },
+              "operations": {
+                "concurrent_request": 1150
+              },
+              "success_count": 1150
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 54,
+              "latency_ms": {
+                "count": 54,
+                "max": 146.7929,
+                "mean": 115.505,
+                "min": 65.675,
+                "p50": 115.5403,
+                "p95": 145.9036,
+                "p99": 146.5683
+              },
+              "operations": {
+                "file_image_detection": 54
+              },
+              "success_count": 54
+            }
+          }
+        },
+        "before": {
+          "duration_s": 60.0,
+          "end_s": 1205.6319,
+          "start_s": 1145.6319,
+          "telemetry": {
+            "bucket_count": 7,
+            "cpu_busy_pct_avg": 12.694,
+            "cpu_busy_pct_max": 42.0,
+            "gpu_temp_c_max": 45.25,
+            "gr3d_freq_pct_avg": 30.254,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3646.659,
+            "ram_used_mb_max": 3652.0,
+            "sample_count": 69,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5629.724,
+            "vdd_in_mw_max": 6690.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 1140,
+              "latency_ms": {
+                "count": 1140,
+                "max": 93.0708,
+                "mean": 54.6287,
+                "min": 47.1355,
+                "p50": 53.5442,
+                "p95": 66.485,
+                "p99": 85.2245
+              },
+              "operations": {
+                "concurrent_request": 1140
+              },
+              "success_count": 1140
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 53,
+              "latency_ms": {
+                "count": 53,
+                "max": 146.1611,
+                "mean": 113.2351,
+                "min": 66.7135,
+                "p50": 114.4019,
+                "p95": 140.9177,
+                "p99": 146.1189
+              },
+              "operations": {
+                "file_image_detection": 53
+              },
+              "success_count": 53
+            }
+          }
+        },
+        "burst_duration_ms": 631.7141,
+        "burst_index": 3,
+        "deltas": {
+          "after_minus_before_latency_ms": {
+            "fastapi_resnet18": {
+              "max": -0.3367,
+              "p50": -0.1269,
+              "p95": -2.7406,
+              "p99": 1.534
+            },
+            "fastapi_whisper": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "yolo_detection": {
+              "max": 0.6318,
+              "p50": 1.1384,
+              "p95": 4.9859,
+              "p99": 0.4494
+            }
+          },
+          "after_minus_before_telemetry": {
+            "cpu_busy_pct_avg": 0.063,
+            "cpu_busy_pct_max": 0.0,
+            "gpu_temp_c_max": -0.157,
+            "gr3d_freq_pct_avg": 11.717,
+            "gr3d_freq_pct_max": 0.0,
+            "ram_used_mb_avg": 1.17,
+            "ram_used_mb_max": 0.0,
+            "vdd_in_mw_avg": 8.276,
+            "vdd_in_mw_max": 0.0
+          },
+          "during_minus_before_latency_ms": {
+            "fastapi_resnet18": {
+              "max": -16.5506,
+              "p50": -17.0092,
+              "p95": -15.9032,
+              "p99": -13.892
+            },
+            "fastapi_whisper": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "yolo_detection": {
+              "max": -49.1093,
+              "p50": -17.3501,
+              "p95": -43.8659,
+              "p99": -49.0671
+            }
+          },
+          "during_minus_before_telemetry": {
+            "cpu_busy_pct_avg": 1.856,
+            "cpu_busy_pct_max": 0.0,
+            "gpu_temp_c_max": -0.219,
+            "gr3d_freq_pct_avg": 12.146,
+            "gr3d_freq_pct_max": 0.0,
+            "ram_used_mb_avg": -0.059,
+            "ram_used_mb_max": -2.0,
+            "vdd_in_mw_avg": 140.776,
+            "vdd_in_mw_max": 0.0
+          }
+        },
+        "during": {
+          "duration_s": 0.6317,
+          "end_s": 1206.2636,
+          "start_s": 1205.6319,
+          "telemetry": {
+            "bucket_count": 1,
+            "cpu_busy_pct_avg": 14.55,
+            "cpu_busy_pct_max": 42.0,
+            "gpu_temp_c_max": 45.031,
+            "gr3d_freq_pct_avg": 42.4,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3646.6,
+            "ram_used_mb_max": 3650.0,
+            "sample_count": 10,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5770.5,
+            "vdd_in_mw_max": 6690.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 15,
+              "latency_ms": {
+                "count": 15,
+                "max": 76.5202,
+                "mean": 37.3653,
+                "min": 24.7308,
+                "p50": 36.535,
+                "p95": 50.5818,
+                "p99": 71.3325
+              },
+              "operations": {
+                "concurrent_request": 15
+              },
+              "success_count": 15
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 1,
+              "latency_ms": {
+                "count": 1,
+                "max": 631.7141,
+                "mean": 631.7141,
+                "min": 631.7141,
+                "p50": 631.7141,
+                "p95": 631.7141,
+                "p99": 631.7141
+              },
+              "operations": {
+                "transcription_burst": 1
+              },
+              "success_count": 1
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 1,
+              "latency_ms": {
+                "count": 1,
+                "max": 97.0518,
+                "mean": 97.0518,
+                "min": 97.0518,
+                "p50": 97.0518,
+                "p95": 97.0518,
+                "p99": 97.0518
+              },
+              "operations": {
+                "file_image_detection": 1
+              },
+              "success_count": 1
+            }
+          }
+        }
+      },
+      {
+        "after": {
+          "duration_s": 60.0,
+          "end_s": 1566.832,
+          "start_s": 1506.832,
+          "telemetry": {
+            "bucket_count": 7,
+            "cpu_busy_pct_avg": 12.717,
+            "cpu_busy_pct_max": 40.0,
+            "gpu_temp_c_max": 45.187,
+            "gr3d_freq_pct_avg": 31.067,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3722.406,
+            "ram_used_mb_max": 3741.0,
+            "sample_count": 69,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5622.584,
+            "vdd_in_mw_max": 6490.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 1142,
+              "latency_ms": {
+                "count": 1142,
+                "max": 95.5272,
+                "mean": 54.364,
+                "min": 44.2423,
+                "p50": 53.3273,
+                "p95": 68.9749,
+                "p99": 83.84
+              },
+              "operations": {
+                "concurrent_request": 1142
+              },
+              "success_count": 1142
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 54,
+              "latency_ms": {
+                "count": 54,
+                "max": 148.596,
+                "mean": 117.1542,
+                "min": 74.1408,
+                "p50": 117.5198,
+                "p95": 144.8312,
+                "p99": 147.6145
+              },
+              "operations": {
+                "file_image_detection": 54
+              },
+              "success_count": 54
+            }
+          }
+        },
+        "before": {
+          "duration_s": 60.0,
+          "end_s": 1506.2768,
+          "start_s": 1446.2768,
+          "telemetry": {
+            "bucket_count": 7,
+            "cpu_busy_pct_avg": 12.662,
+            "cpu_busy_pct_max": 40.0,
+            "gpu_temp_c_max": 45.187,
+            "gr3d_freq_pct_avg": 35.852,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3686.249,
+            "ram_used_mb_max": 3705.0,
+            "sample_count": 69,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5622.67,
+            "vdd_in_mw_max": 6490.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 1142,
+              "latency_ms": {
+                "count": 1142,
+                "max": 94.8332,
+                "mean": 54.4637,
+                "min": 46.1866,
+                "p50": 53.4581,
+                "p95": 66.5031,
+                "p99": 79.6011
+              },
+              "operations": {
+                "concurrent_request": 1142
+              },
+              "success_count": 1142
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 0,
+              "latency_ms": {
+                "count": 0,
+                "max": null,
+                "mean": null,
+                "min": null,
+                "p50": null,
+                "p95": null,
+                "p99": null
+              },
+              "operations": {},
+              "success_count": 0
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 53,
+              "latency_ms": {
+                "count": 53,
+                "max": 144.1169,
+                "mean": 113.3119,
+                "min": 75.3892,
+                "p50": 113.1063,
+                "p95": 137.8829,
+                "p99": 142.8128
+              },
+              "operations": {
+                "file_image_detection": 53
+              },
+              "success_count": 53
+            }
+          }
+        },
+        "burst_duration_ms": 555.1795,
+        "burst_index": 4,
+        "deltas": {
+          "after_minus_before_latency_ms": {
+            "fastapi_resnet18": {
+              "max": 0.694,
+              "p50": -0.1308,
+              "p95": 2.4718,
+              "p99": 4.2389
+            },
+            "fastapi_whisper": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "yolo_detection": {
+              "max": 4.4791,
+              "p50": 4.4135,
+              "p95": 6.9483,
+              "p99": 4.8017
+            }
+          },
+          "after_minus_before_telemetry": {
+            "cpu_busy_pct_avg": 0.055,
+            "cpu_busy_pct_max": 0.0,
+            "gpu_temp_c_max": 0.0,
+            "gr3d_freq_pct_avg": -4.785,
+            "gr3d_freq_pct_max": 0.0,
+            "ram_used_mb_avg": 36.157,
+            "ram_used_mb_max": 36.0,
+            "vdd_in_mw_avg": -0.086,
+            "vdd_in_mw_max": 0.0
+          },
+          "during_minus_before_latency_ms": {
+            "fastapi_resnet18": {
+              "max": -18.6575,
+              "p50": -8.9734,
+              "p95": 4.2107,
+              "p99": -4.5178
+            },
+            "fastapi_whisper": {
+              "max": null,
+              "p50": null,
+              "p95": null,
+              "p99": null
+            },
+            "yolo_detection": {
+              "max": -31.7443,
+              "p50": -0.7337,
+              "p95": -25.5103,
+              "p99": -30.4402
+            }
+          },
+          "during_minus_before_telemetry": {
+            "cpu_busy_pct_avg": 1.505,
+            "cpu_busy_pct_max": 0.0,
+            "gpu_temp_c_max": 0.0,
+            "gr3d_freq_pct_avg": 7.815,
+            "gr3d_freq_pct_max": 0.0,
+            "ram_used_mb_avg": 15.195,
+            "ram_used_mb_max": 0.0,
+            "vdd_in_mw_avg": 81.219,
+            "vdd_in_mw_max": 0.0
+          }
+        },
+        "during": {
+          "duration_s": 0.5552,
+          "end_s": 1506.832,
+          "start_s": 1506.2768,
+          "telemetry": {
+            "bucket_count": 1,
+            "cpu_busy_pct_avg": 14.167,
+            "cpu_busy_pct_max": 40.0,
+            "gpu_temp_c_max": 45.187,
+            "gr3d_freq_pct_avg": 43.667,
+            "gr3d_freq_pct_max": 99.0,
+            "ram_used_mb_avg": 3701.444,
+            "ram_used_mb_max": 3705.0,
+            "sample_count": 9,
+            "status": "parsed",
+            "vdd_in_mw_avg": 5703.889,
+            "vdd_in_mw_max": 6490.0
+          },
+          "workloads": {
+            "fastapi_resnet18": {
+              "error_count": 0,
+              "event_count": 12,
+              "latency_ms": {
+                "count": 12,
+                "max": 76.1757,
+                "mean": 46.0557,
+                "min": 26.7243,
+                "p50": 44.4847,
+                "p95": 70.7138,
+                "p99": 75.0833
+              },
+              "operations": {
+                "concurrent_request": 12
+              },
+              "success_count": 12
+            },
+            "fastapi_whisper": {
+              "error_count": 0,
+              "event_count": 1,
+              "latency_ms": {
+                "count": 1,
+                "max": 555.1795,
+                "mean": 555.1795,
+                "min": 555.1795,
+                "p50": 555.1795,
+                "p95": 555.1795,
+                "p99": 555.1795
+              },
+              "operations": {
+                "transcription_burst": 1
+              },
+              "success_count": 1
+            },
+            "yolo_detection": {
+              "error_count": 0,
+              "event_count": 1,
+              "latency_ms": {
+                "count": 1,
+                "max": 112.3726,
+                "mean": 112.3726,
+                "min": 112.3726,
+                "p50": 112.3726,
+                "p95": 112.3726,
+                "p99": 112.3726
+              },
+              "operations": {
+                "file_image_detection": 1
+              },
+              "success_count": 1
+            }
+          }
+        }
+      }
+    ]
+  }
+}
