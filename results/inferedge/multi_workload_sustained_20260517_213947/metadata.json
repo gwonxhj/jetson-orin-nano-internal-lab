@@ -4,7 +4,7 @@
       "format": "json",
       "path": "results/inferedge/multi_workload_sustained_20260517_213947/result.json",
       "role": "runtime_result",
-      "sha256": "52807a14a3952fae4de6a239c046c4573305585bb3ca484e780438b19c4b6435"
+      "sha256": "bcc9ff2f205265d0f1b0d7b8f9a91b5f97e08370e0e43cafb19b649b6034109b"
     },
     {
       "format": "json",
@@ -28,7 +28,7 @@
       "format": "python",
       "path": "benchmarks/runtime_compare/multi_workload_sustained.py",
       "role": "orchestrator",
-      "sha256": "9e90e6db31c5183ac37d124ca5ff35b4bb419ba03a251c5de46d6af7149a4a82"
+      "sha256": "7cb5379ed8da80a4d6931fe06f3e8b829ca3967d3ed18230ead720f8d0852eee"
     },
     {
       "format": "shell",
@@ -39,10 +39,10 @@
   ],
   "build": {
     "backend": "mixed:yolo+fastapi+pytorch+openai-whisper",
-    "build_id": "multi-workload-sustained-20260517T220258+0900",
+    "build_id": "multi-workload-sustained-20260518T023852+0900",
     "preset_name": "runtime/jetson_multi_workload_sustained",
     "target": "jetson",
-    "timestamp": "2026-05-17T22:02:58+09:00"
+    "timestamp": "2026-05-18T02:38:52+09:00"
   },
   "export": {
     "artifact_commit_note": "The commit containing this generated metadata is the git commit that tracks this file; it is intentionally not embedded to avoid self-referential commit hashes.",
@@ -55,7 +55,7 @@
       ],
       "exit_code": 0,
       "stderr": "",
-      "stdout": "f4aae14"
+      "stdout": "9b81c23"
     },
     "export_workspace_status": {
       "command": [
@@ -66,7 +66,7 @@
       ],
       "exit_code": 0,
       "stderr": "",
-      "stdout": "## main...origin/main\n M src/common/inferedge_schema.py\n?? artifacts/system/fastapi_multi_workload_server_20260517_213947.log\n?? artifacts/system/tegrastats_multi_workload_20260517_213947.log\n?? benchmarks/runtime_compare/multi_workload_sustained.py\n?? docs/reports/multi_workload_sustained_runtime.md\n?? results/runtime_compare/multi_workload_sustained_20260517_213947.json\n?? scripts/export_multi_workload_sustained_inferedge.py\n?? scripts/export_multi_workload_sustained_inferedge.sh\n?? scripts/run_multi_workload_sustained.sh\n?? tests/test_multi_workload_inferedge_export.py\n?? tests/test_multi_workload_sustained.py"
+      "stdout": "## main...origin/main\n M benchmarks/runtime_compare/multi_workload_sustained.py\n M docs/reports/fastapi_api_usage.md\n M docs/reports/multi_workload_degradation_burst_windows.md\n M docs/reports/multi_workload_degradation_runtime.md\n M docs/reports/multi_workload_degradation_signal.md\n M docs/reports/multi_workload_degradation_timeline.md\n M docs/reports/portfolio_evidence_index.md\n M docs/reports/v1_completion_checklist.md\n M scripts/run_multi_workload_degradation.sh\n M src/common/inferedge_schema.py\n M src/server/resnet18_app.py\n M tests/test_fastapi_server_smoke.py\n M tests/test_multi_workload_sustained.py\n?? artifacts/system/fastapi_multi_workload_degradation_server_20260518_023351.log\n?? artifacts/system/tegrastats_multi_workload_degradation_20260518_023351.log\n?? benchmarks/runtime_compare/multi_workload_serving_observability.py\n?? docs/reports/multi_workload_serving_observability.md\n?? results/runtime_compare/multi_workload_degradation_20260518_023351.json\n?? results/runtime_compare/multi_workload_degradation_burst_windows_20260518_023351.json\n?? results/runtime_compare/multi_workload_degradation_signal_20260518_023351.json\n?? results/runtime_compare/multi_workload_degradation_timeline_20260518_023351.json\n?? results/runtime_compare/multi_workload_serving_observability_20260518_023351.json\n?? scripts/export_multi_workload_serving_observability.sh\n?? tests/test_multi_workload_serving_observability.py"
     },
     "schema_version": "inferedge-internal-lab-export-v1",
     "source_multi_workload_json": "results/runtime_compare/multi_workload_sustained_20260517_213947.json",

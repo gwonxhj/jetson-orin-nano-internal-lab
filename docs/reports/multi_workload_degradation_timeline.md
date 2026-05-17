@@ -7,57 +7,56 @@
 
 | Field | Value |
 |---|---|
-| Source JSON | `results/runtime_compare/multi_workload_degradation_20260518_013625.json` |
+| Source JSON | `results/runtime_compare/multi_workload_degradation_20260518_023351.json` |
 | Bucket size | 5.0 s |
-| Duration | 300.08 s |
-| Buckets | 61 |
-| Workload events | 16226 |
-| Tegrastats samples | 309 |
+| Duration | 120.1017 s |
+| Buckets | 25 |
+| Workload events | 6351 |
+| Tegrastats samples | 128 |
 
 ## Workload Totals
 
 | Workload | Events | Success | Errors | Mean ms | P95 ms | P99 ms | Max ms |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| fastapi_resnet18 | 15472 | 15472 | 0 | 144.1454 | 173.0672 | 226.3634 | 883.8447 |
-| fastapi_whisper | 3 | 3 | 0 | 4850.8652 | 8787.4625 | 9307.4887 | 9437.4952 |
-| yolo_detection | 751 | 751 | 0 | 142.3628 | 173.2865 | 184.0366 | 1690.4935 |
+| fastapi_resnet18 | 6058 | 6058 | 0 | 147.3829 | 181.4991 | 268.4134 | 950.5697 |
+| fastapi_whisper | 2 | 2 | 0 | 5799.7609 | 8377.5258 | 8606.6604 | 8663.9441 |
+| yolo_detection | 291 | 291 | 0 | 145.8958 | 177.8141 | 187.8364 | 1718.432 |
 
 ## Telemetry Summary
 
 | Metric | Value |
 |---|---:|
-| RAM used avg MB | 3433.589 |
-| RAM used max MB | 3671.0 |
-| GR3D avg % | 52.612 |
+| RAM used avg MB | 3442.766 |
+| RAM used max MB | 3747.0 |
+| GR3D avg % | 50.758 |
 | GR3D max % | 99.0 |
-| CPU busy avg % | 39.083 |
+| CPU busy avg % | 38.367 |
 | CPU busy max % | 100.0 |
-| GPU temp max C | 49.75 |
-| VDD_IN avg mW | 7978.372 |
+| GPU temp max C | 47.156 |
+| VDD_IN avg mW | 7822.188 |
 | VDD_IN max mW | 9050.0 |
 
 ## Whisper Bursts
 
 | Burst | Start s | End s | Duration ms | OK |
 |---:|---:|---:|---:|---|
-| 0 | 60.0481 | 69.4856 | 9437.4952 | True |
-| 1 | 129.5435 | 132.4806 | 2937.1685 | True |
-| 2 | 192.54 | 194.7179 | 2177.9319 | True |
+| 0 | 30.0391 | 38.703 | 8663.9441 | True |
+| 1 | 83.7481 | 86.6837 | 2935.5777 | True |
 
 ## Top Latency Buckets
 
 | Rank | Workload | Bucket | Max ms |
 |---:|---|---:|---:|
-| 1 | fastapi_whisper | 12 | 9437.4952 |
-| 2 | fastapi_whisper | 25 | 2937.1685 |
-| 3 | fastapi_whisper | 38 | 2177.9319 |
-| 4 | yolo_detection | 0 | 1690.4935 |
-| 5 | fastapi_resnet18 | 13 | 883.8447 |
-| 6 | fastapi_resnet18 | 0 | 825.2628 |
-| 7 | fastapi_resnet18 | 12 | 534.4199 |
-| 8 | fastapi_resnet18 | 46 | 506.1573 |
-| 9 | fastapi_resnet18 | 21 | 494.8059 |
-| 10 | fastapi_resnet18 | 29 | 478.9289 |
+| 1 | fastapi_whisper | 6 | 8663.9441 |
+| 2 | fastapi_whisper | 16 | 2935.5777 |
+| 3 | yolo_detection | 0 | 1718.432 |
+| 4 | fastapi_resnet18 | 7 | 950.5697 |
+| 5 | fastapi_resnet18 | 0 | 836.4011 |
+| 6 | fastapi_resnet18 | 21 | 468.115 |
+| 7 | fastapi_resnet18 | 11 | 462.446 |
+| 8 | fastapi_resnet18 | 12 | 450.3668 |
+| 9 | fastapi_resnet18 | 5 | 416.1436 |
+| 10 | yolo_detection | 15 | 374.1414 |
 
 ## Boundary
 

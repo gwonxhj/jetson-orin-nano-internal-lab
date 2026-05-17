@@ -61,6 +61,12 @@ def main() -> int:
     assert result["summary_by_workload"]["fastapi_resnet18"]["success_count"] >= 1
     assert result["summary_by_workload"]["fastapi_whisper"]["success_count"] == 2
     assert result["interaction"]["whisper_window_present"] is True
+    serving = result["serving_observability"]
+    assert serving["client_backlog_proxy"]["workloads"]["fastapi_resnet18"]["max_outstanding"] >= 1
+    assert serving["client_backlog_proxy"]["workloads"]["fastapi_whisper"]["completed_count"] == 2
+    assert serving["failed_request_count"] == 0
+    assert serving["dropped_request_count_proxy"] == 0
+    assert result["timeline"][0]["details"].get("client_backlog_proxy_kind") in {None, "thread_inflight_request_count"}
     assert result["interpretation"]["deployment_ready_claim"] is False
     assert result["interpretation"]["production_stress_test_claim"] is False
     assert "Multi-Workload Sustained Runtime Report" in markdown

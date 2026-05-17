@@ -179,33 +179,73 @@ class MetricsStore:
         self.started_at = time.time()
         self._lock = Lock()
         self.total_requests = 0
+        self.failed_requests = 0
+        self.inflight_requests = 0
+        self.max_inflight_requests = 0
+        self.status_codes: dict[str, int] = defaultdict(int)
         self.by_path: dict[str, dict[str, Any]] = defaultdict(
-            lambda: {"count": 0, "total_ms": 0.0, "max_ms": 0.0, "last_status_code": None, "methods": set()}
+            lambda: {
+                "count": 0,
+                "failed_count": 0,
+                "inflight": 0,
+                "max_inflight": 0,
+                "total_ms": 0.0,
+                "max_ms": 0.0,
+                "last_status_code": None,
+                "methods": set(),
+                "status_codes": defaultdict(int),
+            }
         )
 
-    def record(self, method: str, path: str, status_code: int, elapsed_ms: float) -> None:
+    def begin_request(self, method: str, path: str) -> None:
         with self._lock:
-            self.total_requests += 1
+            self.inflight_requests += 1
+            self.max_inflight_requests = max(self.max_inflight_requests, self.inflight_requests)
             item = self.by_path[path]
+            item["inflight"] += 1
+            item["max_inflight"] = max(int(item["max_inflight"]), int(item["inflight"]))
+            item["methods"].add(method)
+
+    def record(self, method: str, path: str, status_code: int, elapsed_ms: float) -> None:
+        failed = status_code >= 400
+        with self._lock:
+            self.inflight_requests = max(0, self.inflight_requests - 1)
+            self.total_requests += 1
+            self.status_codes[str(status_code)] += 1
+            if failed:
+                self.failed_requests += 1
+            item = self.by_path[path]
+            item["inflight"] = max(0, int(item["inflight"]) - 1)
             item["count"] += 1
+            item["failed_count"] += 1 if failed else 0
             item["total_ms"] += elapsed_ms
             item["max_ms"] = max(float(item["max_ms"]), elapsed_ms)
             item["last_status_code"] = status_code
             item["methods"].add(method)
+            item["status_codes"][str(status_code)] += 1
 
     def snapshot(self) -> dict[str, Any]:
         with self._lock:
             by_path = {}
             for path, item in sorted(self.by_path.items()):
                 count = int(item["count"])
+                failed_count = int(item["failed_count"])
                 by_path[path] = {
                     "count": count,
+                    "failed_count": failed_count,
+                    "inflight": int(item["inflight"]),
+                    "max_inflight": int(item["max_inflight"]),
                     "methods": sorted(item["methods"]),
                     "mean_ms": round(float(item["total_ms"]) / count, 4) if count else 0.0,
                     "max_ms": round(float(item["max_ms"]), 4),
                     "last_status_code": item["last_status_code"],
+                    "status_codes": dict(sorted(item["status_codes"].items())),
                 }
             total_requests = self.total_requests
+            failed_requests = self.failed_requests
+            inflight_requests = self.inflight_requests
+            max_inflight_requests = self.max_inflight_requests
+            status_codes = dict(sorted(self.status_codes.items()))
 
         process = {"pid": os.getpid()}
         try:
@@ -231,7 +271,21 @@ class MetricsStore:
             "status": "ok",
             "uptime_s": round(time.time() - self.started_at, 3),
             "process": process,
-            "requests": {"total": total_requests, "by_path": by_path},
+            "requests": {"total": total_requests, "failed": failed_requests, "status_codes": status_codes, "by_path": by_path},
+            "serving_observability": {
+                "inflight_requests": inflight_requests,
+                "max_inflight_requests": max_inflight_requests,
+                "failed_requests": failed_requests,
+                "status_codes": status_codes,
+                "backlog_proxy": {
+                    "kind": "in_process_inflight_request_count",
+                    "current": inflight_requests,
+                    "max": max_inflight_requests,
+                    "queue_depth_available": False,
+                    "dropped_request_count": failed_requests,
+                    "notes": "ASGI queue depth is not exposed; in-process in-flight and failed request counters are retained as a lightweight backlog/dropped-request proxy.",
+                },
+            },
             "runtime": {
                 "device_default": DEFAULT_DEVICE,
                 "resnet18_loaded": get_bundle.cache_info().currsize > 0,
@@ -253,6 +307,7 @@ app.state.metrics = MetricsStore()
 async def metrics_middleware(request: Request, call_next):  # type: ignore[no-untyped-def]
     start = time.perf_counter()
     status_code = 500
+    app.state.metrics.begin_request(request.method, request.url.path)
     try:
         response = await call_next(request)
         status_code = response.status_code

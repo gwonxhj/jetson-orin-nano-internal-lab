@@ -34,7 +34,7 @@
     "backend": "mixed:yolo+fastapi+pytorch+openai-whisper",
     "name": "multi-workload-sustained",
     "path": "benchmarks/runtime_compare/multi_workload_sustained.py",
-    "sha256": "9e90e6db31c5183ac37d124ca5ff35b4bb419ba03a251c5de46d6af7149a4a82",
+    "sha256": "7cb5379ed8da80a4d6931fe06f3e8b829ca3967d3ed18230ead720f8d0852eee",
     "status_message": "YOLO detection loop, FastAPI ResNet18 concurrent requests, and FastAPI Whisper burst completed together."
   },
   "engine_backend": "mixed:yolo+fastapi+pytorch+openai-whisper",
@@ -66,6 +66,7 @@
     "runtime": "jetson-orin-nano-internal-lab",
     "runtime_reliability_ready": true,
     "server_log_path": "artifacts/system/fastapi_multi_workload_server_20260517_221116.log",
+    "serving_observability_ready": false,
     "tegrastats_log_path": "artifacts/system/tegrastats_multi_workload_20260517_221116.log",
     "tegrastats_status": "parsed",
     "workload_interaction_ready": true
@@ -243,7 +244,7 @@
     "machine": "aarch64",
     "os": "linux"
   },
-  "timestamp": "2026-05-17T22:22:21+09:00",
+  "timestamp": "2026-05-18T02:38:52+09:00",
   "warmup": 0,
   "width": 224,
   "workload_interaction": {
@@ -12389,6 +12390,7 @@
       ]
     },
     "server_log_path": "artifacts/system/fastapi_multi_workload_server_20260517_221116.log",
+    "serving_observability": {},
     "source_json": "results/runtime_compare/multi_workload_sustained_20260517_221116.json",
     "summary_by_workload": {
       "fastapi_resnet18": {

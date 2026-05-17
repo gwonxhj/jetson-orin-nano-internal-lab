@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "export_workspace_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "9b81c23"
+    },
+    "generated_at": "2026-05-18T02:36:02+09:00",
+    "hostname": "jetson-orin-nano",
+    "power_mode": {
+      "command": [
+        "nvpmodel",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "NV Power Mode: 25W\n1"
+    },
+    "schema_version": "multi-workload-serving-observability-v1",
+    "source_git_commit": {
+      "command": [
+        "git",
+        "rev-parse",
+        "--short",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "9b81c23"
+    },
+    "source_json": "results/runtime_compare/multi_workload_degradation_20260518_023351.json",
+    "source_sha256": "476af8091eeca27a37e814d9acfaabd08a50a59696863e5b568ffd041bbff28f"
+  },
+  "result": {
+    "client_backlog_proxy": {
+      "kind": "client_thread_outstanding_request_count",
+      "notes": "Client-side worker outstanding counts are a backlog proxy for this localhost evidence run; they are not an ASGI queue-depth measurement.",
+      "queue_depth_available": false,
+      "totals": {
+        "active_at_end": 0,
+        "completed_count": 6060,
+        "failed_count": 0,
+        "max_outstanding_sum_by_workload": 9
+      },
+      "workloads": {
+        "fastapi_resnet18": {
+          "active_at_end": 0,
+          "completed_count": 6058,
+          "failed_count": 0,
+          "max_outstanding": 8
+        },
+        "fastapi_whisper": {
+          "active_at_end": 0,
+          "completed_count": 2,
+          "failed_count": 0,
+          "max_outstanding": 1
+        }
+      }
+    },
+    "duration_s": 120.1017,
+    "interpretation": {
+      "deployment_ready_claim": false,
+      "notes": [
+        "Server-side counters are in-process FastAPI metrics exposed by /metrics.",
+        "Client-side outstanding counts are a bounded backlog proxy for this localhost evidence run.",
+        "Dropped request count is represented as failed-request proxy unless a production queue exposes explicit drops."
+      ],
+      "production_queue_depth_claim": false,
+      "production_stress_test_claim": false,
+      "runtime_reliability_signal": true
+    },
+    "request_counts": {
+      "client_completed_count": 6060,
+      "client_failed_count": 0,
+      "resnet_endpoint_count": 6058,
+      "resnet_endpoint_failed_count": 0,
+      "server_failed_requests": 0,
+      "server_total_requests": 6063,
+      "whisper_endpoint_count": 2,
+      "whisper_endpoint_failed_count": 0
+    },
+    "server_inprocess_counters": {
+      "backlog_proxy": {
+        "current": 1,
+        "dropped_request_count": 0,
+        "kind": "in_process_inflight_request_count",
+        "max": 9,
+        "notes": "ASGI queue depth is not exposed; in-process in-flight and failed request counters are retained as a lightweight backlog/dropped-request proxy.",
+        "queue_depth_available": false
+      },
+      "failed_requests": 0,
+      "inflight_requests": 1,
+      "max_inflight_requests": 9,
+      "status_codes": {
+        "200": 6063
+      }
+    },
+    "signals": {
+      "backlog_proxy_observed": true,
+      "client_failed_requests": 0,
+      "dropped_request_count_proxy": 0,
+      "failed_or_dropped_observed": false,
+      "max_client_outstanding": 8,
+      "max_server_inflight_requests": 9,
+      "server_failed_requests": 0
+    },
+    "status": "succeeded",
+    "success": true,
+    "target_duration_s": 120.0,
+    "task": "multi_workload_queue_serving_observability",
+    "workload_error_summary": {
+      "fastapi_resnet18": {
+        "errors": 0,
+        "events": 6058,
+        "success": 6058
+      },
+      "fastapi_whisper": {
+        "errors": 0,
+        "events": 2,
+        "success": 2
+      },
+      "yolo_detection": {
+        "errors": 0,
+        "events": 291,
+        "success": 291
+      }
+    },
+    "workload_mix": [
+      "yolo_detection_loop",
+      "fastapi_resnet18_concurrent_requests",
+      "fastapi_whisper_transcription_burst"
+    ]
+  }
+}

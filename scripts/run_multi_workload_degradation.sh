@@ -13,9 +13,11 @@ TEGRSTATS_REL="artifacts/system/tegrastats_multi_workload_degradation_${STAMP}.l
 TIMELINE_REL="results/runtime_compare/multi_workload_degradation_timeline_${STAMP}.json"
 BURST_REL="results/runtime_compare/multi_workload_degradation_burst_windows_${STAMP}.json"
 SIGNAL_REL="results/runtime_compare/multi_workload_degradation_signal_${STAMP}.json"
+SERVING_OBS_REL="results/runtime_compare/multi_workload_serving_observability_${STAMP}.json"
 TIMELINE_REPORT_REL="docs/reports/multi_workload_degradation_timeline.md"
 BURST_REPORT_REL="docs/reports/multi_workload_degradation_burst_windows.md"
 SIGNAL_REPORT_REL="docs/reports/multi_workload_degradation_signal.md"
+SERVING_OBS_REPORT_REL="docs/reports/multi_workload_serving_observability.md"
 RESULT_FILE="${ROOT_DIR}/${RESULT_REL}"
 REPORT_FILE="${ROOT_DIR}/${REPORT_REL}"
 SERVER_LOG="${ROOT_DIR}/${SERVER_LOG_REL}"
@@ -109,6 +111,11 @@ python3 benchmarks/runtime_compare/multi_workload_degradation_signal.py \
   --burst-windows "${BURST_REL}" \
   --output "${SIGNAL_REL}" \
   --report "${SIGNAL_REPORT_REL}"
+
+python3 benchmarks/runtime_compare/multi_workload_serving_observability.py \
+  --multi-workload "${RESULT_REL}" \
+  --output "${SERVING_OBS_REL}" \
+  --report "${SERVING_OBS_REPORT_REL}"
 
 printf 'Wrote degradation result: %s\n' "${RESULT_FILE}"
 printf 'Wrote degradation runtime report: %s\n' "${REPORT_FILE}"

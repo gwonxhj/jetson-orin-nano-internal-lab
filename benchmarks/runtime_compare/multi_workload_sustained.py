@@ -21,6 +21,7 @@ import queue
 import statistics
 import subprocess
 import threading
+from collections import defaultdict
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -151,6 +152,32 @@ class TimelineRecorder:
         self.scenario_started_at = scenario_started_at
         self._lock = threading.Lock()
         self._events: list[dict[str, Any]] = []
+        self._active_by_workload: dict[str, int] = defaultdict(int)
+        self._max_active_by_workload: dict[str, int] = defaultdict(int)
+        self._completed_by_workload: dict[str, int] = defaultdict(int)
+        self._failed_by_workload: dict[str, int] = defaultdict(int)
+
+    def begin_request(self, workload: str) -> dict[str, Any]:
+        with self._lock:
+            self._active_by_workload[workload] += 1
+            self._max_active_by_workload[workload] = max(self._max_active_by_workload[workload], self._active_by_workload[workload])
+            return {
+                "client_backlog_proxy_kind": "thread_inflight_request_count",
+                "client_outstanding_at_start": self._active_by_workload[workload],
+                "client_outstanding_max_seen": self._max_active_by_workload[workload],
+            }
+
+    def end_request(self, workload: str, ok: bool) -> dict[str, Any]:
+        with self._lock:
+            self._active_by_workload[workload] = max(0, self._active_by_workload[workload] - 1)
+            self._completed_by_workload[workload] += 1
+            if not ok:
+                self._failed_by_workload[workload] += 1
+            return {
+                "client_outstanding_after_end": self._active_by_workload[workload],
+                "client_completed_count": self._completed_by_workload[workload],
+                "client_failed_count": self._failed_by_workload[workload],
+            }
 
     def record(self, workload: str, operation: str, started_at: float, ended_at: float, ok: bool, details: dict[str, Any] | None = None, error: str = "") -> None:
         event = {
@@ -169,6 +196,30 @@ class TimelineRecorder:
     def snapshot(self) -> list[dict[str, Any]]:
         with self._lock:
             return sorted(self._events, key=lambda item: (item["started_at_s"], item["workload"]))
+
+    def observability_snapshot(self) -> dict[str, Any]:
+        with self._lock:
+            workloads = {}
+            all_workloads = sorted(set(self._active_by_workload) | set(self._max_active_by_workload) | set(self._completed_by_workload) | set(self._failed_by_workload))
+            for workload in all_workloads:
+                workloads[workload] = {
+                    "active_at_end": int(self._active_by_workload[workload]),
+                    "max_outstanding": int(self._max_active_by_workload[workload]),
+                    "completed_count": int(self._completed_by_workload[workload]),
+                    "failed_count": int(self._failed_by_workload[workload]),
+                }
+            return {
+                "kind": "client_thread_outstanding_request_count",
+                "queue_depth_available": False,
+                "workloads": workloads,
+                "totals": {
+                    "active_at_end": sum(int(v) for v in self._active_by_workload.values()),
+                    "max_outstanding_sum_by_workload": sum(int(v) for v in self._max_active_by_workload.values()),
+                    "completed_count": sum(int(v) for v in self._completed_by_workload.values()),
+                    "failed_count": sum(int(v) for v in self._failed_by_workload.values()),
+                },
+                "notes": "Client-side worker outstanding counts are a backlog proxy for this localhost evidence run; they are not an ASGI queue-depth measurement.",
+            }
 
 
 def run_fastapi_request(base_url: str, payload: dict[str, Any], timeout_s: float) -> dict[str, Any]:
@@ -195,6 +246,7 @@ def run_whisper_request(base_url: str, audio_path: str, expected_text: str, lang
 def fastapi_worker(worker_id: int, args: argparse.Namespace, recorder: TimelineRecorder, stop_at: float, payload: dict[str, Any]) -> None:
     while time.perf_counter() < stop_at:
         start = time.perf_counter()
+        obs_start = recorder.begin_request("fastapi_resnet18")
         try:
             if args.mock_workloads:
                 time.sleep(args.mock_fastapi_ms / 1000.0)
@@ -209,6 +261,8 @@ def fastapi_worker(worker_id: int, args: argparse.Namespace, recorder: TimelineR
             ok = False
             error = repr(exc)
         end = time.perf_counter()
+        details.update(obs_start)
+        details.update(recorder.end_request("fastapi_resnet18", ok))
         recorder.record("fastapi_resnet18", "concurrent_request", start, end, ok, details, error)
         bounded_sleep(args.fastapi_interval_sec, stop_at)
 
@@ -221,6 +275,7 @@ def whisper_burst(args: argparse.Namespace, recorder: TimelineRecorder, scenario
         if time.perf_counter() >= stop_at:
             return
         start = time.perf_counter()
+        obs_start = recorder.begin_request("fastapi_whisper")
         try:
             if args.mock_workloads:
                 time.sleep(args.mock_whisper_ms / 1000.0)
@@ -235,6 +290,8 @@ def whisper_burst(args: argparse.Namespace, recorder: TimelineRecorder, scenario
             ok = False
             error = repr(exc)
         end = time.perf_counter()
+        details.update(obs_start)
+        details.update(recorder.end_request("fastapi_whisper", ok))
         recorder.record("fastapi_whisper", "transcription_burst", start, end, ok, details, error)
         bounded_sleep(args.whisper_interval_sec, stop_at)
 
@@ -397,6 +454,24 @@ def build_report(payload: dict[str, Any]) -> str:
                 lines.append(f"| {title} | {row.get('count', 0)} | {row.get('mean_ms', 'n/a')} | {row.get('p95_ms', 'n/a')} | {row.get('max_ms', 'n/a')} |")
     else:
         lines.append("- Whisper burst window was not recorded.")
+    serving = result.get("serving_observability", {})
+    client = serving.get("client_backlog_proxy", {})
+    server_after = serving.get("server_metrics_after", {})
+    lines.extend([
+        "",
+        "## Serving Observability",
+        "",
+        "| Signal | Value |",
+        "|---|---:|",
+        f"| Client completed requests | {client.get('totals', {}).get('completed_count', 'n/a')} |",
+        f"| Client failed requests | {client.get('totals', {}).get('failed_count', 'n/a')} |",
+        f"| Client max outstanding sum | {client.get('totals', {}).get('max_outstanding_sum_by_workload', 'n/a')} |",
+        f"| Server max in-flight requests | {server_after.get('max_inflight_requests', 'n/a')} |",
+        f"| Server failed requests | {server_after.get('failed_requests', 'n/a')} |",
+        f"| Dropped request count proxy | {serving.get('dropped_request_count_proxy', 'n/a')} |",
+        "",
+        "These counters are queue/backlog proxies for localhost evidence; they are not production queue-depth telemetry.",
+    ])
     lines.extend([
         "",
         "## Boundary",
@@ -497,6 +572,17 @@ def main() -> int:
 
     summary = summarize_by_workload(events)
     error_count = sum(item["error_count"] for item in summary.values())
+    client_observability = recorder.observability_snapshot()
+    server_observability_before = metrics_before.get("serving_observability", {}) if isinstance(metrics_before, dict) else {}
+    server_observability_after = metrics_after.get("serving_observability", {}) if isinstance(metrics_after, dict) else {}
+    serving_observability = {
+        "server_metrics_before": server_observability_before,
+        "server_metrics_after": server_observability_after,
+        "client_backlog_proxy": client_observability,
+        "failed_request_count": int(client_observability.get("totals", {}).get("failed_count", 0)) + int(server_observability_after.get("failed_requests", 0) or 0),
+        "dropped_request_count_proxy": int(client_observability.get("totals", {}).get("failed_count", 0)) + int(server_observability_after.get("backlog_proxy", {}).get("dropped_request_count", 0) or 0),
+        "notes": "Serving observability is bounded to localhost evidence: in-process server counters and client worker outstanding counts are retained as queue/backlog proxies.",
+    }
     payload = {
         "metadata": {
             "schema_version": "multi-workload-sustained-v1",
@@ -531,6 +617,7 @@ def main() -> int:
                 "fastapi_whisper": {"endpoint": WHISPER_ENDPOINT, "start_s": args.whisper_start_sec, "repeat": args.whisper_repeat, "interval_s": args.whisper_interval_sec, "audio_path": args.audio_path, "expected_text": args.expected_text, "language": args.language},
             },
             "metrics": {"before": metrics_before, "after": metrics_after},
+            "serving_observability": serving_observability,
             "timeline": events,
             "summary_by_workload": summary,
             "interaction": interaction_summary(events),

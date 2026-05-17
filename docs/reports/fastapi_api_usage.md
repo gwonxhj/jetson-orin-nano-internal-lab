@@ -53,7 +53,7 @@ python3 -m uvicorn src.server.resnet18_app:app \
 |---|---|---|---|---|
 | 1 | `/health` | GET | Server readiness, active device, ResNet18 hash, Whisper package/cache availability | `result.server.health` |
 | 2 | `/v1/models` | GET | ResNet18 model hash and Whisper provider/cache status | `result.model` |
-| 3 | `/metrics` | GET | Local request counters, process RSS, CUDA memory, model loaded state | `result.server.metrics` |
+| 3 | `/metrics` | GET | Local request counters, process RSS, CUDA memory, model loaded state, in-flight/failed request counters, backlog proxy | `result.server.metrics`, `result.serving_observability` |
 | 4 | `/v1/infer/resnet18/synthetic` | POST | Synthetic ResNet18 inference through FastAPI/PyTorch | `result.output`, `serving.request` |
 | 5 | `/v1/infer/whisper/speech` | POST | License-clear generated speech transcription through FastAPI/Whisper | `result.transcription`, `result.input` |
 
@@ -111,7 +111,12 @@ Expected fields:
 | `schema_version` | `fastapi-metrics-v1` JSON evidence shape |
 | `uptime_s` | In-process server uptime at call time |
 | `requests.total` | Number of requests observed by this process |
-| `requests.by_path` | Per-path count, method list, mean/max handler wall time, latest status |
+| `requests.failed` | Number of HTTP status >= 400 responses observed by this process |
+| `requests.status_codes` | HTTP status-code counts retained for smoke/report evidence |
+| `requests.by_path` | Per-path count, failed count, status-code count, method list, mean/max handler wall time, latest status |
+| `serving_observability.inflight_requests` | Current in-process request count at snapshot time |
+| `serving_observability.max_inflight_requests` | Maximum in-process concurrent request count seen by this server process |
+| `serving_observability.backlog_proxy` | Lightweight backlog/dropped-request proxy; not ASGI production queue depth |
 | `runtime.resnet18_loaded` | Whether the cached ResNet18 bundle has been initialized |
 | `runtime.whisper_loaded` | Whether the cached Whisper bundle has been initialized |
 | `runtime.torch.cuda` | CUDA availability and memory counters from PyTorch when CUDA is available |

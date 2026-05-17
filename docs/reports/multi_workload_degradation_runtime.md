@@ -7,41 +7,54 @@
 
 | Field | Value |
 |---|---|
-| Date | 2026-05-18T01:41:33+09:00 |
+| Date | 2026-05-18T02:35:59+09:00 |
 | Hostname | `jetson-orin-nano` |
 | Base URL | `http://127.0.0.1:18086` |
-| Duration | 300.08 s |
-| Server log | `artifacts/system/fastapi_multi_workload_degradation_server_20260518_013625.log` |
-| Tegrastats log | `artifacts/system/tegrastats_multi_workload_degradation_20260518_013625.log` |
+| Duration | 120.1017 s |
+| Server log | `artifacts/system/fastapi_multi_workload_degradation_server_20260518_023351.log` |
+| Tegrastats log | `artifacts/system/tegrastats_multi_workload_degradation_20260518_023351.log` |
 | Mock workloads | False |
 
 ## Workload Summary
 
 | Workload | Events | Success | Errors | Mean ms | P95 ms | Max ms |
 |---|---:|---:|---:|---:|---:|---:|
-| fastapi_resnet18 | 15472 | 15472 | 0 | 144.1454 | 173.0672 | 883.8447 |
-| fastapi_whisper | 3 | 3 | 0 | 4850.8652 | 8787.4625 | 9437.4952 |
-| yolo_detection | 751 | 751 | 0 | 142.3628 | 173.2865 | 1690.4935 |
+| fastapi_resnet18 | 6058 | 6058 | 0 | 147.3829 | 181.4991 | 950.5697 |
+| fastapi_whisper | 2 | 2 | 0 | 5799.7609 | 8377.5258 | 8663.9441 |
+| yolo_detection | 291 | 291 | 0 | 145.8958 | 177.8141 | 1718.432 |
 
 ## Interaction Window
 
-- Whisper burst window: 60.0481s -> 194.7179s
+- Whisper burst window: 30.0391s -> 86.6837s
 
 ### YOLO
 
 | Window | Count | Mean ms | P95 ms | Max ms |
 |---|---:|---:|---:|---:|
-| Before Whisper | 136 | 153.8967 | 173.0657 | 1690.4935 |
-| During Whisper | 347 | 138.2523 | 171.9909 | 186.5689 |
-| After Whisper | 268 | 141.8321 | 174.7809 | 189.2701 |
+| Before Whisper | 60 | 167.823 | 176.78 | 1718.432 |
+| During Whisper | 146 | 139.0962 | 175.5125 | 374.1414 |
+| After Whisper | 85 | 142.0972 | 180.5163 | 187.5506 |
 
 ### FastAPI ResNet18
 
 | Window | Count | Mean ms | P95 ms | Max ms |
 |---|---:|---:|---:|---:|
-| Before Whisper | 3114 | 142.9639 | 170.3869 | 825.2628 |
-| During Whisper | 6874 | 145.8961 | 178.4501 | 883.8447 |
-| After Whisper | 5484 | 142.6218 | 169.5255 | 506.1573 |
+| Before Whisper | 1536 | 144.4115 | 172.3518 | 836.4011 |
+| During Whisper | 2802 | 151.0955 | 198.0787 | 950.5697 |
+| After Whisper | 1720 | 143.9884 | 169.5231 | 468.115 |
+
+## Serving Observability
+
+| Signal | Value |
+|---|---:|
+| Client completed requests | 6060 |
+| Client failed requests | 0 |
+| Client max outstanding sum | 9 |
+| Server max in-flight requests | 9 |
+| Server failed requests | 0 |
+| Dropped request count proxy | 0 |
+
+These counters are queue/backlog proxies for localhost evidence; they are not production queue-depth telemetry.
 
 ## Boundary
 

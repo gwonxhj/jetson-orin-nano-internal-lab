@@ -84,7 +84,14 @@ def main() -> int:
     assert metrics["schema_version"] == "fastapi-metrics-v1"
     assert metrics["status"] == "ok"
     assert metrics["runtime"]["device_default"] == "cpu"
-    assert metrics["requests"]["by_path"]["/v1/infer/resnet18/synthetic"]["count"] >= 1
+    assert metrics["requests"]["failed"] == 0
+    assert metrics["serving_observability"]["failed_requests"] == 0
+    assert metrics["serving_observability"]["max_inflight_requests"] >= 1
+    endpoint_metrics = metrics["requests"]["by_path"]["/v1/infer/resnet18/synthetic"]
+    assert endpoint_metrics["count"] >= 1
+    assert endpoint_metrics["failed_count"] == 0
+    assert endpoint_metrics["max_inflight"] >= 1
+    assert endpoint_metrics["status_codes"].get("200", 0) >= 1
     assert payload["result"]["backend"] == "cpu"
     assert payload["result"]["input"]["shape"] == [1, 3, 64, 64]
     assert payload["result"]["latency"]["client_roundtrip_ms"]["count"] == 1
