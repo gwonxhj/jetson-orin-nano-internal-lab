@@ -23,7 +23,7 @@
 | [v0.3-observability-smoke](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.3-observability-smoke) | `7c270c1` | FastAPI `/metrics` localhost observability smoke and `/metrics`-aware InferEdge serving export. |
 | [v0.4-detection-handoff](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.4-detection-handoff) | `bc09365` | YOLOv8n file-image object detection smoke with InferEdge-compatible object-detection handoff export. |
 | [v0.5-runtime-interaction-evidence](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v0.5-runtime-interaction-evidence) | `85ad4e7` | Sustained multi-workload runtime interaction milestone with YOLO, FastAPI ResNet18, FastAPI Whisper, `tegrastats`, and InferEdge handoff evidence. |
-| `v1.0-runtime-evidence-lab` draft | pending | V1 public narrative draft covering 30-minute sustained run, timeline, burst-window, degradation, serving observability, consumer mapping, schema drift protection, and public safety refresh. |
+| [v1.0-runtime-evidence-lab](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v1.0-runtime-evidence-lab) | `ae429c4` | V1 Edge Runtime Evidence Lab snapshot covering 30-minute sustained run, timeline, burst-window, degradation, serving observability, consumer mapping, schema drift protection, and public safety refresh. |
 
 ## Included Evidence Package
 

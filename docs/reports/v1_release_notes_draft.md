@@ -1,6 +1,6 @@
 # V1 Release Notes Draft
 
-> Draft release notes for the future `v1.0-runtime-evidence-lab` release. This is release preparation, not a published GitHub Release yet.
+> Release note source used for the published [`v1.0-runtime-evidence-lab`](https://github.com/gwonxhj/jetson-orin-nano-internal-lab/releases/tag/v1.0-runtime-evidence-lab) GitHub Release.
 
 ## Release Title
 
@@ -51,7 +51,7 @@ Current InferEdge validation status:
 inferedge validation ok: 11 valid, 0 errors
 ```
 
-The V1 release should only be cut after this remains true on the final release commit.
+The V1 release was cut after this validation remained true on the release commit.
 
 ## Boundary
 
