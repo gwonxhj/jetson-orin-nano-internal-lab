@@ -17,7 +17,7 @@
 | Local serving layer | Closed as localhost smoke | [FastAPI API usage](fastapi_api_usage.md), [FastAPI concurrency smoke](fastapi_concurrency_smoke.md), [Serving boundary notes](serving_boundary_notes.md) |
 | Audio inference | Closed as path/transcription smoke | [Whisper speech smoke](whisper_speech_transcription_smoke.md), [Whisper InferEdge export](whisper_inferedge_export.md) |
 | Text inference | Closed as tiny LLM path smoke | [LLM text generation smoke](llm_text_generation_smoke.md), [LLM InferEdge export](llm_inferedge_export.md) |
-| InferEdge-compatible handoff | Closed for runtime, detection, serving, audio, text | [Portfolio evidence index](portfolio_evidence_index.md) |
+| InferEdge-compatible handoff | Closed for runtime, detection, serving, audio, text, multi-workload consumer mapping | [Portfolio evidence index](portfolio_evidence_index.md), [InferEdge consumer mapping](inferedge_consumer_handoff_mapping.md) |
 
 ## What This Proves
 
@@ -28,7 +28,7 @@
 - FastAPI localhost serving can wrap image and audio inference and produce structured result evidence, including a short concurrency smoke.
 - Whisper audio evidence is split into synthetic path smoke and license-clear generated speech transcription smoke.
 - LLM text-generation evidence runs in isolated `llm_env`; the stable `yolo_env` remains unmodified.
-- InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime comparison, object detection, FastAPI image serving, FastAPI audio serving, Whisper transcription, and LLM text-generation.
+- InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime comparison, object detection, FastAPI image serving, FastAPI audio serving, Whisper transcription, LLM text-generation, and multi-workload runtime interaction; consumer mapping explains how Runtime, Orchestrator, AIGuard, and Lab should read the fields.
 
 ## What This Does Not Prove
 
@@ -50,12 +50,11 @@
 | Reproducibility | Key runs record environment, precision, backend/provider, warmup/repeat, hashes, and generated artifacts. |
 | Public risk | [Public safety check](public_safety_check.md) found no blocking secret, local path, private host/IP, or raw-log exposure issue. |
 
-## Recommended Next Extensions
+## Remaining V1 Closeout
 
-1. **30-minute sustained runtime**: extend the current 10-minute multi-workload scenario before adding new models.
-2. **Timeline observability**: align workload events, latency windows, and `tegrastats` samples into a compact timeline artifact.
-3. **Runtime degradation signal**: add one opt-in overload or contention scenario, labeled as reliability evidence rather than production stress proof.
-4. **InferEdge consumer mapping**: document how Runtime, Orchestrator, AIGuard, and Lab should consume the handoff fields.
+1. **Schema drift protection**: keep all committed `metadata.json` / `result.json` pairs passing validation after the timeline, degradation, observability, and consumer mapping additions.
+2. **Public safety refresh**: rerun the public safety scan against the V1 artifact set before cutting a release.
+3. **V1 release notes**: cut a `v1.0-runtime-evidence-lab` release that frames this as an Edge Runtime Evidence Lab rather than a production AI platform.
 
 The detailed completion path is tracked in [V1 completion checklist](v1_completion_checklist.md).
 

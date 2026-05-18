@@ -17,7 +17,7 @@
 | 5 | Audio inference | Whisper synthetic tone path smoke와 license-clear generated speech transcription smoke를 분리합니다. | [Whisper synthetic path smoke](whisper_transcription_smoke.md), [Whisper speech smoke](whisper_speech_transcription_smoke.md) |
 | 6 | Text inference readiness | 기존 `yolo_env`를 변경하지 않고 LLM 후보 env와 tiny text-generation smoke readiness를 기록합니다. | [LLM env candidate probe](llm_env_candidate_probe.md), [LLM text generation smoke](llm_text_generation_smoke.md) |
 | 7 | Multi-workload runtime interaction | YOLO detection loop, FastAPI ResNet18 concurrent requests, FastAPI Whisper burst, `tegrastats` telemetry를 함께 실행해 sustained runtime/resource interaction, compact timeline, p99/burst-window deltas, bounded degradation signal, queue/serving observability를 기록합니다. | [Multi-workload sustained runtime](multi_workload_sustained_runtime.md), [Multi-workload runtime timeline](multi_workload_runtime_timeline.md), [Multi-workload burst window report](multi_workload_burst_window_report.md), [Multi-workload degradation signal](multi_workload_degradation_signal.md), [Multi-workload serving observability](multi_workload_serving_observability.md), [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md) |
-| 8 | InferEdge handoff | ResNet18 runtime, YOLO object detection, FastAPI image/audio serving, FastAPI soak/burst, multi-workload interaction, Whisper speech, LLM text-generation 결과를 `metadata.json` / `result.json` handoff evidence로 변환하고 schema validation으로 drift를 확인합니다. | [Runtime InferEdge export](inferedge_export.md), [YOLO InferEdge export](yolo_inferedge_export.md), [FastAPI InferEdge export](fastapi_inferedge_export.md), [FastAPI soak/burst InferEdge export](fastapi_soak_burst_inferedge_export.md), [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md), [Whisper InferEdge export](whisper_inferedge_export.md), [LLM InferEdge export](llm_inferedge_export.md), [InferEdge schema validation](inferedge_schema_validation.md) |
+| 8 | InferEdge handoff | ResNet18 runtime, YOLO object detection, FastAPI image/audio serving, FastAPI soak/burst, multi-workload interaction, Whisper speech, LLM text-generation 결과를 `metadata.json` / `result.json` handoff evidence로 변환하고 schema validation과 consumer mapping으로 drift와 소비 경계를 확인합니다. | [Runtime InferEdge export](inferedge_export.md), [YOLO InferEdge export](yolo_inferedge_export.md), [FastAPI InferEdge export](fastapi_inferedge_export.md), [FastAPI soak/burst InferEdge export](fastapi_soak_burst_inferedge_export.md), [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md), [InferEdge consumer handoff mapping](inferedge_consumer_handoff_mapping.md), [FastAPI Whisper InferEdge export](fastapi_whisper_inferedge_export.md), [Whisper InferEdge export](whisper_inferedge_export.md), [LLM InferEdge export](llm_inferedge_export.md), [InferEdge schema validation](inferedge_schema_validation.md) |
 
 ## Evidence Tracks
 
@@ -39,7 +39,7 @@
 - A 30-second probe, 10-minute run, 30-minute sustained run, and opt-in degradation scenario record YOLO detection, FastAPI ResNet18 concurrency, FastAPI Whisper burst, `tegrastats` telemetry, p99/burst-window deltas, and queue/serving observability as runtime interaction evidence.
 - Whisper tiny can run in an isolated `whisper_env` and transcribe a license-clear generated speech sample on CUDA.
 - LLM text-generation support runs in an isolated `llm_env`; current tiny-gpt2 CUDA path smoke succeeded while stable `yolo_env` remains unmodified.
-- InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime, object detection, FastAPI image serving, FastAPI audio serving, multi-workload runtime interaction, audio transcription, and LLM text-generation tracks.
+- InferEdge-compatible `metadata.json` / `result.json` exports exist for runtime, object detection, FastAPI image serving, FastAPI audio serving, multi-workload runtime interaction, audio transcription, and LLM text-generation tracks; the consumer mapping documents how Runtime, Orchestrator, AIGuard, and Lab should read the multi-workload fields.
 - CI-style schema validation now checks all committed InferEdge handoff pairs for schema semantics and artifact sha256 drift.
 
 ## What This Does Not Prove
@@ -63,6 +63,7 @@
 - [Multi-workload degradation signal](multi_workload_degradation_signal.md)
 - [Multi-workload serving observability](multi_workload_serving_observability.md)
 - [Multi-workload InferEdge export](multi_workload_sustained_inferedge_export.md)
+- [InferEdge consumer handoff mapping](inferedge_consumer_handoff_mapping.md)
 - [Portfolio final review](portfolio_final_review.md)
 - [V1 completion checklist](v1_completion_checklist.md)
 - [Evidence release notes](evidence_release_notes.md)
