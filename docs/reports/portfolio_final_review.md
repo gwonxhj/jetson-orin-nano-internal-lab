@@ -17,7 +17,7 @@
 | Local serving layer | Closed as localhost smoke | [FastAPI API usage](fastapi_api_usage.md), [FastAPI concurrency smoke](fastapi_concurrency_smoke.md), [Serving boundary notes](serving_boundary_notes.md) |
 | Audio inference | Closed as path/transcription smoke | [Whisper speech smoke](whisper_speech_transcription_smoke.md), [Whisper InferEdge export](whisper_inferedge_export.md) |
 | Text inference | Closed as tiny LLM path smoke | [LLM text generation smoke](llm_text_generation_smoke.md), [LLM InferEdge export](llm_inferedge_export.md) |
-| InferEdge-compatible handoff | Closed for runtime, detection, serving, audio, text, multi-workload consumer mapping | [Portfolio evidence index](portfolio_evidence_index.md), [InferEdge consumer mapping](inferedge_consumer_handoff_mapping.md) |
+| InferEdge-compatible handoff | Closed for runtime, detection, serving, audio, text, multi-workload consumer mapping, schema drift protection | [Portfolio evidence index](portfolio_evidence_index.md), [InferEdge consumer mapping](inferedge_consumer_handoff_mapping.md), [Schema drift review](schema_drift_protection_review.md) |
 
 ## What This Proves
 
@@ -52,9 +52,8 @@
 
 ## Remaining V1 Closeout
 
-1. **Schema drift protection**: keep all committed `metadata.json` / `result.json` pairs passing validation after the timeline, degradation, observability, and consumer mapping additions.
-2. **Public safety refresh**: rerun the public safety scan against the V1 artifact set before cutting a release.
-3. **V1 release notes**: cut a `v1.0-runtime-evidence-lab` release that frames this as an Edge Runtime Evidence Lab rather than a production AI platform.
+1. **Public safety refresh**: rerun the public safety scan against the V1 artifact set before cutting a release.
+2. **V1 release notes**: cut a `v1.0-runtime-evidence-lab` release that frames this as an Edge Runtime Evidence Lab rather than a production AI platform.
 
 The detailed completion path is tracked in [V1 completion checklist](v1_completion_checklist.md).
 
