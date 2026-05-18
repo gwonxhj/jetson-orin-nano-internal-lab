@@ -48,12 +48,12 @@
 | Traceability | Major reports point to scripts, JSON results, raw logs, InferEdge handoff artifacts, and schema validation. |
 | Safety of claims | Reports consistently mark smoke evidence as non-deployment and non-quality proof where appropriate. |
 | Reproducibility | Key runs record environment, precision, backend/provider, warmup/repeat, hashes, and generated artifacts. |
-| Public risk | [Public safety check](public_safety_check.md) found no blocking secret, local path, private host/IP, or raw-log exposure issue. |
+| Public risk | V1 [Public safety check](public_safety_check.md) found no blocking secret, local path, private host/IP, token/key, or unnecessary raw-log exposure issue. |
 
 ## Remaining V1 Closeout
 
-1. **Public safety refresh**: rerun the public safety scan against the V1 artifact set before cutting a release.
-2. **V1 release notes**: cut a `v1.0-runtime-evidence-lab` release that frames this as an Edge Runtime Evidence Lab rather than a production AI platform.
+1. **Final release validation**: rerun schema validation and public safety on the exact release commit.
+2. **V1 release publication**: cut a `v1.0-runtime-evidence-lab` release using the [V1 release notes draft](v1_release_notes_draft.md).
 
 The detailed completion path is tracked in [V1 completion checklist](v1_completion_checklist.md).
 

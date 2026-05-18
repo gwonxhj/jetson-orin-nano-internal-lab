@@ -30,7 +30,7 @@ V1 does not mean production serving, robotics readiness, high accuracy, high ava
 | 5 | Queue/serving observability | Serving evidence includes request counts, error counts, queue/backlog proxy, and dropped/failed request count. | Closed by `multi_workload_serving_observability_20260518_023351`: client max outstanding 8, server max in-flight 9, 6,060 client-completed requests, 0 failed/dropped proxy, and `/metrics` in-process counters preserved. | Proceed to InferEdge consumer handoff mapping. |
 | 6 | InferEdge consumer handoff | Multi-workload artifacts have a documented handoff path for InferEdge Runtime/Orchestrator/AIGuard/Lab. | Closed by [InferEdge consumer handoff mapping](inferedge_consumer_handoff_mapping.md): Runtime, Orchestrator, AIGuard, and Lab field consumption is mapped with non-goal boundaries. | Proceed to schema drift protection. |
 | 7 | Schema drift protection | CI validates every committed `metadata.json` / `result.json`, including multi-workload fields and artifact hashes. | Closed by [Schema drift protection review](schema_drift_protection_review.md): 11 handoff pairs pass strict artifact hash validation, and validation boundaries are documented. | Proceed to V1 public narrative and release notes. |
-| 8 | V1 public narrative | README and release notes explain runtime reliability evidence, boundaries, and non-goals in one pass. | README and v0.5 release are aligned. | After gaps 1-7, publish `v1.0-runtime-evidence-lab` release notes. |
+| 8 | V1 public narrative | README and release notes explain runtime reliability evidence, boundaries, and non-goals in one pass. | Prepared by [V1 release notes draft](v1_release_notes_draft.md) and refreshed [Public safety check](public_safety_check.md); README and evidence index already carry the runtime evidence narrative. | Cut `v1.0-runtime-evidence-lab` only after final validation remains green on the release commit. |
 
 ## Execution Order
 
@@ -41,7 +41,7 @@ V1 does not mean production serving, robotics readiness, high accuracy, high ava
 5. Done: add queue/serving observability with client outstanding and server in-flight proxies.
 6. Done: document InferEdge ecosystem consumer mapping.
 7. Done: document schema drift protection and keep validation green for all 11 handoff pairs.
-8. Next: refresh public safety and prepare V1 release notes.
+8. Done: refresh public safety and prepare V1 release notes draft.
 
 ## Guardrails
 
